@@ -314,6 +314,12 @@
 <main id="mainArea"></main>
 
 <script>
+var tab = 0;
+var topicIdx = 0;
+var teacherName = "Гээгий багш";
+var schoolInfo = "1-р анги";
+var addCountSel = 4;
+
 const VOWELS = new Set(['А','Э','И','О','У','Ө','Ү','Е','Ё','Ю','Я','Ы']);
 function colorWord(w) {
   return [...w].map(c => VOWELS.has(c)
@@ -381,8 +387,8 @@ const TOPIC_VISUALS = [
 ];
 
 // 2. ДАСГАЛ ДААЛГАВРЫН ТООГ ОЛОН АРГААР НЭМЭХ ГЕНЕРАТОР
-let activeBlocks = []; // Багшийн нэмсэн дасгалын блокууд
-let blockCounter = 0;
+var activeBlocks = []; // Багшийн нэмсэн дасгалын блокууд
+var blockCounter = 0;
 
 function rand(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -463,7 +469,7 @@ addTaskBlock('direct_add', 4);
 addTaskBlock('missing_part', 4);
 
 // 4. ХҮҮХДҮҮДЭЭ УРАМШУУЛАХ СИСТЕМ (Хувь сурагч + Баг + Батламж)
-let students = [
+var students = [
   { name: "Анужин", stars: 4, badge: "🌟 Уншигч од" },
   { name: "Бат-Эрдэнэ", stars: 5, badge: "🧮 Мундаг тоочин" },
   { name: "Тэмүүлэн", stars: 3, badge: "✍️ Цэвэр бичигтэн" },
@@ -471,9 +477,9 @@ let students = [
   { name: "Энхжин", stars: 4, badge: "💡 Сэргэлэн оюун" },
   { name: "Хулан", stars: 3, badge: "🌸 Идэвхтэй сурагч" }
 ];
-let selectedCertStudent = 0;
-let certTitle = "«Шилдэг тоочин ба Уншигч»";
-let praiseBanner = "";
+var selectedCertStudent = 0;
+var certTitle = "«Шилдэг тоочин ба Уншигч»";
+var praiseBanner = "";
 
 const PRAISE_MESSAGES = [
   "🌟 Гайхалтай! Чи өнөөдөр маш хичээнгүй, идэвхтэй оролцлоо!",
@@ -498,12 +504,6 @@ function addNewStudent() {
   inp.value = "";
   render();
 }
-
-let tab = 0;
-let topicIdx = 0;
-let teacherName = "Гээгий багш";
-let schoolInfo = "1-р анги";
-let addCountSel = 4;
 
 function setTab(t) {
   tab = t;
