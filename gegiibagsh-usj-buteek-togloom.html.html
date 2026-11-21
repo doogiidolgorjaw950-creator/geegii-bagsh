@@ -1,0 +1,530 @@
+<!doctype html>
+<html lang="mn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Эцэг Эхчүүдэд Зориулсан Хөтөч & Гэрийн Дасгалын Систем | Гээгий багш</title>
+<style>
+  :root {
+    --bg: #fdf8f5;
+    --ink: #1e293b;
+    --brand: #0f766e;
+    --warm: #ea580c;
+    --gold: #f59e0b;
+    --vowel: #dc2626;
+    --cons: #1d4ed8;
+    --ok: #16a34a;
+    --border: #cbd5e1;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+  }
+  header {
+    background: linear-gradient(135deg, #134e4a, #0f766e);
+    color: #fff;
+    padding: 14px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 14px rgba(0,0,0,.15);
+  }
+  header h1 { margin: 0; font-size: 17.5px; }
+  header small { display: block; opacity: .9; font-size: 11.5px; }
+
+  .nav-tabs {
+    display: flex;
+    gap: 6px;
+    background: rgba(255,255,255,.15);
+    padding: 4px;
+    border-radius: 12px;
+    flex-wrap: wrap;
+  }
+  .tab {
+    border: 0;
+    border-radius: 9px;
+    padding: 8px 12px;
+    font-weight: 800;
+    font-size: 12.5px;
+    cursor: pointer;
+    background: transparent;
+    color: #fff;
+  }
+  .tab.active { background: #fff; color: #134e4a; }
+
+  main { max-width: 1020px; margin: 18px auto; padding: 0 14px 50px; }
+
+  .toolbar {
+    background: #fff;
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    padding: 12px 16px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .toolbar input, .toolbar select {
+    padding: 7px 10px;
+    border: 1.5px solid #94a3b8;
+    border-radius: 9px;
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .btn {
+    border: 0;
+    border-radius: 10px;
+    padding: 9px 15px;
+    font-weight: 900;
+    font-size: 13px;
+    cursor: pointer;
+    color: #fff;
+    background: var(--brand);
+  }
+  .btn-warm { background: var(--warm); }
+  .btn-ok { background: var(--ok); }
+  .btn-gold { background: var(--gold); color: #1e293b; }
+
+  .a4-page {
+    background: #fff;
+    border: 2px solid #94a3b8;
+    border-radius: 18px;
+    padding: 22px 24px;
+    box-shadow: 0 10px 25px rgba(0,0,0,.07);
+  }
+  .a4-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2.5px solid #0f766e;
+    padding-bottom: 8px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .a4-head h2 { margin: 0; font-size: 19px; color: #134e4a; }
+
+  /* 1. Weekly Tracker Table */
+  .plan-tbl {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+  }
+  .plan-tbl th, .plan-tbl td {
+    border: 1.5px solid #94a3b8;
+    padding: 9px 10px;
+    text-align: left;
+  }
+  .plan-tbl th {
+    background: #ccfbf1;
+    color: #134e4a;
+    font-weight: 900;
+  }
+  .chk-box {
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    border: 2px solid #0f766e;
+    border-radius: 6px;
+    vertical-align: middle;
+    margin-right: 4px;
+  }
+
+  /* 2. Reading Speed Timer */
+  .timer-card {
+    background: #fff;
+    border: 2.5px solid #0f766e;
+    border-radius: 20px;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+  .clock-display {
+    font-size: 46px;
+    font-weight: 900;
+    color: #ea580c;
+    font-variant-numeric: tabular-nums;
+    margin: 6px 0;
+  }
+  .story-box {
+    background: #fffbeb;
+    border: 2px solid #fcd34d;
+    border-radius: 16px;
+    padding: 18px 20px;
+    text-align: left;
+    margin: 14px 0;
+  }
+  .story-text {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.75;
+  }
+
+  /* 3. Parent Guide Cards */
+  .guide-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  @media (max-width: 720px) { .guide-grid { grid-template-columns: 1fr; } }
+  .guide-card {
+    background: #fff;
+    border: 2px solid #cbd5e1;
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,.04);
+  }
+  .guide-card h3 {
+    margin: 0 0 8px;
+    font-size: 16px;
+    color: #0f766e;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .guide-card ul {
+    margin: 0;
+    padding-left: 18px;
+    font-size: 14px;
+    line-height: 1.6;
+    font-weight: 600;
+    color: #334155;
+  }
+
+  /* 4. Family Reward Coupons */
+  .coupons-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  @media (max-width: 680px) { .coupons-grid { grid-template-columns: 1fr; } }
+  .coupon {
+    border: 3px dashed #ea580c;
+    border-radius: 18px;
+    padding: 16px;
+    background: linear-gradient(135deg, #fff7ed 0%, #fef3c7 100%);
+    text-align: center;
+    position: relative;
+  }
+  .coupon-tag {
+    display: inline-block;
+    background: #ea580c;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 900;
+    padding: 3px 10px;
+    border-radius: 12px;
+    margin-bottom: 6px;
+  }
+  .coupon h4 { margin: 4px 0; font-size: 19px; color: #9a3412; }
+  .coupon p { margin: 4px 0 8px; font-size: 13px; font-weight: 700; color: #475569; }
+
+  @media print {
+    header, .toolbar, .no-print { display: none !important; }
+    body { background: #fff; }
+    main { margin: 0; padding: 0; max-width: 100%; }
+    .a4-page { border: 0; box-shadow: none; padding: 6mm; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>👨‍👩‍👧 Эцэг Эхчүүдэд Зориулсан Гэрийн Хичээлийн Хөтөч</h1>
+    <small>Гээгий багшийн бүтээл • Өдөрт 15 минутын төлөвлөгөө • Унших хурд хэмжигч • Гэрийн урамшууллын купон</small>
+  </div>
+  <div class="nav-tabs">
+    <button class="tab active" id="p0" onclick="setTab(0)">📅 1. 7 хоногийн төлөвлөгөө</button>
+    <button class="tab" id="p1" onclick="setTab(1)">⏱️ 2. Унших хурд шалгах</button>
+    <button class="tab" id="p2" onclick="setTab(2)">💡 3. Заах арга зүй & Зөвлөмж</button>
+    <button class="tab" id="p3" onclick="setTab(3)">🎁 4. Гэрийн урамшууллын купон</button>
+  </div>
+</header>
+
+<main id="mainArea"></main>
+
+<script>
+const VOWELS = new Set(['А','Э','И','О','У','Ө','Ү','Е','Ё','Ю','Я','Ы','а','э','и','о','у','ө','ү','е','ё','ю','я','ы']);
+function colorText(str) {
+  return [...str].map(c => VOWELS.has(c)
+    ? `<span style="color:#dc2626">${c}</span>`
+    : (/[А-ЯӨҮЁа-яөүё]/.test(c) ? `<span style="color:#1d4ed8">${c}</span>` : c)
+  ).join('');
+}
+
+const WEEKLY_PLAN = [
+  { day: "Даваа", mn: "Эгшиг ба гийгүүлэгч үсгийг ялгаж унших (10 мин)", math: "1–10 тооны бүтэц буюу «Тооны байшин» давтах (10 мин)" },
+  { day: "Мягмар", mn: "Задгай ба битүү үеэр холбож унших (10 мин)", math: "Тоон шулуун дээр урагш (+), хойш (−) үсэрч бодох (10 мин)" },
+  { day: "Лхагва", mn: "3–4 мөртэй жижиг эх цэвэр хуулан бичих (15 мин)", math: "10 доторх нэмэх ба хасах 10 бодлого бодох (10 мин)" },
+  { day: "Пүрэв", mn: "Зураг хараад өгүүлбэр зохиож ярих (10 мин)", math: "Дэс дугаар (1-р–10-р) ба их, багыг жиших (<, >, =) (10 мин)" },
+  { day: "Баасан", mn: "Чангаар унших хурдаа шалгах (10 мин)", math: "20 доторх тоо ба аравт бүрдүүлэх бодлого (10 мин)" },
+  { day: "Бямба", mn: "«Үеэр үг бүтээх ид шид» тоглоомоор тоглох", math: "«Математикийн ид шид» тоглоомоор өөрийгөө сорих" },
+  { day: "Ням", mn: "7 хоногийн амжилтаа дүгнэж, аав ээжээсээ урамшуулал авах!", math: "Хамтдаа хөгжилтэй логик бодлого, оньсого таах" }
+];
+
+const READING_TEXTS = [
+  {
+    title: "Эх 1: Миний гэр бүл (Хялбар — 24 үг)",
+    wordsCount: 24,
+    text: "Манай гэр бүл таван гишүүнтэй. Аав, ээж, ах, дүү бид бүгдээрээ эвтэй найртай амьдардаг. Би орой бүр ээждээ ном уншиж өгдөг.",
+    questions: ["1. Манай гэр бүл хэдэн гишүүнтэй вэ?", "2. Хүүхэд орой бүр ээждээ юу хийж өгдөг вэ?"]
+  },
+  {
+    title: "Эх 2: Ажилч зөгий (Дунд — 30 үг)",
+    wordsCount: 30,
+    text: "Зуны дулаан өглөө шар зөгий цэцэгнээс цэцэг дамжин ниснэ. Тэр амтат цэцгийн бал цуглуулж үүрэндээ авчирдаг. Зөгийн бал хүний эрүүл мэндэд маш тустай амттан юм.",
+    questions: ["1. Зөгий юунаас бал цуглуулдаг вэ?", "2. Зөгийн бал ямар ач тустай вэ?"]
+  },
+  {
+    title: "Эх 3: Таван хошуу мал (Ахисан — 36 үг)",
+    wordsCount: 36,
+    text: "Монголчууд эрт дээр үеэс адуу, үхэр, тэмээ, хонь, ямаа гэсэн таван хошуу малаа өсгөн үржүүлж иржээ. Мал сүрэг бидэнд сүү цагаан идээ, ноос ноолуур, дулаан хувцас өгдөг эрдэнэ билээ.",
+    questions: ["1. Таван хошуу малыг нэрлээрэй.", "2. Мал сүрэг бидэнд юу өгдөг вэ?"]
+  }
+];
+
+let tab = 0;
+let childName = "Анужин";
+let storyIdx = 0;
+let colorAssist = true;
+
+// Timer variables
+let seconds = 0;
+let timerInterval = null;
+let isRunning = false;
+
+function setTab(t) {
+  tab = t;
+  [0, 1, 2, 3].forEach(i => document.getElementById(`p${i}`).classList.toggle('active', i === t));
+  render();
+}
+
+function toggleTimer() {
+  if (isRunning) {
+    clearInterval(timerInterval);
+    isRunning = false;
+  } else {
+    isRunning = true;
+    timerInterval = setInterval(() => {
+      seconds++;
+      const el = document.getElementById('clockVal');
+      const wpmEl = document.getElementById('wpmVal');
+      if (el) el.textContent = formatSec(seconds);
+      if (wpmEl && seconds > 0) {
+        const wpm = Math.round((READING_TEXTS[storyIdx].wordsCount / seconds) * 60);
+        wpmEl.textContent = `${wpm} үг / мин`;
+      }
+    }, 1000);
+  }
+  render();
+}
+
+function resetTimer() {
+  clearInterval(timerInterval);
+  isRunning = false;
+  seconds = 0;
+  render();
+}
+
+function formatSec(s) {
+  const m = String(Math.floor(s / 60)).padStart(2, '0');
+  const sec = String(s % 60).padStart(2, '0');
+  return `${m}:${sec}`;
+}
+
+function render() {
+  const main = document.getElementById('mainArea');
+
+  if (tab === 0) {
+    // 1. 7 ХОНОГИЙН ГЭРИЙН ТӨЛӨВЛӨГӨӨ
+    main.innerHTML = `
+      <div class="toolbar">
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+          <label style="font-size:13px;font-weight:800">Хүүхдийн нэр:</label>
+          <input type="text" value="${childName}" oninput="childName=this.value;document.getElementById('cNameSpan').textContent=this.value">
+        </div>
+        <button class="btn btn-warm" onclick="window.print()">🖨️ 7 хоногийн хуваарь хэвлэх (A4)</button>
+      </div>
+
+      <div class="a4-page">
+        <div class="a4-head">
+          <h2>📅 «${childName}»-ийн 7 хоногийн гэрийн хичээлийн төлөвлөгөө</h2>
+          <div style="font-size:12.5px;font-weight:800;color:#475569">Өдөрт ердөө 15–20 минут • Гээгий багшийн зөвлөмж</div>
+        </div>
+
+        <table class="plan-tbl">
+          <thead>
+            <tr>
+              <th style="width:90px">Гараг</th>
+              <th>📖 Монгол хэл (Унших, бичих)</th>
+              <th>🧮 Математик (Тоо бодох)</th>
+              <th style="width:125px;text-align:center">Биелэлт</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${WEEKLY_PLAN.map(r => `
+              <tr>
+                <td><b>${r.day}</b></td>
+                <td>${r.mn}</td>
+                <td>${r.math}</td>
+                <td style="text-align:center"><span class="chk-box"></span> ⭐</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+
+        <div style="margin-top:14px;background:#f0fdfa;border:1.5px solid #5eead4;border-radius:12px;padding:10px 14px;font-size:13px;font-weight:700;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px">
+          <span>💡 <b>Алтан дүрэм:</b> Хүүхэд ядрахаас өмнө буюу 15–20 минутын дараа хичээлийг дуусгаж заавал магтаарай!</span>
+          <span>Нийт цуглуулсан од: _____ / 7 ⭐</span>
+        </div>
+      </div>
+    `;
+  } else if (tab === 1) {
+    // 2. УНШИХ ХУРД БА ОЙЛГОЛТ ШАЛГАХ
+    const st = READING_TEXTS[storyIdx];
+    const wpm = seconds > 0 ? Math.round((st.wordsCount / seconds) * 60) : 0;
+
+    main.innerHTML = `
+      <div class="toolbar">
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+          <label style="font-size:13px;font-weight:800">Унших эх сонгох:</label>
+          <select onchange="storyIdx=Number(this.value);resetTimer()">
+            ${READING_TEXTS.map((s, i) => `<option value="${i}" ${i === storyIdx ? 'selected' : ''}>${s.title}</option>`).join('')}
+          </select>
+        </div>
+        <button class="btn" onclick="colorAssist=!colorAssist;render()">
+          ${colorAssist ? '🎨 Өнгөний тусламж: АСААЛТТАЙ' : '⚫ Өнгөний тусламж: УНТРААЛТТАЙ'}
+        </button>
+      </div>
+
+      <div class="timer-card">
+        <div style="font-size:13px;font-weight:800;color:#475569">Хүүхэд уншиж эхлэхэд «Эхлэх», дуусмагц «Зогсоох» товчийг дарна уу</div>
+        <div class="clock-display" id="clockVal">${formatSec(seconds)}</div>
+        <div style="font-size:15px;font-weight:900;color:#0f766e;margin-bottom:12px">
+          Нийт үг: ${st.wordsCount} үг &nbsp;|&nbsp; Унших хурд: <span id="wpmVal">${wpm} үг / мин</span>
+        </div>
+        <div style="display:flex;gap:10px;justify-content:center">
+          <button class="btn ${isRunning ? 'btn-warm' : 'btn-ok'}" style="font-size:15px;padding:11px 22px" onclick="toggleTimer()">
+            ${isRunning ? '⏸️ Зогсоох' : '▶️ Эхлэх'}
+          </button>
+          <button class="btn" style="background:#64748b" onclick="resetTimer()">🔄 Тэглэх</button>
+        </div>
+
+        <div class="story-box">
+          <div style="font-weight:900;font-size:17px;color:#b45309;margin-bottom:8px">${st.title}</div>
+          <div class="story-text">${colorAssist ? colorText(st.text) : st.text}</div>
+        </div>
+
+        <div style="text-align:left;background:#f8fafc;border:1.5px solid #cbd5e1;border-radius:14px;padding:12px 16px">
+          <b style="color:#0f766e">🗣️ Уншсаны дараа эцэг эх асуух асуултууд (Уншаад ойлгох чадвар):</b>
+          <div style="margin-top:6px;font-weight:700;font-size:14.5px;line-height:1.6">
+            ${st.questions.join('<br>')}
+          </div>
+        </div>
+      </div>
+    `;
+  } else if (tab === 2) {
+    // 3. ЭЦЭГ ЭХЭД ЗОРИУЛСАН ЗААХ АРГА ЗҮЙ & ЗӨВЛӨМЖ
+    main.innerHTML = `
+      <div class="guide-grid">
+        <div class="guide-card">
+          <h3>📖 1. Хүүхдийг үсэглэхгүй, үеэр уншуулж сургах арга</h3>
+          <ul>
+            <li>Үсэг нэг бүрээр нь <i>«М-А-А-М-А-А»</i> гэж дуудуулахын оронд эхний үеийг нэг амьсгаагаар <b>«МА»</b>, дараагийн үеийг <b>«МАА»</b> гэж нийлүүлж уншуулаарай.</li>
+            <li>Манай системд <b>эгшиг улаан</b>, <b>гийгүүлэгч цэнхэр</b> өнгөтэй байгаа нь хүүхэд үеийн заагийг нүдээрээ харахад тусална.</li>
+            <li>Өдөрт 10 минутаас илүү удаан уншуулж залхаахгүй байх нь хамгийн чухал.</li>
+          </ul>
+        </div>
+
+        <div class="guide-card">
+          <h3>🧮 2. Хуруугаараа тоолохоо болиулах 3 алхам</h3>
+          <ul>
+            <li><b>10-ын бүтцийг нүдлүүлэх:</b> 9+1, 8+2, 7+3, 6+4, 5+5 гэсэн хосуудыг тоглоом хэлбэрээр асууж хэвшүүлээрэй.</li>
+            <li><b>Том тоог цээжиндээ хадгалах:</b> Жишээ нь <code>3 + 6</code> бодохдоо 3-аас биш, их тоо болох <b>6-г толгойдоо хадгалаад</b> 7, 8, 9 гэж 3 алхам урагш тоолуулна.</li>
+            <li>Гэртээ товч, шош, савх ашиглан хоёр хэсэгт хувааж тоглоорой.</li>
+          </ul>
+        </div>
+
+        <div class="guide-card">
+          <h3>✍️ 3. Цэвэр бичиг ба суух зөв дадал</h3>
+          <ul>
+            <li>Бичиж эхлэхийн өмнө 1 минут хурууны дасгал (алгаа атгах, дэлгэх, хуруугаа ээлжлэн нийлүүлэх) хийлгээрэй.</li>
+            <li>Дэвтрийг ширээн дээр бага зэрэг налуу тавиулж, үзэг харандааг үзүүрээс нь 2 см орчим дээр бариулна.</li>
+            <li>Алдаа гаргахад нь баллуурдаж загнахын оронд <i>«Энэ үсэг нь ямар гоё болсон байна вэ, яг үүн шигээ дахиад нэгийг бичье»</i> гэж зөв бичсэн үсгийг нь онцолж магтаарай.</li>
+          </ul>
+        </div>
+
+        <div class="guide-card">
+          <h3>❤️ 4. Хүүхдийг урамшуулах эерэг үгс</h3>
+          <ul>
+            <li><i>«Чи өчигдрийнхөөсөө хамаагүй хурдан уншдаг болжээ!»</i></li>
+            <li><i>«Алдах нь суралцахын нэг хэсэг, хоёулаа дахиад нэг оролдоод үзье.»</i></li>
+            <li><i>«Өнөөдөр даалгавраа өөрөө санаачилж хийсэнд аав/ээж нь маш их баярлалаа.»</i></li>
+            <li>Бага ч гэсэн ахицыг нь тэмдэглэж <b>«Гэрийн урамшууллын купон»</b> өгөөрэй.</li>
+          </ul>
+        </div>
+      </div>
+    `;
+  } else {
+    // 4. ГЭРИЙН УРАМШУУЛЛЫН КУПОН (A4 ХЭВЛЭХ)
+    main.innerHTML = `
+      <div class="toolbar">
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+          <label style="font-size:13px;font-weight:800">Хүүхдийн нэр:</label>
+          <input type="text" value="${childName}" oninput="childName=this.value;render()">
+        </div>
+        <button class="btn btn-warm" onclick="window.print()">🖨️ Урамшууллын купон хэвлэх (A4)</button>
+      </div>
+
+      <div class="a4-page">
+        <div class="a4-head">
+          <h2>🎁 «${childName}»-ийн Гэрийн Урамшууллын Купонууд</h2>
+          <div style="font-size:12.5px;font-weight:800;color:#475569">Хайчлаад сайн хичээллэсэн үед нь бэлэглээрэй ✂️</div>
+        </div>
+
+        <div class="coupons-grid">
+          <div class="coupon">
+            <span class="coupon-tag">⭐ 5 ОД ЦУГЛУУЛСНЫ ШАГНАЛ</span>
+            <h4>🎬 Хамтдаа Хүүхэлдэйн Кино Үзэх Эрх</h4>
+            <p>Орой аав, ээжтэйгээ хамт дуртай хүүхэлдэйн кино эсвэл гэр бүлийн кино үзэх онцгой эрх!</p>
+            <div style="font-size:12px;font-weight:900;color:#ea580c">Эзэмшигч: ${childName}</div>
+          </div>
+
+          <div class="coupon">
+            <span class="coupon-tag">⭐ 5 ОД ЦУГЛУУЛСНЫ ШАГНАЛ</span>
+            <h4>🍦 Дуртай Амттан / Зайрмаг Авах Эрх</h4>
+            <p>Хичээлдээ хичээнгүй оролцсон тул дэлгүүрээс өөрийн дуртай нэг амттанг сонгох эрх!</p>
+            <div style="font-size:12px;font-weight:900;color:#ea580c">Эзэмшигч: ${childName}</div>
+          </div>
+
+          <div class="coupon">
+            <span class="coupon-tag">⭐ 7 ОД ЦУГЛУУЛСНЫ ШАГНАЛ</span>
+            <h4>📖 Унтахын Өмнө 2 Үлгэр Уншуулах Эрх</h4>
+            <p>Орой унтахдаа аав эсвэл ээжээрээ өөрийн дуртай хоёр үлгэр дараалан уншуулах эрх!</p>
+            <div style="font-size:12px;font-weight:900;color:#ea580c">Эзэмшигч: ${childName}</div>
+          </div>
+
+          <div class="coupon">
+            <span class="coupon-tag">🏆 7 ХОНОГИЙН АВАРГЫН ШАГНАЛ</span>
+            <h4>🎡 Тоглоомын Төв / Парк Орох Эрх</h4>
+            <p>Долоо хоногийн турш даалгавраа амжилттай биелүүлсэн тул амралтын өдөр хамт зугаалах эрх!</p>
+            <div style="font-size:12px;font-weight:900;color:#ea580c">Эзэмшигч: ${childName}</div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+}
+
+render();
+</script>
+</body>
+</html>
