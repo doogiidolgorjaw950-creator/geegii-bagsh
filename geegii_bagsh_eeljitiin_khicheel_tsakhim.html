@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="mn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ээлжит Хичээлийн Төлөвлөлт & Цахим Хичээл | Гээгий багшийн бүтээл</title>
+<style>
+  :root {
+    --bg: #f1f5f9;
+    --ink: #173042;
+    --brand: #0c7b93;
+    --warm: #f48c06;
+    --vowel: #dc2626;
+    --cons: #1d4ed8;
+    --ok: #16a34a;
+    --border: #cbd5e1;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+  }
+  header {
+    background: linear-gradient(135deg, #173042, #0c7b93);
+    color: #fff;
+    padding: 13px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 14px rgba(0,0,0,.16);
+  }
+  header h1 { margin: 0; font-size: 17.5px; }
+  header small { display: block; opacity: .9; font-size: 11.5px; }
+
+  .mode-tabs {
+    display: flex;
+    gap: 6px;
+    background: rgba(255,255,255,.15);
+    padding: 4px;
+    border-radius: 12px;
+  }
+  .m-btn {
+    border: 0;
+    border-radius: 9px;
+    padding: 8px 14px;
+    font-weight: 800;
+    font-size: 13px;
+    cursor: pointer;
+    background: transparent;
+    color: #fff;
+  }
+  .m-btn.active { background: #fff; color: var(--ink); }
+
+  main { max-width: 1060px; margin: 18px auto; padding: 0 14px 50px; }
+
+  .selector-bar {
+    background: #fff;
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .subj-pills, .topic-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .pill {
+    border: 2px solid #cbd5e1;
+    background: #f8fafc;
+    border-radius: 10px;
+    padding: 7px 12px;
+    font-weight: 800;
+    font-size: 12.5px;
+    cursor: pointer;
+  }
+  .pill.active {
+    background: #0c7b93;
+    color: #fff;
+    border-color: #0c7b93;
+  }
+  .pill.t-active {
+    background: #f48c06;
+    color: #fff;
+    border-color: #f48c06;
+  }
+
+  .btn {
+    border: 0;
+    border-radius: 10px;
+    padding: 9px 15px;
+    font-weight: 900;
+    font-size: 13px;
+    cursor: pointer;
+    color: #fff;
+    background: var(--brand);
+  }
+  .btn-warm { background: var(--warm); }
+  .btn-ok { background: var(--ok); }
+
+  .a4-plan {
+    background: #fff;
+    border: 2px solid #94a3b8;
+    border-radius: 18px;
+    padding: 24px 26px;
+    box-shadow: 0 10px 25px rgba(0,0,0,.07);
+  }
+  .plan-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 2.5px solid #173042;
+    padding-bottom: 10px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .plan-head h2 { margin: 0 0 4px; font-size: 20px; color: #0c7b93; }
+  .meta-box {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    background: #f8fafc;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 12px;
+    padding: 10px 14px;
+    margin-bottom: 14px;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  @media (max-width: 680px) { .meta-box { grid-template-columns: 1fr; } }
+
+  .plan-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+  }
+  .plan-table th, .plan-table td {
+    border: 1.5px solid #94a3b8;
+    padding: 10px 12px;
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .plan-table th {
+    background: #e0f2fe;
+    color: #0369a1;
+    font-weight: 900;
+    text-align: left;
+  }
+
+  .slide-stage {
+    background: linear-gradient(180deg, #ffffff 0%, #f0f9ff 100%);
+    border: 3.5px solid #0c7b93;
+    border-radius: 26px;
+    padding: 28px 24px;
+    min-height: 440px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 14px 32px rgba(12,123,147,.14);
+    text-align: center;
+  }
+  .slide-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    font-weight: 900;
+    color: #0369a1;
+    border-bottom: 2px dashed #bae6fd;
+    padding-bottom: 10px;
+  }
+  .slide-body {
+    padding: 18px 10px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .slide-ico { font-size: 68px; margin-bottom: 10px; }
+  .slide-title { font-size: 26px; font-weight: 900; color: #173042; margin: 0 0 12px; }
+  .slide-content {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.65;
+    max-width: 780px;
+    background: #fff;
+    border: 2px solid #bae6fd;
+    border-radius: 18px;
+    padding: 18px 22px;
+  }
+  .slide-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 14px;
+    border-top: 2px dashed #bae6fd;
+  }
+  .quiz-opts {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 14px;
+  }
+  .q-opt {
+    padding: 10px 18px;
+    border-radius: 12px;
+    border: 2px solid #0c7b93;
+    background: #e0f2fe;
+    font-size: 17px;
+    font-weight: 900;
+    cursor: pointer;
+  }
+  .q-opt.correct { background: #16a34a; color: #fff; border-color: #15803d; }
+
+  @media print {
+    header, .selector-bar, .no-print { display: none !important; }
+    body { background: #fff; }
+    main { margin: 0; padding: 0; max-width: 100%; }
+    .a4-plan { border: 0; box-shadow: none; padding: 4mm; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>📋 Ээлжит Хичээлийн Төлөвлөлт & 💻 Цахим Хичээл</h1>
+    <small>Гээгий багшийн бүтээл • Бүх бүлгийн сэдэв тус бүрээр (35 минутын конспект + Самбарын слайд)</small>
+  </div>
+  <div class="mode-tabs">
+    <button class="m-btn active" id="v0" onclick="setView(0)">📋 Ээлжит хичээлийн төлөвлөлт</button>
+    <button class="m-btn" id="v1" onclick="setView(1)">💻 Цахим хичээл (Слайд)</button>
+  </div>
+</header>
+
+<main id="mainArea"></main>
+
+<script>
+const VOWELS = new Set(['А','Э','И','О','У','Ө','Ү','Е','Ё','Ю','Я','Ы']);
+function colorWord(w) {
+  return [...w].map(c => VOWELS.has(c)
+    ? '<span style="color:#dc2626">' + c + '</span>'
+    : (/[А-ЯӨҮЁ]/.test(c) ? '<span style="color:#1d4ed8">' + c + '</span>' : c)
+  ).join('');
+}
+
+const LESSONS_DB = [
+  {
+    subject: "📖 Монгол хэл",
+    topics: [
+      {
+        title: "Бүлэг 1: Эгшиг ба Гийгүүлэгч үсгийг ялган таних, үеэр унших",
+        grade: "1-р анги",
+        duration: "35 минут",
+        aim: "Эгшиг үсгийг улаан, гийгүүлэгч үсгийг цэнхэр өнгөөр ялган таньж, задгай ба битүү үеийг зөв холбон унших чадвар эзэмшүүлнэ.",
+        materials: "Үсгийн карт, самбарын үзүүлэн, сурах бичиг, хуулан бичгийн дэвтэр",
+        steps: [
+          { stage: "1. Сэдэлжүүлэх үе", time: "5 мин", teacher: "Самбарт алим, муур, нарны зураг нааж нэрийг нь хэлүүлнэ. Эхний авиаг дуудуулж асуулт тавина.", student: "Зургийг нэрлэж, ам ангайж дуудагдах (эгшиг) ба хаагдаж дуудагдах (гийгүүлэгч) авиаг ажиглана." },
+          { stage: "2. Шинэ мэдлэг бүтээх", time: "12 мин", teacher: "Эгшиг үсгийг улаан, гийгүүлэгчийг цэнхэр өнгөөр тэмдэглэх аргыг үзүүлж, М+А=МА, Н+АР=НАР үеийг холбуулна.", student: "Үеийн хүснэгтээс багшийн заасан үеийг нийтээр болон ганцаарчлан чанга уншина." },
+          { stage: "3. Бататгах дасгал", time: "13 мин", teacher: "Дэвтэрт «А-ЛИМ, НА-РАН, МУУР» үгсийг цэвэр хуулан бичүүлж, эгшиг гийгүүлэгчийг будуулна.", student: "Хуулан бичгийн мөрөнд цэвэр бичиж, үсгийн доор улаан, цэнхэр тэмдэглэгээ хийнэ." },
+          { stage: "4. Дүгнэлт ба Үнэлгээ", time: "5 мин", teacher: "Идэвхтэй оролцсон сурагчдад Алтан од өгч, гэрт 3 үг унших даалгавар өгнө.", student: "Өнөөдөр сурсан үгсээ нэрлэж өөрийгөө үнэлнэ." }
+        ],
+        slides: [
+          { tag: "Слайд 1 • Сэдэлжүүлэлт", ico: "🍎 🐱 ☀️", title: "Авиа ба Үсгийн ертөнц", body: 'Эдгээр үгсийн эхний үсгийг анхаараарай:<br><b style="font-size:28px">' + colorWord("АЛИМ") + ' &nbsp;•&nbsp; ' + colorWord("МУУР") + ' &nbsp;•&nbsp; ' + colorWord("НАР") + '</b><br><small style="color:#64748b">Улаан өнгө = Эгшиг үсэг | Цэнхэр өнгө = Гийгүүлэгч үсэг</small>' },
+          { tag: "Слайд 2 • Шинэ мэдлэг", ico: "🧩", title: "Үеэр холбож уншъя!", body: 'Гийгүүлэгч + Эгшиг нийлээд <b>ҮЕ</b> бүтээнэ:<br><div style="font-size:28px;margin-top:8px">' + colorWord("М + А = МА") + ' &nbsp;&nbsp;|&nbsp;&nbsp; ' + colorWord("Н + А + Р = НАР") + '</div>' },
+          { tag: "Слайд 3 • Дасгал ажил", ico: "✍️", title: "Үгийн үеийг тоолъё", body: 'Дараах үгс хэдэн үетэй вэ? Алгаа ташиж тоолоорой:<br><div style="font-size:26px;margin-top:8px">' + colorWord("А-ЛИМ") + ' (2 үе) &nbsp;•&nbsp; ' + colorWord("ХА-РАН-ДАА") + ' (3 үе)</div>' },
+          { tag: "Слайд 4 • Бататгал асуулт", ico: "🎯", title: "Шалгах асуулт", body: "«СУРГУУЛЬ» гэдэг үг хэдэн үетэй вэ?", quiz: ["1 үетэй", "2 үетэй", "3 үетэй"], ans: "2 үетэй" }
+        ]
+      },
+      {
+        title: "Бүлэг 2: Урт эгшиг ба Тэмдэг үсэг (Ь, Ъ) зөв бичих",
+        grade: "1-р анги",
+        duration: "35 минут",
+        aim: "Богино ба урт эгшгийн утгын ялгааг ойлгож, зөөлний тэмдэг (Ь), хатуугийн тэмдэг (Ъ)-тэй үгсийг зөв уншиж бичнэ.",
+        materials: "Харьцуулсан зурагт карт (Ул-Уул, Морь, Бодъё), ажлын хуудас",
+        steps: [
+          { stage: "1. Сэдэлжүүлэх үе", time: "5 мин", teacher: "«Ул» (гутлын ул) ба «Уул» (өндөр уул) хоёр зургийг харьцуулан дуудлагын уртыг ажиглуулна.", student: "Богино ба урт эгшгийн дуудлагаас болж үгийн утга өөрчлөгдөж байгааг тайлбарлана." },
+          { stage: "2. Шинэ мэдл

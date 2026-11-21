@@ -1,0 +1,794 @@
+<!doctype html>
+<html lang="mn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Математикийн ид шид: Тооны бүтэц • Дэс дугаар • Тоон шулуун • Нэмэх Хасах | Гээгий багш</title>
+<style>
+  :root {
+    --bg: #eef7fb;
+    --ink: #173042;
+    --brand: #0c7b93;
+    --brand2: #f48c06;
+    --part1: #e63946;
+    --part2: #1d4ed8;
+    --ok: #16a34a;
+    --bad: #dc2626;
+    --card: #ffffff;
+    --border: #c5dce8;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    user-select: none;
+  }
+  header {
+    background: linear-gradient(135deg, #173042, #0c7b93);
+    color: #fff;
+    padding: 12px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    box-shadow: 0 4px 14px rgba(0,0,0,.15);
+  }
+  header h1 { margin: 0; font-size: 17.5px; }
+  header small { display: block; opacity: .88; font-size: 11.5px; }
+
+  .mode-tabs {
+    display: flex;
+    gap: 5px;
+    background: rgba(255,255,255,.15);
+    padding: 4px;
+    border-radius: 12px;
+    flex-wrap: wrap;
+  }
+  .tab-btn {
+    border: 0;
+    border-radius: 9px;
+    padding: 7px 11px;
+    font-weight: 800;
+    font-size: 12px;
+    cursor: pointer;
+    background: transparent;
+    color: #fff;
+  }
+  .tab-btn.active { background: #fff; color: var(--ink); }
+
+  main { max-width: 920px; margin: 18px auto; padding: 0 14px 40px; }
+
+  /* HUD */
+  .hud {
+    background: #fff;
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    padding: 12px 18px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 12px rgba(23,48,66,.06);
+  }
+  .lives { font-size: 22px; letter-spacing: 2px; }
+  .score-box {
+    background: #fef3c7;
+    border: 2px solid #f59e0b;
+    color: #92400e;
+    font-weight: 900;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 15px;
+  }
+  .prog-box { font-weight: 800; color: var(--brand); font-size: 14px; }
+
+  /* Game Board */
+  .board {
+    background: var(--card);
+    border: 3px solid #2b5876;
+    border-radius: 24px;
+    padding: 22px 18px;
+    text-align: center;
+    box-shadow: 0 10px 26px rgba(23,48,66,.1);
+  }
+  .clue-tag {
+    display: inline-block;
+    background: #e0f2fe;
+    color: #0369a1;
+    font-weight: 800;
+    font-size: 13.5px;
+    padding: 6px 15px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+  }
+
+  /* 1. Number Bond Visual */
+  .bond-stage {
+    position: relative;
+    width: 280px;
+    height: 185px;
+    margin: 4px auto 12px;
+  }
+  .bond-svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  .bond-node {
+    position: absolute;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 28px;
+    box-shadow: 0 5px 12px rgba(0,0,0,.12);
+    background: #fff;
+  }
+  .bond-node small { font-size: 9.5px; font-weight: 800; opacity: .8; }
+  .node-whole { top: 6px; left: 50%; transform: translateX(-50%); border: 4px solid #f59e0b; background: #fffbeb; color: #b45309; }
+  .node-left { bottom: 6px; left: 24px; border: 4px solid var(--part1); background: #fef2f2; color: var(--part1); }
+  .node-right { bottom: 6px; right: 24px; border: 4px solid var(--part2); background: #eff6ff; color: var(--part2); }
+  .node-missing { border-style: dashed; background: #f8fafc; color: #64748b; }
+
+  .visual-bar {
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    background: #f8fafc;
+    border: 2px solid #cbd5e1;
+    border-radius: 16px;
+    padding: 9px 14px;
+    margin: 4px auto 12px;
+  }
+  .dot {
+    width: 26px; height: 26px; border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 900; color: #fff;
+  }
+  .dot.p1 { background: var(--part1); }
+  .dot.p2 { background: var(--part2); }
+  .dot.qmark { background: #cbd5e1; color: #334155; border: 2px dashed #64748b; }
+
+  .eq-line { font-size: 24px; font-weight: 900; margin: 6px 0 16px; }
+
+  /* 2. Ordinal Queue */
+  .dir-badge {
+    display: inline-block;
+    background: #fef3c7;
+    border: 2px solid #f59e0b;
+    color: #92400e;
+    font-weight: 900;
+    font-size: 13px;
+    padding: 5px 14px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+  }
+  .queue-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 8px;
+    background: #f8fafc;
+    border: 2px solid #cbd5e1;
+    border-radius: 20px;
+    padding: 16px 12px;
+    margin: 0 auto 16px;
+  }
+  .q-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #fff;
+    border: 2.5px solid #94a3b8;
+    border-radius: 16px;
+    padding: 8px 10px;
+    min-width: 64px;
+    cursor: pointer;
+    transition: transform .12s;
+  }
+  .q-item:hover { transform: translateY(-4px); border-color: #0c7b93; }
+  .q-item .ico { font-size: 38px; line-height: 1.1; }
+  .q-item .ord-tag {
+    margin-top: 5px;
+    font-size: 12px;
+    font-weight: 900;
+    background: #e2e8f0;
+    color: #334155;
+    padding: 2px 7px;
+    border-radius: 8px;
+  }
+  .q-item.highlight { border-color: #f59e0b; background: #fffbeb; transform: scale(1.08); box-shadow: 0 6px 14px rgba(245,158,11,.25); }
+  .q-item.ok-pick { border-color: var(--ok); background: #dcfce7; }
+  .q-item.no-pick { border-color: var(--bad); background: #fee2e2; }
+
+  /* 3. Number Line */
+  .nl-box {
+    background: #f8fafc;
+    border: 2px solid #cbd5e1;
+    border-radius: 20px;
+    padding: 14px 10px 10px;
+    margin: 0 auto 14px;
+    overflow-x: auto;
+  }
+  .nl-svg { width: 100%; max-width: 780px; height: auto; display: block; margin: 0 auto; }
+
+  /* 4. Add & Subtract Visual Stage */
+  .math-visual-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    background: #f8fafc;
+    border: 2px solid #cbd5e1;
+    border-radius: 20px;
+    padding: 16px 14px;
+    margin: 0 auto 14px;
+    max-width: 680px;
+  }
+  .item-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    background: #fff;
+    border: 2px solid #93c5fd;
+    border-radius: 16px;
+    padding: 10px 14px;
+    min-width: 110px;
+    font-size: 32px;
+  }
+  .item-group.sub-group {
+    border-color: #fda4af;
+    max-width: 520px;
+  }
+  .crossed {
+    position: relative;
+    opacity: .42;
+    display: inline-block;
+  }
+  .crossed::after {
+    content: "✖";
+    position: absolute;
+    inset: 0;
+    color: #dc2626;
+    font-size: 30px;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+  }
+  .big-op {
+    font-size: 36px;
+    font-weight: 900;
+    color: var(--brand2);
+  }
+  .big-equation {
+    font-size: 36px;
+    font-weight: 900;
+    margin: 8px 0 16px;
+    letter-spacing: 2px;
+  }
+  .ans-box {
+    display: inline-block;
+    min-width: 58px;
+    padding: 2px 12px;
+    border-radius: 12px;
+    background: #fef3c7;
+    border: 3px dashed #f59e0b;
+    color: #b45309;
+  }
+  .ans-box.solved {
+    background: #dcfce7;
+    border: 3px solid var(--ok);
+    color: var(--ok);
+  }
+
+  /* Answer Pads */
+  .num-pad {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    max-width: 640px;
+    margin: 0 auto 14px;
+  }
+  .num-btn {
+    min-width: 50px;
+    height: 50px;
+    padding: 0 10px;
+    border-radius: 14px;
+    border: 2.5px solid #0c7b93;
+    background: linear-gradient(180deg, #ffffff 0%, #e0f2fe 100%);
+    color: var(--ink);
+    font-size: 20px;
+    font-weight: 900;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #0c7b93;
+    transition: transform .1s;
+  }
+  .num-btn:hover:not(:disabled) { transform: translateY(-2px); background: #bae6fd; }
+  .num-btn.ok { background: var(--ok); color: #fff; border-color: #15803d; box-shadow: 0 4px 0 #15803d; }
+  .num-btn.no { background: #fee2e2; color: var(--bad); border-color: var(--bad); box-shadow: 0 4px 0 var(--bad); }
+
+  .feedback { min-height: 32px; font-size: 17px; font-weight: 900; margin-top: 8px; }
+  .fb-ok { color: var(--ok); }
+  .fb-bad { color: var(--bad); }
+
+  .next-btn {
+    background: var(--brand2);
+    color: #fff;
+    border: 0;
+    border-radius: 14px;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 900;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #c2410c;
+    margin-top: 10px;
+  }
+
+  /* Study Houses View */
+  .houses-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+  @media (max-width: 820px) { .houses-grid { grid-template-columns: repeat(2, 1fr); } }
+  .house-card { background: #fff; border: 2.5px solid #2b5876; border-radius: 16px; overflow: hidden; }
+  .house-roof { background: linear-gradient(90deg, #f59e0b, #f48c06); color: #173042; font-weight: 900; font-size: 20px; text-align: center; padding: 7px; }
+  .house-row { display: flex; justify-content: space-around; padding: 5px 8px; border-bottom: 1px dashed #cbd5e1; font-weight: 900; font-size: 15px; }
+  .house-row:last-child { border-bottom: 0; }
+  .house-row span:first-child { color: var(--part1); }
+  .house-row span:last-child { color: var(--part2); }
+
+  @media print {
+    header, .hud { display: none !important; }
+    body { background: #fff; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>🧮 Математикийн ид шид — Гээгий багшийн тоглоомон дасгал</h1>
+    <small>1-р анги • Тооны бүтэц • Дэс дугаар • Тоон шулуун • Нэмэх ба Хасах</small>
+  </div>
+  <div class="mode-tabs">
+    <button class="tab-btn active" id="m0" onclick="setMode(0)">🧩 Тооны бүтэц (15)</button>
+    <button class="tab-btn" id="m1" onclick="setMode(1)">🏅 Дэс дугаар (12)</button>
+    <button class="tab-btn" id="m2" onclick="setMode(2)">📏 Тоон шулуун (12)</button>
+    <button class="tab-btn" id="m3" onclick="setMode(3)">➕➖ Нэмэх Хасах (20)</button>
+    <button class="tab-btn" id="m4" onclick="setMode(4)">🏠 Тооны байшин</button>
+  </div>
+</header>
+
+<main>
+  <div class="hud" id="hudBar">
+    <div class="lives" id="livesBox" title="Үлдсэн амь">❤️❤️❤️❤️❤️</div>
+    <div class="prog-box" id="progBox">Бодлого: 1 / 15</div>
+    <div class="score-box" id="scoreBox">⭐ Оноо: 0</div>
+  </div>
+
+  <div id="stageArea"></div>
+</main>
+
+<script>
+// 1. ТООНЫ БҮТЭЦ (15 бодлого)
+const BONDS_DATA = [
+  { whole: 2, left: 1, right: 1, missing: 'right', story: "2 алимны 1 нь улаан бол хэд нь цэнхэр вэ?" },
+  { whole: 3, left: 2, right: 1, missing: 'right', story: "3 бөмбөгний 2 нь улаан бол хэд нь цэнхэр вэ?" },
+  { whole: 3, left: 1, right: 2, missing: 'left',  story: "1 ба 2 нийлээд 3 болно. Дутуу хэсгийг ол!" },
+  { whole: 4, left: 2, right: 2, missing: 'right', story: "4-ийн тоог хоёр тэнцүү хэсэгт хуваавал 2 ба хэд вэ?" },
+  { whole: 4, left: 3, right: 1, missing: 'whole', story: "3 ба 1 нийлээд хэдэн бүхэл болох вэ?" },
+  { whole: 5, left: 3, right: 2, missing: 'right', story: "5 хурууны 3 нь дэлгээтэй бол хэд нь атгаатай вэ?" },
+  { whole: 5, left: 4, right: 1, missing: 'left',  story: "5-ын тоо нь 1 ба хэдээс бүтэх вэ?" },
+  { whole: 6, left: 3, right: 3, missing: 'right', story: "6-г тэнцүү хоёр хэсэгт хуваавал 3 ба хэд болох вэ?" },
+  { whole: 7, left: 5, right: 2, missing: 'right', story: "7-ийн тоо нь 5 ба хэдээс бүтэх вэ?" },
+  { whole: 8, left: 4, right: 4, missing: 'whole', story: "4 ба 4 нийлбэл хэд болох вэ?" },
+  { whole: 9, left: 5, right: 4, missing: 'right', story: "9 эрдэнийн 5 нь улаан бол хэд нь цэнхэр вэ?" },
+  { whole: 10, left: 5, right: 5, missing: 'right', story: "Хоёр гарын 10 хуруу нь 5 ба хэдээс бүтэх вэ?" },
+  { whole: 10, left: 8, right: 2, missing: 'right', story: "8 дээр хэд нэмбэл бүтэн 10 болох вэ?" },
+  { whole: 10, left: 7, right: 3, missing: 'left',  story: "10-ыг 3 ба хэд болгон хуваах вэ?" },
+  { whole: 10, left: 6, right: 4, missing: 'right', story: "6 дээр хэд нэмбэл 10 болох вэ?" }
+];
+
+// 2. ДЭС ДУГААР (12 бодлого)
+const ORDINAL_DATA = [
+  { kind: 'pickIcon', dir: 'left',  items: ['🐶','🐱','🐰','🐻','🦊'], targetPos: 1, q: "Зүүн гар талаас 1-р (хамгийн эхний) амьтан дээр дар!" },
+  { kind: 'pickIcon', dir: 'left',  items: ['🍎','🍌','🍇','🍓','🍊'], targetPos: 3, q: "Зүүн гар талаас 3-р жимс дээр дар!" },
+  { kind: 'pickIcon', dir: 'right', items: ['🚗','🚌','🚂','✈️','🚀'], targetPos: 2, q: "Баруун гар талаас 2-р тээврийн хэрэгсэл дээр дар!" },
+  { kind: 'pickOrd',  dir: 'left',  items: ['🦁','🐘','🦒','🦓','🐵','🐼'], highlightIdx: 3, ans: 4, q: "Зүүн талаас тоолбол 🦓 (Тахь) хэддүгээр байна вэ?" },
+  { kind: 'pickOrd',  dir: 'right', items: ['🌞','🌙','⭐','☁️','🌈'], highlightIdx: 0, ans: 5, q: "Баруун талаас тоолбол 🌞 (Нар) хэддүгээр байна вэ?" },
+  { kind: 'pickIcon', dir: 'left',  items: ['🐥','🦆','🦉','🐧','🦩','🦚','🦜'], targetPos: 5, q: "Зүүн талаас 5-р шувуу дээр дар!" },
+  { kind: 'pickOrd',  dir: 'left',  items: ['⚽','🏀','🏈','⚾','🎾','🏐','🎱','🏓'], highlightIdx: 6, ans: 7, q: "Зүүн талаас тоолбол 🎱 хэддүгээр бөмбөг вэ?" },
+  { kind: 'pickIcon', dir: 'right', items: ['🌷','🌹','🌻','🌼','🌸','🌺'], targetPos: 4, q: "Баруун талаас 4-р цэцэг дээр дар!" },
+  { kind: 'pickOrd',  dir: 'left',  items: ['1️⃣','2️⃣','3️⃣','4️⃣','5️⃣','6️⃣','7️⃣','8️⃣','9️⃣'], highlightIdx: 7, ans: 8, q: "Зүүн талаас 8-р байранд аль нь байна вэ?" },
+  { kind: 'pickIcon', dir: 'left',  items: ['🐭','🐮','🐯','🐰','🐉','🐍','🐴','🐑','🐵','🐔'], targetPos: 10, q: "Зүүн талаас хамгийн сүүлийн буюу 10-р амьтан дээр дар!" },
+  { kind: 'pickOrd',  dir: 'right', items: ['🍓','🍒','🍎','🍉','🍑','🍊','🍋'], highlightIdx: 4, ans: 3, q: "Баруун гар талаас тоолбол 🍑 хэддүгээр байна вэ?" },
+  { kind: 'pickOrd',  dir: 'left',  items: ['🚀','🛸','🛰️','🪐','🌍','🌕','☄️','🌟','🔭'], highlightIdx: 8, ans: 9, q: "Зүүн талаас 🔭 хэддүгээр байранд байна вэ?" }
+];
+
+// 3. ТООН ШУЛУУН (12 бодлого)
+const NUMLINE_DATA = [
+  { type: 'jump', max: 10, start: 2, step: 3,  ans: 5,  q: "Туулай 2 дээр зогсож байгаад урагш 3 алхам үсрэв. Хэд дээр буусан бэ? (2 + 3 = ?)" },
+  { type: 'jump', max: 10, start: 4, step: 4,  ans: 8,  q: "4 дээрээс урагш 4 нэгж нэмж үсэрвэл хэд дээр очих вэ? (4 + 4 = ?)" },
+  { type: 'jump', max: 10, start: 7, step: -3, ans: 4,  q: "7 дээрээс хойш 3 алхам ухарвал хэд дээр очих вэ? (7 - 3 = ?)" },
+  { type: 'missing', max: 10, hideVal: 6, ans: 6, q: "Тоон шулуун дээр 5 ба 7-ийн дунд ямар тоо нуугдсан бэ?" },
+  { type: 'jump', max: 10, start: 9, step: -5, ans: 4,  q: "9 дээрээс зүүн тийш 5 алхам ухарвал хэд болох вэ? (9 - 5 = ?)" },
+  { type: 'jump', max: 10, start: 3, step: 7,  ans: 10, q: "3 дээрээс урагш 7 үсэрвэл хэд дээр хүрэх вэ? (3 + 7 = ?)" },
+  { type: 'missing', max: 10, hideVal: 9, ans: 9, q: "8-ийн дараа, 10-ийн өмнө ямар тоо байдаг вэ?" },
+  { type: 'jump', max: 15, start: 10, step: 4, ans: 14, q: "10 дээрээс урагш 4 алхам үсэрвэл хэд дээр очих вэ? (10 + 4 = ?)" },
+  { type: 'jump', max: 15, start: 15, step: -3, ans: 12, q: "15 дээрээс хойш 3 алхам ухарвал хэд болох вэ? (15 - 3 = ?)" },
+  { type: 'missing', max: 15, hideVal: 13, ans: 13, q: "Тоон шулуун дээр 12 ба 14-ийн дунд ямар тоо байна вэ?" },
+  { type: 'jump', max: 15, start: 8, step: 5,  ans: 13, q: "8 дээрээс урагш 5 алхам үсэрвэл хэд дээр буух вэ? (8 + 5 = ?)" },
+  { type: 'jump', max: 15, start: 14, step: -4, ans: 10, q: "14 дээрээс хойш 4 алхам ухарвал хэд дээр ирэх вэ? (14 - 4 = ?)" }
+];
+
+// 4. НЭМЭХ БА ХАСАХ (20 бодлого: 10 хүртэлх ба 20 хүртэлх)
+const ADDSUB_DATA = [
+  { op: '+', a: 2, b: 1, ans: 3, ico: '🍎', q: "Тавган дээр 2 алим байв. Дээр нь 1 алим нэмбэл хэд болох вэ?" },
+  { op: '+', a: 3, b: 2, ans: 5, ico: '⚽', q: "Сагсанд 3 бөмбөг, гадаа 2 бөмбөг байна. Нийт хэдэн бөмбөг вэ?" },
+  { op: '-', a: 4, b: 1, ans: 3, ico: '🎈', q: "4 бөмбөлөг байснаас 1 нь хагарчээ. Хэдэн бөмбөлөг үлдсэн бэ?" },
+  { op: '-', a: 5, b: 2, ans: 3, ico: '🍪', q: "5 жигнэмэгнээс 2-ыг нь идчихвэл хэд үлдэх вэ?" },
+  { op: '+', a: 4, b: 3, ans: 7, ico: '⭐', q: "Тэнгэрт 4 од, дахин 3 од гарч ирэв. Нийт хэдэн од болов?" },
+  { op: '-', a: 6, b: 3, ans: 3, ico: '🥕', q: "Туулай 6 луувангаас 3-ыг нь идэв. Хэдэн лууван үлдсэн бэ?" },
+  { op: '+', a: 5, b: 3, ans: 8, ico: '🐝', q: "Цэцгэн дээр 5 зөгий байв. Дахин 3 зөгий нисэж ирвэл хэд болох вэ?" },
+  { op: '-', a: 7, b: 4, ans: 3, ico: '🍓', q: "7 гүзээлзгэнээс 4-ийг нь хувааж өгөв. Хэд үлдсэн бэ?" },
+  { op: '+', a: 6, b: 4, ans: 10, ico: '🌸', q: "6 улаан цэцэг, 4 ягаан цэцэг нийлээд хэдэн цэцэг болох вэ?" },
+  { op: '-', a: 8, b: 5, ans: 3, ico: '🐟', q: "Аквариумд 8 загас байснаас 5-ыг нь өөр саванд хийв. Хэд үлдэв?" },
+  { op: '+', a: 7, b: 2, ans: 9, ico: '🐥', q: "Хашаанд 7 дэгдээхэй байв. 2 дэгдээхэй гүйж ирвэл хэд болох вэ?" },
+  { op: '-', a: 9, b: 4, ans: 5, ico: '🍬', q: "9 чихэрнээс 4-ийг нь дүүдээ өгөв. Өөрт хэдэн чихэр үлдэх вэ?" },
+  { op: '-', a: 10, b: 3, ans: 7, ico: '✏️', q: "Хайрцагт 10 харандаа байснаас 3-ыг нь авав. Хэд үлдсэн бэ?" },
+  { op: '+', a: 10, b: 2, ans: 12, ico: '🍊', q: "Нэг уутанд 10 жүрж, нөгөөд 2 жүрж бий. Нийт хэдэн жүрж вэ?" },
+  { op: '+', a: 10, b: 5, ans: 15, ico: '💎', q: "10 эрдэнэ дээр 5 эрдэнэ нэмбэл нийт хэд болох вэ?" },
+  { op: '-', a: 12, b: 2, ans: 10, ico: '🍌', q: "12 гадил жимснээс 2-ыг нь идвэл хэд үлдэх вэ?" },
+  { op: '+', a: 8, b: 4, ans: 12, ico: '🦋', q: "8 эрвээхэй дээр 4 эрвээхэй нэмэгдвэл хэд болох вэ?" },
+  { op: '-', a: 15, b: 5, ans: 10, ico: '🍒', q: "15 интоороос 5-ыг нь авбал хэд үлдэх вэ?" },
+  { op: '+', a: 9, b: 5, ans: 14, ico: '🚀', q: "9 дээр 5-ыг нэмбэл хэд болох вэ? (9 + 1 + 4)" },
+  { op: '-', a: 14, b: 4, ans: 10, ico: '🏆', q: "14-өөс 4-ийг хасвал хэд үлдэх вэ?" }
+];
+
+const PRAISES = [
+  "🌟 Гайхалтай! Яг зөв бодлоо!",
+  "🎉 Браво! Чи үнэхээр мундаг тоочин юм!",
+  "👏 Зөв байна! +10 оноо нэмэгдлээ!",
+  "✨ Гээгий багш чамаар бахархаж байна!",
+  "🏆 Онц! Дараагийн дасгал руу орцгооё!"
+];
+
+let mode = 0; // 0=bonds, 1=ordinal, 2=numline, 3=addsub, 4=houses
+let qIdx = 0;
+let lives = 5;
+let score = 0;
+let solved = false;
+let wrongBtns = new Set();
+
+function setMode(newMode) {
+  mode = newMode;
+  qIdx = 0;
+  lives = 5;
+  score = 0;
+  solved = false;
+  wrongBtns.clear();
+  [0, 1, 2, 3, 4].forEach(i => document.getElementById(`m${i}`).classList.toggle('active', i === mode));
+  render();
+}
+
+function getList() {
+  if (mode === 0) return BONDS_DATA;
+  if (mode === 1) return ORDINAL_DATA;
+  if (mode === 2) return NUMLINE_DATA;
+  return ADDSUB_DATA;
+}
+
+function handleAnswer(val) {
+  if (solved || lives <= 0) return;
+  const item = getList()[qIdx];
+  const target = mode === 0
+    ? item[item.missing]
+    : (mode === 1 ? (item.kind === 'pickIcon' ? item.targetPos : item.ans) : item.ans);
+
+  if (val === target) {
+    solved = true;
+    score += 10;
+    const praise = PRAISES[Math.floor(Math.random() * PRAISES.length)];
+    render(praise, 'fb-ok');
+  } else {
+    wrongBtns.add(val);
+    lives--;
+    if (lives <= 0) {
+      renderGameOver();
+    } else {
+      render(`❌ Буруу байна. Дахин сайн тоолоод үзээрэй! (Үлдсэн амь: ${lives})`, 'fb-bad');
+    }
+  }
+}
+
+function nextQ() {
+  const list = getList();
+  if (qIdx + 1 < list.length) {
+    qIdx++;
+    solved = false;
+    wrongBtns.clear();
+    render();
+  } else {
+    renderWin();
+  }
+}
+
+function drawNumberLineSVG(item) {
+  const max = item.max;
+  const W = 760, H = 135;
+  const padL = 32, padR = 32;
+  const stepX = (W - padL - padR) / max;
+  const baseY = 92;
+
+  let ticks = '';
+  for (let i = 0; i <= max; i++) {
+    const x = padL + i * stepX;
+    const isHidden = item.type === 'missing' && i === item.hideVal && !solved;
+    const isAnsHighlight = solved && i === item.ans;
+    const label = isHidden ? '?' : i;
+    const fillCol = isHidden ? '#e63946' : (isAnsHighlight ? '#16a34a' : '#173042');
+
+    ticks += `
+      <line x1="${x}" y1="${baseY - 8}" x2="${x}" y2="${baseY + 8}" stroke="#173042" stroke-width="2.5"/>
+      ${isHidden || isAnsHighlight ? `<circle cx="${x}" cy="${baseY + 23}" r="14" fill="${isHidden ? '#fee2e2' : '#dcfce7'}" stroke="${fillCol}" stroke-width="2"/>` : ''}
+      <text x="${x}" y="${baseY + 28}" text-anchor="middle" font-size="14" font-weight="900" fill="${fillCol}">${label}</text>
+    `;
+  }
+
+  let jumpArcs = '';
+  if (item.type === 'jump') {
+    const dir = item.step > 0 ? 1 : -1;
+    const stepsCount = Math.abs(item.step);
+    const arcColor = item.step > 0 ? '#16a34a' : '#e63946';
+
+    const startX = padL + item.start * stepX;
+    jumpArcs += `<text x="${startX}" y="${baseY - 46}" text-anchor="middle" font-size="22">🐰</text>`;
+
+    for (let s = 0; s < stepsCount; s++) {
+      const fromVal = item.start + s * dir;
+      const toVal = fromVal + dir;
+      const x1 = padL + fromVal * stepX;
+      const x2 = padL + toVal * stepX;
+      const midX = (x1 + x2) / 2;
+      const ctrlY = baseY - 38;
+      jumpArcs += `
+        <path d="M ${x1} ${baseY - 10} Q ${midX} ${ctrlY} ${x2} ${baseY - 10}" fill="none" stroke="${arcColor}" stroke-width="2.5" stroke-dasharray="4,2"/>
+        <circle cx="${x2}" cy="${baseY - 10}" r="3.5" fill="${arcColor}"/>
+      `;
+    }
+  }
+
+  return `
+    <svg class="nl-svg" viewBox="0 0 ${W} ${H}">
+      <line x1="${padL - 12}" y1="${baseY}" x2="${W - padR + 14}" y2="${baseY}" stroke="#0c7b93" stroke-width="4" stroke-linecap="round"/>
+      <polygon points="${W - padR + 18},${baseY} ${W - padR + 8},${baseY - 6} ${W - padR + 8},${baseY + 6}" fill="#0c7b93"/>
+      ${jumpArcs}
+      ${ticks}
+    </svg>
+  `;
+}
+
+function render(msg = '', msgCls = '') {
+  const hud = document.getElementById('hudBar');
+  const stage = document.getElementById('stageArea');
+
+  if (mode === 4) {
+    hud.style.display = 'none';
+    let html = `
+      <div style="background:#fff;border:1.5px solid #cbd5e1;border-radius:14px;padding:10px 16px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+        <div><b>🏠 1-ээс 10 хүртэлх «Тооны байшин»</b> — 🔴 1-р хэсэг + 🔵 2-р хэсэг = Дээврийн тоо</div>
+        <button onclick="window.print()" style="background:#f48c06;color:#fff;border:0;border-radius:10px;padding:8px 14px;font-weight:800;cursor:pointer">🖨️ Хэвлэх (A4)</button>
+      </div>
+      <div class="houses-grid">
+    `;
+    for (let n = 1; n <= 10; n++) {
+      html += `<div class="house-card"><div class="house-roof">🏠 ${n}</div>`;
+      for (let a = 1; a <= Math.floor(n / 2); a++) {
+        html += `<div class="house-row"><span>${a}</span><span>${n - a}</span></div>`;
+      }
+      if (n === 1) html += `<div class="house-row"><span>1</span><span>0</span></div>`;
+      html += `</div>`;
+    }
+    html += `</div>`;
+    stage.innerHTML = html;
+    return;
+  }
+
+  hud.style.display = 'flex';
+  const list = getList();
+  const hearts = '❤️'.repeat(lives) + '🖤'.repeat(Math.max(0, 5 - lives));
+  document.getElementById('livesBox').textContent = hearts;
+  document.getElementById('progBox').textContent = `Бодлого: ${qIdx + 1} / ${list.length}`;
+  document.getElementById('scoreBox').textContent = `⭐ Оноо: ${score}`;
+
+  if (mode === 0) {
+    // 1. ТООНЫ БҮТЭЦ
+    const item = list[qIdx];
+    const showWhole = solved || item.missing !== 'whole' ? item.whole : '?';
+    const showLeft  = solved || item.missing !== 'left'  ? item.left  : '?';
+    const showRight = solved || item.missing !== 'right' ? item.right : '?';
+
+    let dotsHtml = '';
+    for (let i = 0; i < item.left; i++) dotsHtml += (solved || item.missing !== 'left') ? `<span class="dot p1">●</span>` : `<span class="dot qmark">?</span>`;
+    for (let i = 0; i < item.right; i++) dotsHtml += (solved || item.missing !== 'right') ? `<span class="dot p2">●</span>` : `<span class="dot qmark">?</span>`;
+
+    let padHtml = '';
+    for (let n = 0; n <= 10; n++) {
+      const isOk = solved && n === item[item.missing];
+      const isNo = wrongBtns.has(n);
+      padHtml += `<button class="num-btn ${isOk ? 'ok' : ''} ${isNo ? 'no' : ''}" ${solved ? 'disabled' : ''} onclick="handleAnswer(${n})">${n}</button>`;
+    }
+
+    stage.innerHTML = `
+      <div class="board">
+        <div class="clue-tag">💡 ${item.story}</div>
+        <div class="bond-stage">
+          <svg class="bond-svg" viewBox="0 0 280 185">
+            <line x1="140" y1="45" x2="62" y2="145" stroke="#94a3b8" stroke-width="5" stroke-linecap="round"/>
+            <line x1="140" y1="45" x2="218" y2="145" stroke="#94a3b8" stroke-width="5" stroke-linecap="round"/>
+          </svg>
+          <div class="bond-node node-whole ${!solved && item.missing === 'whole' ? 'node-missing' : ''}">${showWhole}<small>БҮХЭЛ</small></div>
+          <div class="bond-node node-left ${!solved && item.missing === 'left' ? 'node-missing' : ''}">${showLeft}<small>1-Р ХЭСЭГ</small></div>
+          <div class="bond-node node-right ${!solved && item.missing === 'right' ? 'node-missing' : ''}">${showRight}<small>2-Р ХЭСЭГ</small></div>
+        </div>
+        <div class="visual-bar">${dotsHtml}</div>
+        <div class="eq-line"><span style="color:#e63946">${showLeft}</span> + <span style="color:#1d4ed8">${showRight}</span> = <span style="color:#b45309">${showWhole}</span></div>
+        <div class="num-pad">${padHtml}</div>
+        <div class="feedback ${msgCls}">${msg}</div>
+        ${solved ? `<button class="next-btn" onclick="nextQ()">Дараагийн бодлого ▶</button>` : ''}
+      </div>
+    `;
+  } else if (mode === 1) {
+    // 2. ДЭС ДУГААР
+    const item = list[qIdx];
+    const dirLabel = item.dir === 'left' ? '➡️ Зүүн гар талаас эхэлж тоолно' : '⬅️ Баруун гар талаас эхэлж тоолно';
+    const total = item.items.length;
+
+    const queueHtml = item.items.map((ico, i) => {
+      const ordPos = item.dir === 'left' ? (i + 1) : (total - i);
+      const isHighlight = item.kind === 'pickOrd' && i === item.highlightIdx;
+      const isOk = solved && ((item.kind === 'pickIcon' && ordPos === item.targetPos) || isHighlight);
+      const isNo = item.kind === 'pickIcon' && wrongBtns.has(ordPos);
+      const showTag = solved ? `${ordPos}-р` : '?';
+
+      return `
+        <div class="q-item ${isHighlight ? 'highlight' : ''} ${isOk ? 'ok-pick' : ''} ${isNo ? 'no-pick' : ''}"
+             ${item.kind === 'pickIcon' && !solved ? `onclick="handleAnswer(${ordPos})"` : ''}>
+          <span class="ico">${ico}</span>
+          <span class="ord-tag">${showTag}</span>
+        </div>
+      `;
+    }).join('');
+
+    let padHtml = '';
+    if (item.kind === 'pickOrd') {
+      for (let n = 1; n <= total; n++) {
+        const isOk = solved && n === item.ans;
+        const isNo = wrongBtns.has(n);
+        padHtml += `<button class="num-btn ${isOk ? 'ok' : ''} ${isNo ? 'no' : ''}" ${solved ? 'disabled' : ''} onclick="handleAnswer(${n})">${n}-р</button>`;
+      }
+    }
+
+    stage.innerHTML = `
+      <div class="board">
+        <div class="clue-tag">🏅 ${item.q}</div><br>
+        <div class="dir-badge">${dirLabel} (Нийт ${total} ширхэг)</div>
+        <div class="queue-wrap">${queueHtml}</div>
+        ${item.kind === 'pickOrd' ? `<div class="num-pad">${padHtml}</div>` : `<div style="font-size:13px;color:#64748b;font-weight:700">👆 Дээрх зурагнуудаас зөв байрлал дээр нь дарна уу</div>`}
+        <div class="feedback ${msgCls}">${msg}</div>
+        ${solved ? `<button class="next-btn" onclick="nextQ()">Дараагийн бодлого ▶</button>` : ''}
+      </div>
+    `;
+  } else if (mode === 2) {
+    // 3. ТООН ШУЛУУН
+    const item = list[qIdx];
+    let padHtml = '';
+    for (let n = 0; n <= item.max; n++) {
+      const isOk = solved && n === item.ans;
+      const isNo = wrongBtns.has(n);
+      padHtml += `<button class="num-btn ${isOk ? 'ok' : ''} ${isNo ? 'no' : ''}" ${solved ? 'disabled' : ''} onclick="handleAnswer(${n})">${n}</button>`;
+    }
+
+    stage.innerHTML = `
+      <div class="board">
+        <div class="clue-tag">📏 ${item.q}</div>
+        <div class="nl-box">${drawNumberLineSVG(item)}</div>
+        <div style="font-size:13px;font-weight:800;color:#475569;margin-bottom:10px">
+          ${item.type === 'jump' ? (item.step > 0 ? '🟢 Урагш үсэрвэл тоо ИХЭСНЭ (+)' : '🔴 Хойш ухарвал тоо БАГАСНА (-)') : '🔍 Тоон шулуун дээрх дутуу тоог олоорой'}
+        </div>
+        <div class="num-pad">${padHtml}</div>
+        <div class="feedback ${msgCls}">${msg}</div>
+        ${solved ? `<button class="next-btn" onclick="nextQ()">Дараагийн бодлого ▶</button>` : ''}
+      </div>
+    `;
+  } else {
+    // 4. НЭМЭХ БА ХАСАХ
+    const item = list[qIdx];
+    let visualHtml = '';
+    if (item.op === '+') {
+      const grpA = Array(item.a).fill(`<span>${item.ico}</span>`).join('');
+      const grpB = Array(item.b).fill(`<span>${item.ico}</span>`).join('');
+      visualHtml = `
+        <div class="item-group">${grpA}</div>
+        <div class="big-op">+</div>
+        <div class="item-group">${grpB}</div>
+      `;
+    } else {
+      const keepCount = item.a - item.b;
+      let itemsStr = '';
+      for (let i = 0; i < keepCount; i++) itemsStr += `<span>${item.ico}</span>`;
+      for (let i = 0; i < item.b; i++) itemsStr += `<span class="crossed" title="Хассан">${item.ico}</span>`;
+      visualHtml = `<div class="item-group sub-group">${itemsStr}</div>`;
+    }
+
+    const opColor = item.op === '+' ? '#16a34a' : '#e63946';
+    const eqHtml = `
+      <span style="color:#1d4ed8">${item.a}</span>
+      <span style="color:${opColor}">${item.op}</span>
+      <span style="color:#e63946">${item.b}</span> =
+      <span class="ans-box ${solved ? 'solved' : ''}">${solved ? item.ans : '?'}</span>
+    `;
+
+    let padHtml = '';
+    for (let n = 0; n <= 16; n++) {
+      const isOk = solved && n === item.ans;
+      const isNo = wrongBtns.has(n);
+      padHtml += `<button class="num-btn ${isOk ? 'ok' : ''} ${isNo ? 'no' : ''}" ${solved ? 'disabled' : ''} onclick="handleAnswer(${n})">${n}</button>`;
+    }
+
+    stage.innerHTML = `
+      <div class="board">
+        <div class="clue-tag">${item.op === '+' ? '➕ Нэмэх үйлдэл (Нийлүүлэх)' : '➖ Хасах үйлдэл (Үлдэгдлийг олох)'}: ${item.q}</div>
+        <div class="math-visual-wrap">${visualHtml}</div>
+        <div class="big-equation">${eqHtml}</div>
+        <div class="num-pad">${padHtml}</div>
+        <div class="feedback ${msgCls}">${msg}</div>
+        ${solved ? `<button class="next-btn" onclick="nextQ()">Дараагийн бодлого ▶</button>` : ''}
+      </div>
+    `;
+  }
+}
+
+function renderWin() {
+  document.getElementById('livesBox').textContent = '❤️'.repeat(lives) + '🖤'.repeat(5 - lives);
+  document.getElementById('scoreBox').textContent = `⭐ Оноо: ${score}`;
+  const stars = lives === 5 ? '⭐⭐⭐' : lives >= 3 ? '⭐⭐' : '⭐';
+
+  document.getElementById('stageArea').innerHTML = `
+    <div class="board" style="padding:32px 20px">
+      <div style="font-size:48px">${stars}</div>
+      <h2 style="color:#16a34a;font-size:26px">БАЯР ХҮРГЭЕ! Энэ сэдэв амжилттай дууслаа!</h2>
+      <p style="font-size:17px;font-weight:700">Чи бүх бодлогыг зөв бодож <b>${score} оноо</b> цуглууллаа!</p>
+      <div style="margin-top:18px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+        <button class="next-btn" style="background:#64748b;box-shadow:none" onclick="setMode(${mode})">🔁 Дахин тоглох</button>
+        ${mode < 3 ? `<button class="next-btn" onclick="setMode(${mode + 1})">Дараагийн сэдэв рүү ▶</button>` : `<button class="next-btn" onclick="setMode(0)">🧩 Эхнээс нь тоглох</button>`}
+      </div>
+    </div>
+  `;
+}
+
+function renderGameOver() {
+  document.getElementById('livesBox').textContent = '🖤🖤🖤🖤🖤';
+  document.getElementById('stageArea').innerHTML = `
+    <div class="board" style="padding:32px 20px">
+      <div style="font-size:48px">💔😢</div>
+      <h2 style="color:#dc2626;font-size:26px">Амь дууслаа!</h2>
+      <p style="font-size:16px;font-weight:700">Санаа бүү зов! Дахин оролдоод бүх зүрхээ хадгалж үзээрэй. Оноо: <b>${score}</b></p>
+      <button class="next-btn" style="margin-top:14px" onclick="setMode(${mode})">🔄 Дахин эхлэх</button>
+    </div>
+  `;
+}
+
+render();
+</script>
+</body>
+</html>

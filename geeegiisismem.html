@@ -1,0 +1,807 @@
+<!doctype html>
+<html lang="mn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1-р ангийн Математикийн Хөтөлбөр • Гээгий багшийн тоглоомон систем</title>
+<style>
+  :root {
+    --bg: #eef7fb;
+    --ink: #173042;
+    --brand: #0c7b93;
+    --brand2: #f48c06;
+    --part1: #e63946;
+    --part2: #1d4ed8;
+    --ok: #16a34a;
+    --bad: #dc2626;
+    --card: #ffffff;
+    --border: #c5dce8;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    user-select: none;
+  }
+  header {
+    background: linear-gradient(135deg, #173042, #0c7b93);
+    color: #fff;
+    padding: 12px 18px;
+    box-shadow: 0 4px 14px rgba(0,0,0,.15);
+  }
+  .head-top {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  header h1 { margin: 0; font-size: 17.5px; }
+  header small { display: block; opacity: .9; font-size: 11.5px; }
+
+  .curriculum-nav {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    background: rgba(255,255,255,.14);
+    padding: 5px;
+    border-radius: 14px;
+  }
+  .unit-btn {
+    border: 0;
+    border-radius: 10px;
+    padding: 7px 11px;
+    font-weight: 800;
+    font-size: 12px;
+    cursor: pointer;
+    background: transparent;
+    color: #fff;
+    text-align: left;
+  }
+  .unit-btn.active {
+    background: #fff;
+    color: var(--ink);
+    box-shadow: 0 2px 8px rgba(0,0,0,.15);
+  }
+
+  main { max-width: 920px; margin: 18px auto; padding: 0 14px 40px; }
+
+  /* HUD */
+  .hud {
+    background: #fff;
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    padding: 11px 18px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 12px rgba(23,48,66,.06);
+  }
+  .lives { font-size: 21px; letter-spacing: 2px; }
+  .score-box {
+    background: #fef3c7;
+    border: 2px solid #f59e0b;
+    color: #92400e;
+    font-weight: 900;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 14.5px;
+  }
+  .prog-box { font-weight: 800; color: var(--brand); font-size: 14px; }
+
+  /* Game Board */
+  .board {
+    background: var(--card);
+    border: 3px solid #2b5876;
+    border-radius: 24px;
+    padding: 22px 18px;
+    text-align: center;
+    box-shadow: 0 10px 26px rgba(23,48,66,.1);
+  }
+  .unit-badge {
+    display: inline-block;
+    background: #fef3c7;
+    border: 1.5px solid #f59e0b;
+    color: #92400e;
+    font-weight: 900;
+    font-size: 12px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 8px;
+  }
+  .q-title {
+    font-size: 18px;
+    font-weight: 900;
+    color: var(--ink);
+    margin: 4px 0 14px;
+    line-height: 1.35;
+  }
+
+  /* Visual Stage */
+  .visual-stage {
+    background: #f8fafc;
+    border: 2px solid #cbd5e1;
+    border-radius: 20px;
+    padding: 16px 14px;
+    margin: 0 auto 16px;
+    max-width: 720px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Number Bond */
+  .bond-stage { position: relative; width: 260px; height: 170px; margin: 0 auto; }
+  .bond-node {
+    position: absolute; width: 66px; height: 66px; border-radius: 50%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 26px; background: #fff; box-shadow: 0 4px 10px rgba(0,0,0,.1);
+  }
+  .bond-node small { font-size: 9px; font-weight: 800; }
+  .node-whole { top: 4px; left: 50%; transform: translateX(-50%); border: 4px solid #f59e0b; background: #fffbeb; color: #b45309; }
+  .node-left { bottom: 4px; left: 20px; border: 4px solid var(--part1); background: #fef2f2; color: var(--part1); }
+  .node-right { bottom: 4px; right: 20px; border: 4px solid var(--part2); background: #eff6ff; color: var(--part2); }
+  .node-missing { border-style: dashed; background: #f1f5f9; color: #64748b; }
+
+  /* Comparison Cards */
+  .cmp-wrap { display: flex; align-items: center; justify-content: center; gap: 18px; flex-wrap: wrap; }
+  .cmp-box {
+    background: #fff; border: 3px solid #93c5fd; border-radius: 18px;
+    padding: 12px 18px; min-width: 130px; font-size: 32px; font-weight: 900;
+  }
+  .cmp-sign {
+    width: 60px; height: 60px; border-radius: 16px; background: #fef3c7;
+    border: 3px dashed #f59e0b; display: flex; align-items: center; justify-content: center;
+    font-size: 30px; font-weight: 900; color: #b45309;
+  }
+
+  /* Ordinal Row */
+  .queue-wrap { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; }
+  .q-item {
+    background: #fff; border: 2.5px solid #94a3b8; border-radius: 14px;
+    padding: 8px 10px; min-width: 60px; display: flex; flex-direction: column; align-items: center;
+  }
+  .q-item.hl { border-color: #f59e0b; background: #fffbeb; transform: scale(1.08); }
+
+  /* Add/Sub Groups */
+  .math-groups { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; font-size: 30px; }
+  .grp-card { background: #fff; border: 2px solid #93c5fd; border-radius: 14px; padding: 8px 12px; }
+  .crossed { position: relative; opacity: .4; display: inline-block; }
+  .crossed::after { content: "✖"; position: absolute; inset: 0; color: #dc2626; font-size: 28px; font-weight: 900; display: flex; align-items: center; justify-content: center; opacity: 1; }
+
+  /* Money & Data Table */
+  .coin {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 64px; height: 64px; border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #fde68a, #f59e0b);
+    border: 3px solid #b45309; color: #78350f; font-weight: 900; font-size: 16px;
+    box-shadow: 0 4px 8px rgba(0,0,0,.15); margin: 4px;
+  }
+  .data-tbl { border-collapse: collapse; background: #fff; font-size: 16px; font-weight: 800; }
+  .data-tbl td, .data-tbl th { border: 2px solid #94a3b8; padding: 8px 14px; }
+  .data-tbl th { background: #e0f2fe; }
+
+  /* Multiple Choice & Number Options */
+  .options-grid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    max-width: 660px;
+    margin: 0 auto 12px;
+  }
+  .opt-btn {
+    min-width: 76px;
+    min-height: 54px;
+    padding: 10px 16px;
+    border-radius: 15px;
+    border: 2.5px solid #0c7b93;
+    background: linear-gradient(180deg, #ffffff 0%, #e0f2fe 100%);
+    color: var(--ink);
+    font-size: 19px;
+    font-weight: 900;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #0c7b93;
+    transition: transform .1s;
+  }
+  .opt-btn:hover:not(:disabled) { transform: translateY(-2px); background: #bae6fd; }
+  .opt-btn.ok { background: var(--ok); color: #fff; border-color: #15803d; box-shadow: 0 4px 0 #15803d; }
+  .opt-btn.no { background: #fee2e2; color: var(--bad); border-color: var(--bad); box-shadow: 0 4px 0 var(--bad); }
+
+  .feedback { min-height: 32px; font-size: 16.5px; font-weight: 900; margin-top: 8px; }
+  .fb-ok { color: var(--ok); }
+  .fb-bad { color: var(--bad); }
+
+  .next-btn {
+    background: var(--brand2); color: #fff; border: 0; border-radius: 14px;
+    padding: 12px 24px; font-size: 16px; font-weight: 900; cursor: pointer;
+    box-shadow: 0 4px 0 #c2410c; margin-top: 10px;
+  }
+
+  /* Houses Reference */
+  .houses-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+  @media (max-width: 820px) { .houses-grid { grid-template-columns: repeat(2, 1fr); } }
+  .house-card { background: #fff; border: 2.5px solid #2b5876; border-radius: 16px; overflow: hidden; }
+  .house-roof { background: linear-gradient(90deg, #f59e0b, #f48c06); color: #173042; font-weight: 900; font-size: 20px; text-align: center; padding: 7px; }
+  .house-row { display: flex; justify-content: space-around; padding: 5px 8px; border-bottom: 1px dashed #cbd5e1; font-weight: 900; font-size: 15px; }
+  .house-row span:first-child { color: var(--part1); }
+  .house-row span:last-child { color: var(--part2); }
+
+  @media print {
+    header, .hud { display: none !important; }
+    body { background: #fff; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="head-top">
+    <div>
+      <h1>📘 1-р ангийн Математикийн Сургалтын Хөтөлбөр — Тоглоомон Систем</h1>
+      <small>Гээгий багшийн бүтээл • БСШУЯ-ны 1-р ангийн хөтөлбөрийн 5 бүлэг сэдвийн дагуу</small>
+    </div>
+  </div>
+  <div class="curriculum-nav">
+    <button class="unit-btn active" id="u0" onclick="setUnit(0)">1️⃣ Юмс ба Дүрс (10)</button>
+    <button class="unit-btn" id="u1" onclick="setUnit(1)">2️⃣ Тооны бүтэц & Жиших (12)</button>
+    <button class="unit-btn" id="u2" onclick="setUnit(2)">3️⃣ 10 дотор нэмэх, хасах (12)</button>
+    <button class="unit-btn" id="u3" onclick="setUnit(3)">4️⃣ 20 хүртэлх тоо ба үйлдэл (12)</button>
+    <button class="unit-btn" id="u4" onclick="setUnit(4)">5️⃣ Хэмжигдэхүүн & Өгөгдөл (10)</button>
+    <button class="unit-btn" id="u5" onclick="setUnit(5)">🏠 Тооны байшин (Хэвлэх)</button>
+  </div>
+</header>
+
+<main>
+  <div class="hud" id="hudBar">
+    <div class="lives" id="livesBox" title="Үлдсэн амь">❤️❤️❤️❤️❤️</div>
+    <div class="prog-box" id="progBox">Даалгавар: 1 / 10</div>
+    <div class="score-box" id="scoreBox">⭐ Оноо: 0</div>
+  </div>
+
+  <div id="stageArea"></div>
+</main>
+
+<script>
+// ХӨТӨЛБӨРИЙН 5 БҮЛЭГ (Нийт 56 бодлого)
+const UNITS = [
+  // БҮЛЭГ 1: Юмс, орон зай, зүй тогтол ба геометрийн дүрс
+  {
+    name: "1-р бүлэг: Орон зайн баримжаа, Зүй тогтол ба Дүрс",
+    items: [
+      {
+        q: "Модны ДЭЭР аль амьтан байна вэ? (Орон зайн баримжаа)",
+        vis: `<div style="font-size:38px;line-height:1.3">🐦<br>🌳<br>🐇</div>`,
+        opts: ["🐦 Шувуу", "🐇 Туулай", "🌳 Мод"], ans: "🐦 Шувуу"
+      },
+      {
+        q: "Зүй тогтлыг ажиглаад дараагийн дүрсийг олоорой!",
+        vis: `<div style="font-size:36px;letter-spacing:6px">🔴 🔵 🔴 🔵 🔴 ❓</div>`,
+        opts: ["🔴 Улаан дугуй", "🔵 Цэнхэр дугуй", "🟡 Шар дугуй"], ans: "🔵 Цэнхэр дугуй"
+      },
+      {
+        q: "Аль нь 3 тал, 3 оройтой «Гурвалжин» дүрс вэ?",
+        vis: `<svg width="260" height="75" viewBox="0 0 260 75">
+                <polygon points="45,10 15,65 75,65" fill="#f59e0b" stroke="#173042" stroke-width="3"/>
+                <rect x="105" y="15" width="50" height="50" fill="#3b82f6" stroke="#173042" stroke-width="3"/>
+                <circle cx="215" cy="40" r="26" fill="#ef4444" stroke="#173042" stroke-width="3"/>
+              </svg>`,
+        opts: ["🔺 Гурвалжин", "🟦 Дөрвөлжин", "🔴 Дугуй"], ans: "🔺 Гурвалжин"
+      },
+      {
+        q: "Зүүн гар талаас тоолбол 🦓 (Тахь) хэддүгээр байранд байна вэ?",
+        vis: `<div class="queue-wrap">
+                <div class="q-item"><span style="font-size:32px">🦁</span></div>
+                <div class="q-item"><span style="font-size:32px">🐘</span></div>
+                <div class="q-item hl"><span style="font-size:32px">🦓</span></div>
+                <div class="q-item"><span style="font-size:32px">🦒</span></div>
+                <div class="q-item"><span style="font-size:32px">🐵</span></div>
+              </div>`,
+        opts: ["2-р", "3-р", "4-р"], ans: "3-р"
+      },
+      {
+        q: "Өсөх зүй тогтлыг үргэлжлүүлээрэй: 1, 2, 1, 2, 2, 1, 2, 2, ❓",
+        vis: `<div style="font-size:32px;letter-spacing:4px">🍎 🍌 🍎 🍌 🍌 🍎 🍌 🍌 ❓</div>`,
+        opts: ["🍎 1 алим", "🍌 1 гадил", "🍇 Усан үзэм"], ans: "🍌 1 гадил"
+      },
+      {
+        q: "4 тэнцүү тал, 4 тэгш өнцөгтэй дүрсийг юу гэж нэрлэдэг вэ?",
+        vis: `<svg width="90" height="90" viewBox="0 0 90 90"><rect x="15" y="15" width="60" height="60" fill="#60a5fa" stroke="#1e3a8a" stroke-width="4"/></svg>`,
+        opts: ["Ам дөрвөлжин", "Гурвалжин", "Дугуй"], ans: "Ам дөрвөлжин"
+      },
+      {
+        q: "Баруун гар талаас 2-р жимс аль нь вэ?",
+        vis: `<div class="queue-wrap">
+                <div class="q-item"><span style="font-size:32px">🍎</span></div>
+                <div class="q-item"><span style="font-size:32px">🍐</span></div>
+                <div class="q-item"><span style="font-size:32px">🍊</span></div>
+                <div class="q-item"><span style="font-size:32px">🍓</span></div>
+              </div>`,
+        opts: ["🍐 Лийр", "🍊 Жүрж", "🍓 Гүзээлзгэнэ"], ans: "🍊 Жүрж"
+      },
+      {
+        q: "Бөмбөг, алим, дэлхийн бөмбөрцөг ямар биеттэй төстэй вэ?",
+        vis: `<div style="font-size:40px">⚽ 🌍 🍊</div>`,
+        opts: ["Бөмбөрцөг", "Шоо", "Бортого"], ans: "Бөмбөрцөг"
+      },
+      {
+        q: "Дараагийн тоог олоорой: 1, 3, 5, 7, ❓",
+        vis: `<div style="font-size:26px;font-weight:900;color:#0c7b93">1 ➔ 3 ➔ 5 ➔ 7 ➔ ❓</div>`,
+        opts: ["8", "9", "10"], ans: "9"
+      },
+      {
+        q: "Ширээн ДООР юу байна вэ?",
+        vis: `<div style="font-size:36px">📚<br>🟫🟫🟫<br>⚽</div>`,
+        opts: ["📚 Ном", "⚽ Бөмбөг", "🟫 Ширээ"], ans: "⚽ Бөмбөг"
+      }
+    ]
+  },
+
+  // БҮЛЭГ 2: 1–10 тоо тоолол, Тооны бүтэц ба Жиших (<, >, =)
+  {
+    name: "2-р бүлэг: Тооны бүтэц ба Тоог жиших (<, >, =)",
+    items: [
+      {
+        q: "Тооны бүтэц: 5 нь 3 ба хэдээс бүтэх вэ?",
+        vis: `<div class="bond-stage">
+                <svg width="260" height="170"><line x1="130" y1="40" x2="55" y2="135" stroke="#94a3b8" stroke-width="4"/><line x1="130" y1="40" x2="205" y2="135" stroke="#94a3b8" stroke-width="4"/></svg>
+                <div class="bond-node node-whole">5<small>БҮХЭЛ</small></div>
+                <div class="bond-node node-left">3<small>ХЭСЭГ</small></div>
+                <div class="bond-node node-right node-missing">?<small>ХЭСЭГ</small></div>
+              </div>`,
+        opts: ["1", "2", "3", "4"], ans: "2"
+      },
+      {
+        q: "Аль жишилт нь зөв бэ? (7 ба 5)",
+        vis: `<div class="cmp-wrap"><div class="cmp-box">7</div><div class="cmp-sign">?</div><div class="cmp-box">5</div></div>`,
+        opts: ["> (Их)", "< (Бага)", "= (Тэнцүү)"], ans: "> (Их)"
+      },
+      {
+        q: "Тооны бүтэц: 8-ыг тэнцүү хоёр хэсэгт хуваавал 4 ба хэд вэ?",
+        vis: `<div class="bond-stage">
+                <svg width="260" height="170"><line x1="130" y1="40" x2="55" y2="135" stroke="#94a3b8" stroke-width="4"/><line x1="130" y1="40" x2="205" y2="135" stroke="#94a3b8" stroke-width="4"/></svg>
+                <div class="bond-node node-whole">8<small>БҮХЭЛ</small></div>
+                <div class="bond-node node-left">4<small>ХЭСЭГ</small></div>
+                <div class="bond-node node-right node-missing">?<small>ХЭСЭГ</small></div>
+              </div>`,
+        opts: ["3", "4", "5", "6"], ans: "4"
+      },
+      {
+        q: "Тохирох тэмдгийг сонгоорой: 6 ба 9",
+        vis: `<div class="cmp-wrap"><div class="cmp-box">6</div><div class="cmp-sign">?</div><div class="cmp-box">9</div></div>`,
+        opts: ["> (Их)", "< (Бага)", "= (Тэнцүү)"], ans: "< (Бага)"
+      },
+      {
+        q: "10-ын бүтэц: 7 дээр хэд нэмбэл бүтэн 10 болох вэ?",
+        vis: `<div class="bond-stage">
+                <svg width="260" height="170"><line x1="130" y1="40" x2="55" y2="135" stroke="#94a3b8" stroke-width="4"/><line x1="130" y1="40" x2="205" y2="135" stroke="#94a3b8" stroke-width="4"/></svg>
+                <div class="bond-node node-whole">10<small>АРАВТ</small></div>
+                <div class="bond-node node-left">7<small>ХЭСЭГ</small></div>
+                <div class="bond-node node-right node-missing">?<small>ХЭСЭГ</small></div>
+              </div>`,
+        opts: ["2", "3", "4", "5"], ans: "3"
+      },
+      {
+        q: "Жишээрэй: 4 + 3  [ ? ]  7",
+        vis: `<div class="cmp-wrap"><div class="cmp-box">4 + 3</div><div class="cmp-sign">?</div><div class="cmp-box">7</div></div>`,
+        opts: ["> (Их)", "< (Бага)", "= (Тэнцүү)"], ans: "= (Тэнцүү)"
+      },
+      {
+        q: "9 нь 5 ба хэдээс бүтэх вэ?",
+        vis: `<div class="bond-stage">
+                <svg width="260" height="170"><line x1="130" y1="40" x2="55" y2="135" stroke="#94a3b8" stroke-width="4"/><line x1="130" y1="40" x2="205" y2="135" stroke="#94a3b8" stroke-width="4"/></svg>
+                <div class="bond-node node-whole">9<small>БҮХЭЛ</small></div>
+                <div class="bond-node node-left">5<small>ХЭСЭГ</small></div>
+                <div class="bond-node node-right node-missing">?<small>ХЭСЭГ</small></div>
+              </div>`,
+        opts: ["3", "4", "5", "6"], ans: "4"
+      },
+      {
+        q: "Хамгийн ИХ нэг оронтой тоо аль нь вэ?",
+        vis: `<div style="font-size:28px;font-weight:900">1, 4, 7, 9, 10</div>`,
+        opts: ["7", "9", "10"], ans: "9"
+      },
+      {
+        q: "10-ын бүтэц: 6 ба хэд нийлж 10 болох вэ?",
+        vis: `<div style="font-size:28px;font-weight:900;color:#1d4ed8">6 + ❓ = 10</div>`,
+        opts: ["3", "4", "5", "6"], ans: "4"
+      },
+      {
+        q: "Жишээрэй: 10 - 2  [ ? ]  9",
+        vis: `<div class="cmp-wrap"><div class="cmp-box">10 - 2</div><div class="cmp-sign">?</div><div class="cmp-box">9</div></div>`,
+        opts: ["> (Их)", "< (Бага)", "= (Тэнцүү)"], ans: "< (Бага)"
+      },
+      {
+        q: "Хамгийн БАГА натурал тоо аль нь вэ? (Тоолж эхэлдэг тоо)",
+        vis: `<div style="font-size:28px;font-weight:900">0, 1, 2, 3</div>`,
+        opts: ["0", "1", "2"], ans: "1"
+      },
+      {
+        q: "10-ын бүтэц: 8 дээр хэд нэмбэл 10 болох вэ?",
+        vis: `<div style="font-size:28px;font-weight:900;color:#e63946">8 + ❓ = 10</div>`,
+        opts: ["1", "2", "3", "4"], ans: "2"
+      }
+    ]
+  },
+
+  // БҮЛЭГ 3: Тоон шулуун ба 10 дотор нэмэх, хасах
+  {
+    name: "3-р бүлэг: Тоон шулуун ба 10 доторх нэмэх, хасах",
+    items: [
+      {
+        q: "Тоон шулуун дээр 3-аас урагш 4 алхам үсэрвэл хэд дээр очих вэ? (3 + 4)",
+        vis: drawNL(10, 3, 4),
+        opts: ["6", "7", "8", "9"], ans: "7"
+      },
+      {
+        q: "4 алим дээр 3 алим нэмбэл нийт хэд болох вэ?",
+        vis: `<div class="math-groups"><div class="grp-card">🍎🍎🍎🍎</div><b>+</b><div class="grp-card">🍎🍎🍎</div></div>`,
+        opts: ["6", "7", "8"], ans: "7"
+      },
+      {
+        q: "8 бөмбөгнөөс 3-ыг нь хасвал хэд үлдэх вэ? (8 - 3)",
+        vis: `<div class="math-groups"><div class="grp-card">⚽⚽⚽⚽⚽ <span class="crossed">⚽</span><span class="crossed">⚽</span><span class="crossed">⚽</span></div></div>`,
+        opts: ["4", "5", "6"], ans: "5"
+      },
+      {
+        q: "Тоон шулуун дээр 9-өөс хойш 4 алхам ухарвал хэд болох вэ? (9 - 4)",
+        vis: drawNL(10, 9, -4),
+        opts: ["4", "5", "6", "7"], ans: "5"
+      },
+      {
+        q: "Нэмэгдэхүүний байрыг солиход нийлбэр өөрчлөгдөх үү? 2 + 6 = 8 бол 6 + 2 = ?",
+        vis: `<div style="font-size:28px;font-weight:900;color:#0c7b93">2 + 6 = 8  ➔  6 + 2 = ❓</div>`,
+        opts: ["6", "7", "8", "9"], ans: "8"
+      },
+      {
+        q: "10-аас 6-г хасвал хэд үлдэх вэ? (10 - 6)",
+        vis: `<div style="font-size:32px;font-weight:900;color:#e63946">10 - 6 = ❓</div>`,
+        opts: ["3", "4", "5", "6"], ans: "4"
+      },
+      {
+        q: "Тоон шулуун дээр 5-аас урагш 5 алхам үсэрвэл хэд дээр буух вэ? (5 + 5)",
+        vis: drawNL(10, 5, 5),
+        opts: ["8", "9", "10"], ans: "10"
+      },
+      {
+        q: "Ямар ч тоон дээр 0-ийг нэмбэл ямар тоо гарах вэ? 7 + 0 = ?",
+        vis: `<div style="font-size:32px;font-weight:900">7 + 0 = ❓</div>`,
+        opts: ["0", "7", "8"], ans: "7"
+      },
+      {
+        q: "9 од байснаас 5 нь үүлний цаагуур оров. Хэдэн од харагдаж байна вэ?",
+        vis: `<div class="math-groups"><div class="grp-card">⭐⭐⭐⭐ <span class="crossed">⭐</span><span class="crossed">⭐</span><span class="crossed">⭐</span><span class="crossed">⭐</span><span class="crossed">⭐</span></div></div>`,
+        opts: ["3", "4", "5"], ans: "4"
+      },
+      {
+        q: "Мэдэгдэхгүй байгаа нэмэгдэхүүнийг ол: 3 + ❓ = 9",
+        vis: `<div style="font-size:32px;font-weight:900;color:#1d4ed8">3 + ❓ = 9</div>`,
+        opts: ["5", "6", "7"], ans: "6"
+      },
+      {
+        q: "Мэдэгдэхгүй байгаа хасагдагчийг ол: 8 - ❓ = 2",
+        vis: `<div style="font-size:32px;font-weight:900;color:#e63946">8 - ❓ = 2</div>`,
+        opts: ["5", "6", "7"], ans: "6"
+      },
+      {
+        q: "Өгүүлбэртэй бодлого: Бат 4 номтой, Дорж түүнээс 3-аар олон номтой. Дорж хэдэн номтой вэ?",
+        vis: `<div style="font-size:24px;font-weight:800">Бат: 📘📘📘📘 (4)<br>Дорж: 4 + 3 = ❓</div>`,
+        opts: ["6", "7", "8"], ans: "7"
+      }
+    ]
+  },
+
+  // БҮЛЭГ 4: 11–20 хүртэлх тооны бүтэц, нэмэх ба хасах (Аравт бүрдүүлэх)
+  {
+    name: "4-р бүлэг: 20 хүртэлх тоо ба Аравт бүрдүүлэх үйлдэл",
+    items: [
+      {
+        q: "1 аравт ба 4 нэгжээс ямар тоо бүтэх вэ?",
+        vis: `<div style="font-size:26px;font-weight:900"><span style="color:#e63946">10</span> + <span style="color:#1d4ed8">4</span> = ❓</div>`,
+        opts: ["13", "14", "15", "41"], ans: "14"
+      },
+      {
+        q: "17-гийн тоонд хэдэн аравт, хэдэн нэгж байна вэ?",
+        vis: `<div style="font-size:34px;font-weight:900;color:#b45309">17 = 10 + ❓</div>`,
+        opts: ["1", "7", "10"], ans: "7"
+      },
+      {
+        q: "10 дээр 6-г нэмбэл хэд болох вэ? (10 + 6)",
+        vis: `<div style="font-size:32px;font-weight:900;color:#16a34a">10 + 6 = ❓</div>`,
+        opts: ["15", "16", "17"], ans: "16"
+      },
+      {
+        q: "18-аас 8-ыг хасвал хэдэн аравт үлдэх вэ? (18 - 8)",
+        vis: `<div style="font-size:32px;font-weight:900;color:#e63946">18 - 8 = ❓</div>`,
+        opts: ["8", "10", "18"], ans: "10"
+      },
+      {
+        q: "15-аас 10-ыг хасвал хэд үлдэх вэ? (15 - 10)",
+        vis: `<div style="font-size:32px;font-weight:900;color:#e63946">15 - 10 = ❓</div>`,
+        opts: ["5", "10", "15"], ans: "5"
+      },
+      {
+        q: "Аравт бүрдүүлж бодъё: 9 + 4 = (9 + 1) + 3 = ?",
+        vis: `<div style="font-size:26px;font-weight:900;color:#0c7b93">9 + 4 = 10 + 3 = ❓</div>`,
+        opts: ["12", "13", "14"], ans: "13"
+      },
+      {
+        q: "Аравт бүрдүүлж бодъё: 8 + 5 = (8 + 2) + 3 = ?",
+        vis: `<div style="font-size:26px;font-weight:900;color:#0c7b93">8 + 5 = 10 + 3 = ❓</div>`,
+        opts: ["12", "13", "14"], ans: "13"
+      },
+      {
+        q: "Тоон шулуун дээр 12-оос урагш 4 алхам үсэрвэл хэд болох вэ? (12 + 4)",
+        vis: drawNL(20, 12, 4),
+        opts: ["15", "16", "17"], ans: "16"
+      },
+      {
+        q: "19-өөс 4-ийг хасвал хэд болох вэ? (19 - 4)",
+        vis: `<div style="font-size:32px;font-weight:900">19 - 4 = ❓</div>`,
+        opts: ["14", "15", "16"], ans: "15"
+      },
+      {
+        q: "Аравтаар дамжуулж хасъя: 13 - 5 = (13 - 3) - 2 = ?",
+        vis: `<div style="font-size:26px;font-weight:900;color:#e63946">13 - 5 = 10 - 2 = ❓</div>`,
+        opts: ["7", "8", "9"], ans: "8"
+      },
+      {
+        q: "2 аравтаас ямар тоо бүтэх вэ?",
+        vis: `<div style="font-size:30px;font-weight:900">10 + 10 = ❓</div>`,
+        opts: ["12", "20", "100"], ans: "20"
+      },
+      {
+        q: "Жишээрэй: 10 + 7  [ ? ]  18",
+        vis: `<div class="cmp-wrap"><div class="cmp-box">10 + 7</div><div class="cmp-sign">?</div><div class="cmp-box">18</div></div>`,
+        opts: ["> (Их)", "< (Бага)", "= (Тэнцүү)"], ans: "< (Бага)"
+      }
+    ]
+  },
+
+  // БҮЛЭГ 5: Хэмжигдэхүүн (Урт, Жин, Цаг, Мөнгө) ба Өгөгдөл
+  {
+    name: "5-р бүлэг: Хэмжигдэхүүн (Цаг, Мөнгө, Урт, Жин) ба Өгөгдөл",
+    items: [
+      {
+        q: "Харандаа ба баллуурны аль нь УРТ вэ?",
+        vis: `<div style="font-size:28px;text-align:left;display:inline-block">✏️✏️✏️✏️ (Харандаа)<br>🧽 (Баллуур)</div>`,
+        opts: ["✏️ Харандаа", "🧽 Баллуур"], ans: "✏️ Харандаа"
+      },
+      {
+        q: "Заан ба хулгана хоёрын аль нь ХҮНД вэ?",
+        vis: `<div style="font-size:44px">🐘  ⚖️  🐭</div>`,
+        opts: ["🐘 Заан", "🐭 Хулгана"], ans: "🐘 Заан"
+      },
+      {
+        q: "Цаг хэд болж байна вэ? (Богино зүү 3 дээр, урт зүү 12 дээр)",
+        vis: `<div style="font-size:48px">🕒</div>`,
+        opts: ["3 цаг", "12 цаг", "6 цаг"], ans: "3 цаг"
+      },
+      {
+        q: "Цаг хэд болж байна вэ? (Богино зүү 9 дээр, урт зүү 12 дээр)",
+        vis: `<div style="font-size:48px">🕘</div>`,
+        opts: ["6 цаг", "9 цаг", "12 цаг"], ans: "9 цаг"
+      },
+      {
+        q: "Дэлгүүрт 10₮ ба 20₮ зоос төлөв. Нийт хэдэн төгрөг болсон бэ?",
+        vis: `<div><span class="coin">10₮</span> + <span class="coin">20₮</span></div>`,
+        opts: ["20₮", "30₮", "40₮"], ans: "30₮"
+      },
+      {
+        q: "50 төгрөгөөр 20 төгрөгийн харандаа авбал хэдэн төгрөг хариулж авах вэ?",
+        vis: `<div><span class="coin">50₮</span> − 20₮ = ❓</div>`,
+        opts: ["20₮", "30₮", "40₮"], ans: "30₮"
+      },
+      {
+        q: "Өгөгдөл унших: Хүүхдүүдийн дуртай жимсний хүснэгтээс хамгийн ОЛОН хүүхэд дуртай жимсийг ол!",
+        vis: `<table class="data-tbl">
+                <tr><th>Жимс</th><th>Хүүхдийн тоо</th></tr>
+                <tr><td>🍎 Алим</td><td>5</td></tr>
+                <tr><td>🍌 Гадил</td><td>8</td></tr>
+                <tr><td>🍊 Жүрж</td><td>4</td></tr>
+              </table>`,
+        opts: ["🍎 Алим (5)", "🍌 Гадил (8)", "🍊 Жүрж (4)"], ans: "🍌 Гадил (8)"
+      },
+      {
+        q: "Дээрх хүснэгтээс Алим (5) ба Жүрж (4)-д дуртай хүүхдүүд нийлээд хэд вэ?",
+        vis: `<div style="font-size:28px;font-weight:900">🍎 5 + 🍊 4 = ❓</div>`,
+        opts: ["8", "9", "10"], ans: "9"
+      },
+      {
+        q: "Долоо хоногийн 1 дэх өдөр «Даваа» бол 3 дахь өдөр ямар гараг вэ?",
+        vis: `<div style="font-size:20px;font-weight:800">1. Даваа ➔ 2. Мягмар ➔ 3. ❓</div>`,
+        opts: ["Лхагва", "Пүрэв", "Баасан"], ans: "Лхагва"
+      },
+      {
+        q: "Хоёр ширхэг 50 төгрөг нийлээд хэдэн төгрөг болох вэ?",
+        vis: `<div><span class="coin">50₮</span> + <span class="coin">50₮</span> = ❓</div>`,
+        opts: ["50₮", "100₮", "200₮"], ans: "100₮"
+      }
+    ]
+  }
+];
+
+const PRAISES = [
+  "🌟 Гайхалтай! Хөтөлбөрийн даалгаврыг яг зөв бодлоо!",
+  "🎉 Браво! Чи үнэхээр мундаг тоочин юм!",
+  "👏 Зөв байна! +10 оноо нэмэгдлээ!",
+  "✨ Гээгий багш чамаар бахархаж байна!",
+  "🏆 Онц! Дараагийн бодлого руу орцгооё!"
+];
+
+let unit = 0; // 0..4 = units, 5 = houses
+let qIdx = 0;
+let lives = 5;
+let score = 0;
+let solved = false;
+let wrongOpts = new Set();
+
+function drawNL(max, start, step) {
+  const W = 680, H = 115;
+  const padL = 26, padR = 26;
+  const stepX = (W - padL - padR) / max;
+  const baseY = 78;
+
+  let ticks = '';
+  for (let i = 0; i <= max; i++) {
+    const x = padL + i * stepX;
+    ticks += `
+      <line x1="${x}" y1="${baseY - 7}" x2="${x}" y2="${baseY + 7}" stroke="#173042" stroke-width="2"/>
+      <text x="${x}" y="${baseY + 24}" text-anchor="middle" font-size="13" font-weight="900" fill="#173042">${i}</text>
+    `;
+  }
+
+  const dir = step > 0 ? 1 : -1;
+  const cnt = Math.abs(step);
+  const col = step > 0 ? '#16a34a' : '#e63946';
+  let arcs = `<text x="${padL + start * stepX}" y="${baseY - 38}" text-anchor="middle" font-size="20">🐰</text>`;
+
+  for (let s = 0; s < cnt; s++) {
+    const x1 = padL + (start + s * dir) * stepX;
+    const x2 = padL + (start + (s + 1) * dir) * stepX;
+    arcs += `<path d="M ${x1} ${baseY - 8} Q ${(x1 + x2) / 2} ${baseY - 32} ${x2} ${baseY - 8}" fill="none" stroke="${col}" stroke-width="2.5" stroke-dasharray="4,2"/>`;
+  }
+
+  return `<svg style="width:100%;max-width:680px;height:auto" viewBox="0 0 ${W} ${H}">
+    <line x1="${padL - 10}" y1="${baseY}" x2="${W - padR + 10}" y2="${baseY}" stroke="#0c7b93" stroke-width="3.5"/>
+    ${arcs}${ticks}
+  </svg>`;
+}
+
+function setUnit(u) {
+  unit = u;
+  qIdx = 0;
+  lives = 5;
+  score = 0;
+  solved = false;
+  wrongOpts.clear();
+  [0, 1, 2, 3, 4, 5].forEach(i => document.getElementById(`u${i}`).classList.toggle('active', i === unit));
+  render();
+}
+
+function checkOpt(idx) {
+  if (solved || lives <= 0) return;
+  const item = UNITS[unit].items[qIdx];
+  const chosen = item.opts[idx];
+
+  if (chosen === item.ans) {
+    solved = true;
+    score += 10;
+    const praise = PRAISES[Math.floor(Math.random() * PRAISES.length)];
+    render(praise, 'fb-ok');
+  } else {
+    wrongOpts.add(chosen);
+    lives--;
+    if (lives <= 0) {
+      renderGameOver();
+    } else {
+      render(`❌ Буруу хариулт байна. Дахин бодоод үзээрэй! (Үлдсэн амь: ${lives})`, 'fb-bad');
+    }
+  }
+}
+
+function nextQ() {
+  const list = UNITS[unit].items;
+  if (qIdx + 1 < list.length) {
+    qIdx++;
+    solved = false;
+    wrongOpts.clear();
+    render();
+  } else {
+    renderWin();
+  }
+}
+
+function render(msg = '', msgCls = '') {
+  const hud = document.getElementById('hudBar');
+  const stage = document.getElementById('stageArea');
+
+  if (unit === 5) {
+    hud.style.display = 'none';
+    let html = `
+      <div style="background:#fff;border:1.5px solid #cbd5e1;border-radius:14px;padding:10px 16px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+        <div><b>🏠 1-ээс 10 хүртэлх «Тооны байшин»</b> — 🔴 1-р хэсэг + 🔵 2-р хэсэг = Дээврийн тоо</div>
+        <button onclick="window.print()" style="background:#f48c06;color:#fff;border:0;border-radius:10px;padding:8px 14px;font-weight:800;cursor:pointer">🖨️ Хэвлэх (A4)</button>
+      </div>
+      <div class="houses-grid">
+    `;
+    for (let n = 1; n <= 10; n++) {
+      html += `<div class="house-card"><div class="house-roof">🏠 ${n}</div>`;
+      for (let a = 1; a <= Math.floor(n / 2); a++) {
+        html += `<div class="house-row"><span>${a}</span><span>${n - a}</span></div>`;
+      }
+      if (n === 1) html += `<div class="house-row"><span>1</span><span>0</span></div>`;
+      html += `</div>`;
+    }
+    html += `</div>`;
+    stage.innerHTML = html;
+    return;
+  }
+
+  hud.style.display = 'flex';
+  const curUnit = UNITS[unit];
+  const item = curUnit.items[qIdx];
+
+  document.getElementById('livesBox').textContent = '❤️'.repeat(lives) + '🖤'.repeat(Math.max(0, 5 - lives));
+  document.getElementById('progBox').textContent = `Бодлого: ${qIdx + 1} / ${curUnit.items.length}`;
+  document.getElementById('scoreBox').textContent = `⭐ Оноо: ${score}`;
+
+  const optsHtml = item.opts.map((opt, idx) => {
+    const isOk = solved && opt === item.ans;
+    const isNo = wrongOpts.has(opt);
+    return `<button class="opt-btn ${isOk ? 'ok' : ''} ${isNo ? 'no' : ''}" ${solved ? 'disabled' : ''} onclick="checkOpt(${idx})">${opt}</button>`;
+  }).join('');
+
+  stage.innerHTML = `
+    <div class="board">
+      <div class="unit-badge">${curUnit.name}</div>
+      <div class="q-title">${item.q}</div>
+      <div class="visual-stage">${item.vis}</div>
+      <div class="options-grid">${optsHtml}</div>
+      <div class="feedback ${msgCls}">${msg}</div>
+      ${solved ? `<button class="next-btn" onclick="nextQ()">Дараагийн бодлого ▶</button>` : ''}
+    </div>
+  `;
+}
+
+function renderWin() {
+  document.getElementById('livesBox').textContent = '❤️'.repeat(lives) + '🖤'.repeat(5 - lives);
+  document.getElementById('scoreBox').textContent = `⭐ Оноо: ${score}`;
+  const stars = lives === 5 ? '⭐⭐⭐' : lives >= 3 ? '⭐⭐' : '⭐';
+
+  document.getElementById('stageArea').innerHTML = `
+    <div class="board" style="padding:32px 20px">
+      <div style="font-size:48px">${stars}</div>
+      <h2 style="color:#16a34a;font-size:25px">БАЯР ХҮРГЭЕ! Энэ бүлэг амжилттай дууслаа!</h2>
+      <p style="font-size:17px;font-weight:700">Чи бүх бодлогыг зөв бодож <b>${score} оноо</b> цуглууллаа!</p>
+      <div style="margin-top:18px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+        <button class="next-btn" style="background:#64748b;box-shadow:none" onclick="setUnit(${unit})">🔁 Дахин тоглох</button>
+        ${unit < 4 ? `<button class="next-btn" onclick="setUnit(${unit + 1})">Дараагийн бүлэг рүү ▶</button>` : `<button class="next-btn" onclick="setUnit(0)">1-р бүлгээс дахин эхлэх</button>`}
+      </div>
+    </div>
+  `;
+}
+
+function renderGameOver() {
+  document.getElementById('livesBox').textContent = '🖤🖤🖤🖤🖤';
+  document.getElementById('stageArea').innerHTML = `
+    <div class="board" style="padding:32px 20px">
+      <div style="font-size:48px">💔😢</div>
+      <h2 style="color:#dc2626;font-size:25px">Амь дууслаа!</h2>
+      <p style="font-size:16px;font-weight:700">Санаа бүү зов! Дахин оролдоод бүх зүрхээ хадгалж үзээрэй. Оноо: <b>${score}</b></p>
+      <button class="next-btn" style="margin-top:14px" onclick="setUnit(${unit})">🔄 Дахин эхлэх</button>
+    </div>
+  `;
+}
+
+render();
+</script>
+</body>
+</html>

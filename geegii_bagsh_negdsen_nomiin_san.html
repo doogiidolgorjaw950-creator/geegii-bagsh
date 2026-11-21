@@ -1,0 +1,607 @@
+<!doctype html>
+<html lang="mn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Гээгий багшийн бүтээл • Нэгдсэн цахим номын сан (35 үсэг + 1–10 тоо)</title>
+<style>
+  :root {
+    --bg: #eef7fb;
+    --ink: #173042;
+    --brand: #0c7b93;
+    --brand2: #f48c06;
+    --vowel: #d62828;
+    --cons: #1d4ed8;
+    --sign: #6d28d9;
+    --num: #e63946;
+    --card: #ffffff;
+    --border: #c5dce8;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+  }
+  header {
+    background: linear-gradient(135deg, #173042, #0c7b93);
+    color: #fff;
+    padding: 12px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    box-shadow: 0 4px 14px rgba(0,0,0,.15);
+  }
+  header h1 { margin: 0; font-size: 19px; }
+  header small { display: block; opacity: .88; font-size: 12px; }
+
+  .mode-tabs {
+    display: flex;
+    background: rgba(255,255,255,.15);
+    padding: 4px;
+    border-radius: 12px;
+    gap: 4px;
+  }
+  .tab-btn {
+    border: 0;
+    border-radius: 9px;
+    padding: 7px 14px;
+    font-weight: 800;
+    font-size: 13px;
+    cursor: pointer;
+    background: transparent;
+    color: #fff;
+    transition: all .15s;
+  }
+  .tab-btn.active {
+    background: #fff;
+    color: var(--ink);
+    box-shadow: 0 2px 6px rgba(0,0,0,.15);
+  }
+
+  .toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .btn {
+    border: 0;
+    border-radius: 10px;
+    padding: 8px 13px;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #fff;
+    color: var(--ink);
+  }
+  .btn:hover { opacity: .92; }
+  .btn.primary { background: var(--brand2); color: #fff; }
+  .btn.ghost { background: rgba(255,255,255,.16); color: #fff; }
+
+  .selector-bar {
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    padding: 10px 16px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: center;
+  }
+  .chip {
+    min-width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    border: 1.5px solid var(--border);
+    background: #f8fbfd;
+    font-weight: 800;
+    font-size: 15px;
+    cursor: pointer;
+  }
+  .chip.vowel { color: var(--vowel); }
+  .chip.cons { color: var(--cons); }
+  .chip.sign { color: var(--sign); }
+  .chip.num { color: var(--brand); min-width: 42px; font-size: 16px; }
+  .chip.active {
+    background: var(--ink);
+    color: #fff !important;
+    border-color: var(--ink);
+    transform: scale(1.08);
+  }
+
+  main { max-width: 1280px; margin: 16px auto; padding: 0 14px 40px; }
+
+  /* Welcome / Overview Banner */
+  .brand-banner {
+    background: #fff;
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 10px 16px;
+    margin-bottom: 14px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    font-size: 12.5px;
+  }
+  .principles span {
+    background: #f0f9ff;
+    border: 1px solid #bae6fd;
+    padding: 3px 9px;
+    border-radius: 20px;
+    margin-right: 4px;
+    display: inline-block;
+    margin-top: 2px;
+    font-weight: 600;
+  }
+
+  /* 8-panel comic grid */
+  .comic-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
+  @media (max-width: 1024px) { .comic-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 580px) { .comic-grid { grid-template-columns: 1fr; } }
+
+  .panel {
+    background: var(--card);
+    border: 3px solid #2b5876;
+    border-radius: 18px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 325px;
+    box-shadow: 0 6px 16px rgba(23,48,66,.08);
+  }
+  .panel.cover {
+    background: linear-gradient(180deg, #dff3ff 0%, #fff6d6 65%, #d8f3dc 100%);
+    text-align: center;
+  }
+  .ribbon {
+    background: linear-gradient(90deg, #ffba08, #faa307);
+    color: #173042;
+    font-weight: 800;
+    font-size: 13px;
+    padding: 6px 10px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,.12);
+    margin-bottom: 8px;
+  }
+  .big-symbol {
+    font-size: 68px;
+    font-weight: 900;
+    line-height: 1.05;
+    margin: 4px 0;
+    text-shadow: 2px 3px 0 rgba(0,0,0,.1);
+  }
+  .vowel-txt { color: var(--vowel); }
+  .cons-txt { color: var(--cons); }
+  .sign-txt { color: var(--sign); }
+  .num-txt { color: var(--num); }
+
+  .emoji-stage {
+    font-size: 40px;
+    text-align: center;
+    margin: 6px 0;
+    line-height: 1.25;
+    user-select: none;
+  }
+  .ten-frame {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 4px;
+    background: #f1f5f9;
+    border: 2px solid #94a3b8;
+    border-radius: 10px;
+    padding: 5px;
+    margin: 6px auto;
+    width: 100%;
+    max-width: 210px;
+  }
+  .tf-cell {
+    height: 23px;
+    border-radius: 6px;
+    border: 1px solid #cbd5e1;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+  .tf-cell.filled { background: #ffe5e5; border-color: #e63946; }
+
+  .word-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin: 6px 0;
+  }
+  .w-card {
+    background: #f8fbfd;
+    border: 1.5px solid #d5e6f0;
+    border-radius: 12px;
+    padding: 7px;
+    text-align: center;
+  }
+  .w-card .ico { font-size: 24px; display: block; }
+  .w-card strong { font-size: 13.5px; }
+
+  .bubble {
+    background: #fff;
+    border: 2px solid #8ecae6;
+    border-radius: 16px;
+    padding: 9px 11px;
+    font-size: 13.5px;
+    line-height: 1.4;
+    margin: 6px 0;
+  }
+  .checklist {
+    list-style: none;
+    padding: 0;
+    margin: 6px 0;
+    font-size: 13px;
+  }
+  .checklist li {
+    background: #f1faee;
+    border-radius: 10px;
+    padding: 6px 9px;
+    margin-bottom: 6px;
+  }
+
+  .panel-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+    padding-top: 6px;
+    border-top: 1px dashed #d5e6f0;
+    font-size: 11px;
+    color: #64748b;
+  }
+  .page-num {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #ffba08;
+    color: #173042;
+    font-weight: 800;
+    font-size: 12.5px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Quiz styles */
+  .quiz-btns { display: flex; gap: 5px; flex-wrap: wrap; justify-content: center; margin: 6px 0; }
+  .q-btn {
+    min-width: 31px; height: 31px; border-radius: 9px;
+    border: 1.5px solid #94a3b8; background: #fff;
+    font-weight: 800; font-size: 13.5px; cursor: pointer;
+  }
+  .q-btn.ok { background: #2a9d8f; color: #fff; border-color: #2a9d8f; }
+  .q-btn.no { background: #ffe5e5; border-color: #e63946; }
+  .match-row {
+    display: flex; justify-content: space-between; align-items: center;
+    background: #f8fbfd; border-radius: 8px; padding: 4px 8px; margin: 4px 0; font-size: 13px;
+  }
+  .match-row button {
+    border: 1px solid #94a3b8; background: #fff; border-radius: 6px; padding: 2px 7px; cursor: pointer; font-weight: 700;
+  }
+  .match-row button.matched { background: #2a9d8f; color: #fff; border-color: #2a9d8f; }
+
+  @media print {
+    header, .selector-bar, .brand-banner { display: none !important; }
+    body { background: #fff; }
+    main { margin: 0; padding: 0; max-width: 100%; }
+    .comic-grid { grid-template-columns: repeat(4, 1fr); gap: 8px; }
+    .panel { min-height: 255px; break-inside: avoid; box-shadow: none; border-width: 2px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>📚 Гээгий багшийн бүтээл — Миний бяцхан номын сан</h1>
+    <small>1-р анги • Монгол хэл (35 үсэг) ба Математик (1–10 цифр) нэгдсэн сан</small>
+  </div>
+
+  <div class="mode-tabs">
+    <button class="tab-btn active" id="tabLetters" onclick="setMode('letters')">🔤 Үсгийн ид шид (35)</button>
+    <button class="tab-btn" id="tabNumbers" onclick="setMode('numbers')">🔢 Тооны ид шид (1–10)</button>
+  </div>
+
+  <div class="toolbar">
+    <button class="btn ghost" id="prevBtn">◀ Өмнөх</button>
+    <button class="btn ghost" id="nextBtn">Дараах ▶</button>
+    <button class="btn primary" onclick="window.print()">🖨️ Ном хэвлэх (A4)</button>
+  </div>
+</header>
+
+<nav class="selector-bar" id="selectorBar"></nav>
+
+<main>
+  <div class="brand-banner">
+    <div class="principles">
+      <span>🌱 Багш боломжийг бүрдүүлнэ</span>
+      <span>🔍 Хүүхэд өөрөө нээнэ</span>
+      <span>🎨 Хүүхэд өөрөө бүтээнэ</span>
+      <span>📈 Бүтээх явцдаа хөгжинө</span>
+    </div>
+    <div><b>Нийт: 45 цуврал ном</b> (35 үсэг + 10 тоо)</div>
+  </div>
+  <div class="comic-grid" id="comicGrid"></div>
+</main>
+
+<script>
+const LETTERS = [
+  { u:"А", l:"а", type:"vowel", hero:"Алим", hIco:"🍎", f1:"Адуу", f1Ico:"🐎", f2:"Арслан", f2Ico:"🦁", f3:"Аав", f3Ico:"👨", f4:"Аяга", f4Ico:"☕", rule:"А нь дуудагдахдаа ам ангайж, тод сонсогддог эгшиг үсэг.", story:"Сайн байна уу! Би Алим. Өнөөдөр А үсгээр эхэлсэн найзуудтайгаа уулзахаар явж байна.", friends:"Сайн уу, Адуу минь! Сайн уу, Арслан аа!", meet:"Сайн уу, Аяга аа! — Баярлалаа, Алим аа! Би ч бас А үсгээр эхэлдэг." },
+  { u:"Б", l:"б", type:"cons", hero:"Баавгай", hIco:"🐻", f1:"Бөмбөг", f1Ico:"⚽", f2:"Буга", f2Ico:"🦌", f3:"Бөмбөр", f3Ico:"🥁", f4:"Бэлэг", f4Ico:"🎁", rule:"Б нь хоёр уруул нийлж дуудагддаг гийгүүлэгч үсэг.", story:"Сайн уу! Би Баавгай. Б үсгээр эхэлсэн найзуудаа хайж ойгоор алхаж явна.", friends:"Сайн уу, Бөмбөг өө! Сайн уу, Буга аа!", meet:"Сайн уу, Бэлэг ээ! — Миний дотор Б үсгийн ид шид бий шүү!" },
+  { u:"В", l:"в", type:"cons", hero:"Вандуй", hIco:"🫛", f1:"Ваар", f1Ico:"🏺", f2:"Вагон", f2Ico:"🚃", f3:"Вальс", f3Ico:"💃", f4:"Витамин", f4Ico:"🍊", rule:"В нь дээд шүд доод уруулд шүргэж дуудагддаг гийгүүлэгч.", story:"Сайн уу! Би ногоон Вандуй. В үсгийн өртөө рүү аялахаар гарлаа.", friends:"Сайн уу, Ваар аа! Сайн уу, Вагон минь!", meet:"Сайн уу, Витамин аа! — Бид бүгд В үсгээр эхэлдэг найзууд!" },
+  { u:"Г", l:"г", type:"cons", hero:"Гөлөг", hIco:"🐶", f1:"Галт тэрэг", f1Ico:"🚂", f2:"Гэр", f2Ico:"⛺", f3:"Галуу", f3Ico:"🪿", f4:"Гүзээлзгэнэ", f4Ico:"🍓", rule:"Г нь хэлний угаар дуудагддаг гийгүүлэгч үсэг.", story:"Хав-хав! Би Гөлөг. Г үсгээр эхэлсэн найзуудтайгаа тоглохоор гүйж явна.", friends:"Сайн уу, Галуу минь! Сайн уу, Гэр ээ!", meet:"Сайн уу, Гүзээлзгэнэ ээ! — Чи бид хоёр Г үсгийн найзууд шүү!" },
+  { u:"Д", l:"д", type:"cons", hero:"Дэгдээхэй", hIco:"🐥", f1:"Дэвтэр", f1Ico:"📓", f2:"Дээл", f2Ico:"👘", f3:"Далайн гахай", f3Ico:"🐬", f4:"Далбаа", f4Ico:"🚩", rule:"Д нь хэлний үзүүр дээд шүдний угт хүрч дуудагдана.", story:"Жив-жив! Би Дэгдээхэй. Д үсгийн орон руу аялж явна.", friends:"Сайн уу, Дэвтэр ээ! Сайн уу, Далбаа минь!", meet:"Сайн уу, Далайн гахай! — Хоёулаа Д үсгээр эхэлдэг шүү!" },
+  { u:"Е", l:"е", type:"vowel", hero:"Ерөөл", hIco:"🕊️", f1:"Ес", f1Ico:"9️⃣", f2:"Ерөнхийлөгч", f2Ico:"🏛️", f3:"Ертөнц", f3Ico:"🌍", f4:"Ерөөлч", f4Ico:"🎶", rule:"Е нь й+э авиа нийлж бүтдэг иотжсон эгшиг үсэг.", story:"Сайн уу! Би сайхан Ерөөл. Е үсгээр эхэлдэг үгстэй уулзахаар нисэж явна.", friends:"Сайн уу, Ес өө! Сайн уу, Ертөнц өө!", meet:"Сайн уу, Ерөөлч өө! — Е үсэг үгийн эхэнд ч, дунд ч ордог!" },
+  { u:"Ё", l:"ё", type:"vowel", hero:"Ёотон", hIco:"🧊", f1:"Ёолк", f1Ico:"🎄", f2:"Ёслол", f2Ico:"🎉", f3:"Ёроол", f3Ico:"🥣", f4:"Ёодол", f4Ico:"🎵", rule:"Ё нь й+о авиа нийлж бүтдэг иотжсон эгшиг үсэг.", story:"Сайн уу! Би амттай Ёотон. Ё үсгийн баярт оролцохоор явж байна.", friends:"Сайн уу, Ёолк оо! Сайн уу, Ёслол минь!", meet:"Сайн уу, Ёроол оо! — Бид бүгд Ё үсгээр эхэлдэг!" },
+  { u:"Ж", l:"ж", type:"cons", hero:"Жимс", hIco:"🍑", f1:"Жолооч", f1Ico:"🚕", f2:"Жаргал", f2Ico:"😊", f3:"Жүжиг", f3Ico:"🎭", f4:"Жавар", f4Ico:"❄️", rule:"Ж нь шүд зууж, зөөлөн шуугиж дуудагддаг гийгүүлэгч.", story:"Сайн уу! Би шүүслэг Жимс. Ж үсгийн найзуудаа цуглуулахаар гарлаа.", friends:"Сайн уу, Жолооч оо! Сайн уу, Жаргал аа!", meet:"Сайн уу, Жүжиг ээ! — Хамтдаа Ж үсгийн тоглолт хийе!" },
+  { u:"З", l:"з", type:"cons", hero:"Заан", hIco:"🐘", f1:"Загас", f1Ico:"🐟", f2:"Зөгий", f2Ico:"🐝", f3:"Зураг", f3Ico:"🖼️", f4:"Зам", f4Ico:"🛣️", rule:"З нь хэлний үзүүр шүдэнд хүрч дуудагддаг гийгүүлэгч.", story:"Сайн уу! Би том Заан. З үсгийн замаар алхаж найзуудтайгаа уулзана.", friends:"Сайн уу, Загас аа! Сайн уу, Зөгий минь!", meet:"Сайн уу, Зураг аа! — Бид бүгд З үсгээр эхэлдэг шүү!" },
+  { u:"И", l:"и", type:"vowel", hero:"Ишиг", hIco:"🐐", f1:"Индүү", f1Ico:"🔌", f2:"Ирвэс", f2Ico:"🐆", f3:"Илжиг", f3Ico:"🫏", f4:"Ид шид", f4Ico:"✨", rule:"И нь уруулын оролцоогүй, нарийн дуудагддаг эгшиг үсэг.", story:"Май-май! Би хөөрхөн Ишиг. И үсгийн ид шидийг хайж явна.", friends:"Сайн уу, Ирвэс ээ! Сайн уу, Индүү минь!", meet:"Сайн уу, Ид шид ээ! — И үсэг үгийг зөөлрүүлдэг шидтэй!" },
+  { u:"Й", l:"й", type:"cons", hero:"Нохой", hIco:"🐕", f1:"Ой", f1Ico:"🌲", f2:"Цай", f2Ico:"🫖", f3:"Шувуухай", f3Ico:"🐦", f4:"Сайн", f4Ico:"👍", rule:"Й (хагас и) үгийн эхэнд ордоггүй, эгшгийн дараа орно.", story:"Сайн уу! Би үнэнч Нохой. Миний нэрийн төгсгөлд Й үсэг бий!", friends:"Сайн уу, Ой мод оо! Сайн уу, Цай минь!", meet:"Сайн уу, Шувуухай! — Бид бүгдийн нэрэнд Й үсэг байдаг!" },
+  { u:"К", l:"к", type:"cons", hero:"Кино", hIco:"🎬", f1:"Компьютер", f1Ico:"💻", f2:"Кактус", f2Ico:"🌵", f3:"Кенгуру", f3Ico:"🦘", f4:"Камер", f4Ico:"📷", rule:"К нь гадаад үгэнд голдуу ордог гийгүүлэгч үсэг.", story:"Сайн уу! Би сонирхолтой Кино. К үсгээр эхэлсэн найзуудаа танилцуулъя.", friends:"Сайн уу, Кактус аа! Сайн уу, Кенгуру минь!", meet:"Сайн уу, Компьютер ээ! — Хоёулаа К үсгээр эхэлдэг!" },
+  { u:"Л", l:"л", type:"cons", hero:"Лууван", hIco:"🥕", f1:"Лаа", f1Ico:"🕯️", f2:"Луу", f2Ico:"🐉", f3:"Лийр", f3Ico:"🍐", f4:"Лонх", f4Ico:"🍼", rule:"Л нь хэлний үзүүр тагнайд хүрч дуудагддаг гийгүүлэгч.", story:"Сайн уу! Би амттай Лууван. Л үсгийн цэцэрлэгээр зугаалж явна.", friends:"Сайн уу, Лийр ээ! Сайн уу, Лаа минь!", meet:"Сайн уу, Луу аа! — Бид бүгд Л үсгээр эхэлдэг шүү!" },
+  { u:"М", l:"м", type:"cons", hero:"Муур", hIco:"🐱", f1:"Морь", f1Ico:"🐴", f2:"Мэлхий", f2Ico:"🐸", f3:"Мөөг", f3Ico:"🍄", f4:"Малгай", f4Ico:"🧢", rule:"М нь хоёр уруул нийлж хамраар дуудагддаг гийгүүлэгч.", story:"Мяу-мяу! Би Муур. М үсгээр эхэлсэн найзуудаа урихаар явж байна.", friends:"Сайн уу, Морь оо! Сайн уу, Мэлхий минь!", meet:"Сайн уу, Мөөг өө! — Чи бид хоёр М үсгийн найзууд!" },
+  { u:"Н", l:"н", type:"cons", hero:"Нар", hIco:"☀️", f1:"Ном", f1Ico:"📖", f2:"Нум", f2Ico:"🏹", f3:"Нүд", f3Ico:"👀", f4:"Нисэх онгоц", f4Ico:"✈️", rule:"Н нь хэлний үзүүр дээд шүдний угт хүрч дуудагдана.", story:"Сайн уу! Би дулаахан Нар. Н үсгээр эхэлсэн найзуудаа гэрэлтүүлж байна.", friends:"Сайн уу, Ном оо! Сайн уу, Нум минь!", meet:"Сайн уу, Онгоц оо! — Н үсэг биднийг нэгтгэдэг шүү!" },
+  { u:"О", l:"о", type:"vowel", hero:"Од", hIco:"⭐", f1:"Оймс", f1Ico:"🧦", f2:"Орон", f2Ico:"🛏️", f3:"Ойн цоорхой", f3Ico:"🏞️", f4:"Охин", f4Ico:"👧", rule:"О нь уруул цорвойж дуудагддаг эр эгшиг үсэг.", story:"Сайн уу! Би гялалзах Од. О үсгээр эхэлсэн найзуудтайгаа уулзаж байна.", friends:"Сайн уу, Оймс оо! Сайн уу, Охин минь!", meet:"Сайн уу, Орон минь! — Бид бүгд О үсгээр эхэлдэг!" },
+  { u:"Ө", l:"ө", type:"vowel", hero:"Өндөг", hIco:"🥚", f1:"Өвөө", f1Ico:"👴", f2:"Өнгө", f2Ico:"🎨", f3:"Өвөл", f3Ico:"⛄", f4:"Өглөө", f4Ico:"🌅", rule:"Ө нь уруул цорвойж дуудагддаг эм эгшиг үсэг.", story:"Сайн уу! Би бөөрөнхий Өндөг. Ө үсгийн өглөөг угтахаар гарлаа.", friends:"Сайн уу, Өвөө! Сайн уу, Өнгө минь!", meet:"Сайн уу, Өвөл өө! — Ө үсэг үгийн эхэнд ордог шүү!" },
+  { u:"П", l:"п", type:"cons", hero:"Панда", hIco:"🐼", f1:"Пуужин", f1Ico:"🚀", f2:"Пальто", f2Ico:"🧥", f3:"Пицца", f3Ico:"🍕", f4:"Пүүз", f4Ico:"👟", rule:"П нь хоёр уруул огцом тэсэрч дуудагддаг гийгүүлэгч.", story:"Сайн уу! Би хөгжилтэй Панда. П үсгийн пуужингаар аялахаар бэлдлээ.", friends:"Сайн уу, Пуужин минь! Сайн уу, Пүүз ээ!", meet:"Сайн уу, Пицца! — Бид бүгд П үсгээр эхэлдэг!" },
+  { u:"Р", l:"р", type:"cons", hero:"Робот", hIco:"🤖", f1:"Радио", f1Ico:"📻", f2:"Рашаан", f2Ico:"💧", f3:"Резин", f3Ico:"🧽", f4:"Руль", f4Ico:"☸️", rule:"Р нь хэлний үзүүр чичирч дуудагддаг гийгүүлэгч үсэг.", story:"Бип-бип! Би ухаалаг Робот. Р үсгээр эхэлсэн найзуудаа хайж явна.", friends:"Сайн уу, Радио минь! Сайн уу, Рашаан аа!", meet:"Сайн уу, Резин ээ! — Бид Р үсгийн багийнхан!" },
+  { u:"С", l:"с", type:"cons", hero:"Сар", hIco:"🌙", f1:"Сагс", f1Ico:"🧺", f2:"Сүү", f2Ico:"🥛", f3:"Сарнай", f3Ico:"🌹", f4:"Самар", f4Ico:"🥜", rule:"С нь шүдний завсраар сэржигнэж дуудагддаг гийгүүлэгч.", story:"Сайн уу! Би шөнийн Сар. С үсгээр эхэлсэн найзууддаа гэрэл түгээе.", friends:"Сайн уу, Сүү минь! Сайн уу, Сарнай!", meet:"Сайн уу, Самар аа! — Бид бүгд С үсгээр эхэлдэг!" },
+  { u:"Т", l:"т", type:"cons", hero:"Туулай", hIco:"🐰", f1:"Тахиа", f1Ico:"🐔", f2:"Тэмээ", f2Ico:"🐫", f3:"Талх", f3Ico:"🍞", f4:"Тоглоом", f4Ico:"🧸", rule:"Т нь хэлний үзүүр шүдэнд тулж тэсэрч дуудагдана.", story:"Дэгд-дэгд! Би хурдан Туулай. Т үсгийн найзууд руугаа дэгдэж явна.", friends:"Сайн уу, Тэмээ! Сайн уу, Тахиа минь!", meet:"Сайн уу, Талх аа! — Хоёулаа Т үсгээр эхэлдэг шүү!" },
+  { u:"У", l:"у", type:"vowel", hero:"Ус", hIco:"💦", f1:"Уул", f1Ico:"⛰️", f2:"Утас", f2Ico:"📱", f3:"Унага", f3Ico:"🐎", f4:"Ундаа", f4Ico:"🧃", rule:"У нь уруул урагш цорвойж дуудагддаг эр эгшиг үсэг.", story:"Сайн уу! Би тунгалаг Ус. У үсгээр эхэлсэн найзуудтайгаа уулзаж явна.", friends:"Сайн уу, Уул аа! Сайн уу, Унага минь!", meet:"Сайн уу, Ундаа минь! — Бид бүгд У үсгээр эхэлдэг!" },
+  { u:"Ү", l:"ү", type:"vowel", hero:"Үнэг", hIco:"🦊", f1:"Үхэр", f1Ico:"🐄", f2:"Үүл", f2Ico:"☁️", f3:"Үзэг", f3Ico:"🖊️", f4:"Үзэм", f4Ico:"🍇", rule:"Ү нь уруул цорвойж дуудагддаг нарийн эм эгшиг үсэг.", story:"Сайн уу! Би сэргэлэн Үнэг. Ү үсгийн үүлэн дээгүүр аялахаар гарлаа.", friends:"Сайн уу, Үхэр ээ! Сайн уу, Үүл минь!", meet:"Сайн уу, Үзэг ээ! — Чи бид хоёр Ү үсгийн найзууд!" },
+  { u:"Ф", l:"ф", type:"cons", hero:"Фонарь", hIco:"🔦", f1:"Фото зураг", f1Ico:"📸", f2:"Футбол", f2Ico:"⚽", f3:"Ферм", f3Ico:"🚜", f4:"Флейт", f4Ico:"🪈", rule:"Ф нь уруул шүд шүргэж дуудагддаг гийгүүлэгч үсэг.", story:"Сайн уу! Би гэрэлт Фонарь. Ф үсгээр эхэлсэн найзуудаа гэрэлтүүлье.", friends:"Сайн уу, Фото зураг! Сайн уу, Ферм ээ!", meet:"Сайн уу, Флейт ээ! — Бид Ф үсгээр эхэлдэг найзууд!" },
+  { u:"Х", l:"х", type:"cons", hero:"Хэрэм", hIco:"🐿️", f1:"Хонь", f1Ico:"🐑", f2:"Харандаа", f2Ico:"✏️", f3:"Хүүхэд", f3Ico:"🧒", f4:"Халбага", f4Ico:"🥄", rule:"Х нь амьсгал чөлөөтэй гарч дуудагддаг гийгүүлэгч.", story:"Сайн уу! Би сэргэлэн Хэрэм. Х үсгийн самар түүхээр модоор дүүлж явна.", friends:"Сайн уу, Хонь оо! Сайн уу, Харандаа!", meet:"Сайн уу, Халбага аа! — Бид бүгд Х үсгээр эхэлдэг!" },
+  { u:"Ц", l:"ц", type:"cons", hero:"Цэцэг", hIco:"🌸", f1:"Цаг", f1Ico:"⏰", f2:"Цас", f2Ico:"❄️", f3:"Цамц", f3Ico:"👕", f4:"Царцаа", f4Ico:"🦗", rule:"Ц нь хэлний үзүүр шүдэнд шүргэж дуудагддаг гийгүүлэгч.", story:"Сайн уу! Би үзэсгэлэнт Цэцэг. Ц үсгийн талд дэлгэрч найзуудаа урилаа.", friends:"Сайн уу, Цаг аа! Сайн уу, Царцаа минь!", meet:"Сайн уу, Цас аа! — Бид бүгд Ц үсгээр эхэлдэг!" },
+  { u:"Ч", l:"ч", type:"cons", hero:"Чоно", hIco:"🐺", f1:"Чихэр", f1Ico:"🍬", f2:"Чавга", f2Ico:"🫐", f3:"Чанартай", f3Ico:"🏅", f4:"Чимэг", f4Ico:"🎀", rule:"Ч нь шүд зууж огцом дуудагддаг гийгүүлэгч үсэг.", story:"Уу-уу! Би хөх Чоно. Ч үсгээр эхэлсэн найзуудтайгаа танилцахаар ирлээ.", friends:"Сайн уу, Чихэр ээ! Сайн уу, Чавга минь!", meet:"Сайн уу, Чимэг ээ! — Бид Ч үсгийн найзууд шүү!" },
+  { u:"Ш", l:"ш", type:"cons", hero:"Шоргоолж", hIco:"🐜", f1:"Шүхэр", f1Ico:"☂️", f2:"Шувуу", f2Ico:"🐦", f3:"Шар", f3Ico:"🟡", f4:"Шүд", f4Ico:"🦷", rule:"Ш нь уруул бага зэрэг цорвойж шуугиж дуудагдана.", story:"Сайн уу! Би ажилсаг Шоргоолж. Ш үсгийн жимээр найзууд руугаа явна.", friends:"Сайн уу, Шүхэр ээ! Сайн уу, Шувуу минь!", meet:"Сайн уу, Шүд ээ! — Бид бүгд Ш үсгээр эхэлдэг!" },
+  { u:"Щ", l:"щ", type:"cons", hero:"Борщ", hIco:"🍲", f1:"Щётка", f1Ico:"🪥", f2:"Плащ", f2Ico:"🧥", f3:"Щи", f3Ico:"🥣", f4:"Товарищ", f4Ico:"🤝", rule:"Щ нь зөвхөн гадаад үгэнд ордог зөөлөн шуугих гийгүүлэгч.", story:"Сайн уу! Би амттай Борщ шөл. Миний нэрний төгсгөлд Щ үсэг бий!", friends:"Сайн уу, Щётка! Сайн уу, Плащ аа!", meet:"Бид цөөхөн ч гэсэн Щ үсгийг сайн мэддэг боллоо!" },
+  { u:"Ъ", l:"ъ", type:"sign", hero:"Хатуугийн тэмдэг", hIco:"🛡️", f1:"Авъя", f1Ico:"🤲", f2:"Оръё", f2Ico:"🚪", f3:"Явъя", f3Ico:"🚶", f4:"Суръя", f4Ico:"📚", rule:"Ъ нь өмнөх гийгүүлэгчийг хатуу дуудуулдаг тэмдэг үсэг. Бие даан дуудагдахгүй.", story:"Сайн уу! Би Хатуугийн тэмдэг. Эр үгэнд орж үгийг зөв бичихэд тусалдаг!", friends:"Сайн уу, Авъя! Сайн уу, Оръё!", meet:"Сайн уу, Суръя! — Ъ тэмдэг биднийг зөв уншихад тусалдаг!" },
+  { u:"Ы", l:"ы", type:"vowel", hero:"Урт ы эгшиг", hIco:"🌾", f1:"Ахын", f1Ico:"👦", f2:"Номын", f2Ico:"📖", f3:"Уулын", f3Ico:"⛰️", f4:"Нарны", f4Ico:"☀️", rule:"Ы нь үгийн эхэнд ордоггүй, зөвхөн эр үгийн дунд, адагт ордог эгшиг.", story:"Сайн уу! Би Ы эгшиг. Үгийн эхэнд ордоггүй ч үгсийг холбох чухал үүрэгтэй!", friends:"Сайн уу, Ахын! Сайн уу, Номын!", meet:"Сайн уу, Нарны! — Бидний нэрэнд Ы эгшиг гялалзаж байна!" },
+  { u:"Ь", l:"ь", type:"sign", hero:"Зөөлний тэмдэг", hIco:"🪶", f1:"Морь", f1Ico:"🐴", f2:"Хонь", f2Ico:"🐑", f3:"Амьтан", f3Ico:"🐾", f4:"Сургууль", f4Ico:"🏫", rule:"Ь нь өмнөх гийгүүлэгчийг зөөлрүүлдэг тэмдэг үсэг. Бие даан дуудагдахгүй.", story:"Сайн уу! Би зөөлөн сэтгэлтэй Ь тэмдэг. Үгсийг зөөлөн сонсогдуулдаг!", friends:"Сайн уу, Морь! Сайн уу, Хонь минь!", meet:"Сайн уу, Сургууль! — Ь тэмдэг биднийг зөөлрүүлдэг!" },
+  { u:"Э", l:"э", type:"vowel", hero:"Эрвээхэй", hIco:"🦋", f1:"Ээж", f1Ico:"👩", f2:"Эмээ", f2Ico:"👵", f3:"Эрдэнэ", f3Ico:"💎", f4:"Элс", f4Ico:"🏖️", rule:"Э нь хэл дунд зэрэг өргөгдөж дуудагддаг эм эгшиг үсэг.", story:"Дэрвэ-дэрвэ! Би хөөрхөн Эрвээхэй. Э үсгийн цэцэгс дээгүүр нисэж явна.", friends:"Сайн уу, Ээж ээ! Сайн уу, Эмээ минь!", meet:"Сайн уу, Эрдэнэ ээ! — Бид бүгд Э үсгээр эхэлдэг!" },
+  { u:"Ю", l:"ю", type:"vowel", hero:"Юмхүү", hIco:"🧚", f1:"Юбка", f1Ico:"👗", f2:"Юүлүүр", f2Ico:"⏳", f3:"Юу вэ?", f3Ico:"❓", f4:"Юм", f4Ico:"📦", rule:"Ю нь й+у, й+ү авиа нийлж бүтдэг иотжсон эгшиг үсэг.", story:"Сайн уу! Би бяцхан Юмхүү. Ю үсгийн асуулт, оньсого таахаар явж байна.", friends:"Сайн уу, Юбка! Сайн уу, Юүлүүр минь!", meet:"Юу вэ? — Бид бүгд Ю үсгээр эхэлдэг найзууд!" },
+  { u:"Я", l:"я", type:"vowel", hero:"Яст мэлхий", hIco:"🐢", f1:"Ямаа", f1Ico:"🐐", f2:"Ятга", f2Ico:"🪕", f3:"Ялаа", f3Ico:"🪰", f4:"Ямар", f4Ico:"🌟", rule:"Я нь й+а авиа нийлж бүтдэг иотжсон эгшиг үсэг.", story:"Сайн уу! Би ухаалаг Яст мэлхий. Цагаан толгойн 35 дахь Я үсэгт хүрлээ!", friends:"Сайн уу, Ямаа! Сайн уу, Ятга минь!", meet:"Баяр хүргэе! Бид 35 үсгээ бүгдийг нь сурч дууслаа!" }
+];
+
+const NUMBERS = [
+  { n: 1, word: "НЭГ", hero: "Нар", ico: "☀️", ex1: "1 Нар", ex1Ico: "☀️", ex2: "1 Сар", ex2Ico: "🌙", ex3: "1 Дэлхий", ex3Ico: "🌍", ex4: "1 Хамар", ex4Ico: "👃", rule: "1 бол хамгийн эхний натурал тоо. Ганц ширхэг зүйлийг 1-ийн цифрээр тэмдэглэнэ.", story: "Сайн байна уу! Би ганцхан Нар. Тэнгэрт би 1-үүлээ мандаж, бүх дэлхийг дулаацуулдаг!", friends: "Хүүе, Сар аа! Чи ч бас шөнийн тэнгэрт 1-үүлээ гардаг тийм үү? — Тийм ээ, бид хоёр 1-ийн тооны найзууд!", meet: "Хүн бүрд 1 хамар, 1 ам байдаг шүү. 1 тоо бол бүх тооллын эхлэл юм!", comp: "0 < 1 < 2" },
+  { n: 2, word: "ХОЁР", hero: "Бээлий", ico: "🧤", ex1: "2 Нүд", ex1Ico: "👀", ex2: "2 Чих", ex2Ico: "👂", ex3: "2 Гар", ex3Ico: "🙌", ex4: "2 Гутал", ex4Ico: "👟", rule: "2 бол хос зүйлсийг илэрхийлдэг тэгш тоо. 1 ба 1 нийлээд 2 болно (1 + 1 = 2).", story: "Сайн уу! Бид бол хос Бээлий. Зүүн, баруун хоёр гар дээр хамтдаа 2-уулаа байх дуртай!", friends: "Сайн уу, 2 Гутал аа! Бид хоёр шиг хосоороо явдаг найзууд олон шүү!", meet: "Танд 2 нүд, 2 чих, 2 гар, 2 хөл бий. 1 дээр 1-ийг нэмбэл 2 болдог!", comp: "1 < 2 < 3" },
+  { n: 3, word: "ГУРАВ", hero: "Гэрлэн дохио", ico: "🚦", ex1: "3 Гэрэл", ex1Ico: "🚦", ex2: "3 Баавгай", ex2Ico: "🐻🐻🐻", ex3: "3 Гурвалжин", ex3Ico: "🔺", ex4: "3 Дугуй", ex4Ico: "🛺", rule: "3 нь гурвалжны орой, талын тоо. 2 дээр 1-ийг нэмбэл 3 болно (2 + 1 = 3).", story: "Сайн уу! Би Гэрлэн дохио. Надад улаан, шар, ногоон гэсэн 3 өнгийн гэрэл бий!", friends: "Сайн уу, 3 Баавгай! Үлгэрийн аав, ээж, бамбарууш 3 шиг хамтдаа явцгаая!", meet: "Гурвалжин дүрс 3 талтай, 3 оройтой. 1 + 2 = 3, 2 + 1 = 3!", comp: "2 < 3 < 4" },
+  { n: 4, word: "ДӨРӨВ", hero: "Ширээ", ico: "🪑", ex1: "4 Хөл", ex1Ico: "🐾", ex2: "4 Улирал", ex2Ico: "🌸☀️🍂❄️", ex3: "4 Дугуй", ex3Ico: "🚗", ex4: "4 Дөрвөлжин", ex4Ico: "🟦", rule: "4 бол тэгш тоо. 3 дээр 1-ийг нэмбэл 4, 2 ба 2 нийлбэл 4 болно (2 + 2 = 4).", story: "Сайн уу! Би бат бөх Ширээ. Надад 4 хөл байдаг болохоор би огт ганхдаггүй!", friends: "Сайн уу, Машин минь! Чиний 4 дугуй, миний 4 хөл яг тэнцүү юм байна!", meet: "Нэг жилд Хавар, Зун, Намар, Өвөл гэсэн 4 улирал бий. 2 + 2 = 4!", comp: "3 < 4 < 5" },
+  { n: 5, word: "ТАВ", hero: "Алга", ico: "🖐️", ex1: "5 Хуруу", ex1Ico: "🖐️", ex2: "5 Хошуу", ex2Ico: "⭐", ex3: "5 Хошуу мал", ex3Ico: "🐎🐄🐫🐑🐐", ex4: "5 Онц дүн", ex4Ico: "5️⃣", rule: "5 бол нэг гарын хурууны тоо. 4 дээр 1-ийг нэмбэл 5 болно (4 + 1 = 5).", story: "Сайн уу! Би баруун гарын Алга. Надад эрхий, долоовор, дунд, ядам, чигчий гэсэн 5 хуруу бий!", friends: "Сайн уу, Таван хошуу! Чиний 5 үзүүр, миний 5 хуруу яг ижилхэн 5 байна!", meet: "Монголын таван хошуу мал: Адуу, Үхэр, Тэмээ, Хонь, Ямаа — нийт 5 төрөл!", comp: "4 < 5 < 6" },
+  { n: 6, word: "ЗУРГАА", hero: "Зөгий", ico: "🐝", ex1: "6 Хөл", ex1Ico: "🐝", ex2: "6 Шоо", ex2Ico: "🎲", ex3: "6 Өнцөгт", ex3Ico: "⬡", ex4: "6 Цэцэг", ex4Ico: "🌸🌸🌸🌸🌸🌸", rule: "6 нь 5 дээр 1-ийг нэмсэнтэй тэнцүү тэгш тоо (5 + 1 = 6, 3 + 3 = 6).", story: "Бүж-бүж! Би ажилсаг Зөгий. Шавж бүхэн 6 хөлтэй байдгийг чи мэдэх үү?", friends: "Сайн уу, Шоо минь! Чиний 6 тал, миний үүрний 6 өнцөг яг 6 тоог харуулж байна!", meet: "Нэг гарын 5 хуруун дээр нөгөө гарын 1 хурууг нэмбэл 6 болно (5 + 1 = 6)!", comp: "5 < 6 < 7" },
+  { n: 7, word: "ДОЛОО", hero: "Солонго", ico: "🌈", ex1: "7 Өнгө", ex1Ico: "🌈", ex2: "7 Хоног", ex2Ico: "📅", ex3: "7 Одой", ex3Ico: "🧙‍♂️", ex4: "7 Од", ex4Ico: "✨", rule: "7 нь 5 ба 2-ын нийлбэр (5 + 2 = 7). Долоо хоногт 7 өдөр байдаг.", story: "Сайн уу! Би үзэсгэлэнт Солонго. Борооны дараа би 7 сайхан өнгөөр солонгордог!", friends: "Сайн уу, Долоо хоног оо! Даваагаас Ням хүртэл 7 өдөр хамтдаа аялцгаая!", meet: "Долоон бурхан од ч бас 7 ширхэг одтой. 5 + 2 = 7, 6 + 1 = 7!", comp: "6 < 7 < 8" },
+  { n: 8, word: "НАЙМ", hero: "Наймаалж", ico: "🐙", ex1: "8 Тэмтрүүл", ex1Ico: "🐙", ex2: "8 Аалз", ex2Ico: "🕷️", ex3: "8 Хос", ex3Ico: "👟👟👟👟", ex4: "8 Бөмбөг", ex4Ico: "🎱", rule: "8 бол тэгш тоо. 4 ба 4 нийлбэл 8 (4 + 4 = 8), 5 ба 3 нийлбэл 8 болно (5 + 3 = 8).", story: "Сайн уу! Би далайн Наймаалж. Надад 8 урт тэмтрүүл байдаг болохоор би маш хурдан сэлдэг!", friends: "Сайн уу, Аалз аа! Чи ч бас 8 хөлтэй юм байна шүү дээ, хоёулаа 8-ын найзууд!", meet: "8-ийн цифр хоёр бөөрөнхий цагариг давхарласан мэт харагддаг. 4 + 4 = 8!", comp: "7 < 8 < 9" },
+  { n: 9, word: "ЕС", hero: "Есөн эрдэнэ", ico: "💎", ex1: "9 Эрдэнэ", ex1Ico: "💎", ex2: "9 Бөмбөлөг", ex2Ico: "🎈", ex3: "9 Сагс", ex3Ico: "🧺", ex4: "9 Од", ex4Ico: "⭐", rule: "9 бол хамгийн их нэг оронтой тоо. 8 дээр 1-ийг нэмбэл 9 болно (8 + 1 = 9).", story: "Сайн уу! Би гялалзах 9 Эрдэнэ. Нэг оронтой тоонуудын хамгийн том нь 9 юм шүү!", friends: "Сайн уу, 8-ын тоо! Чиний дээр 1-ийг нэмбэл над шиг 9 болдог тийм үү?", meet: "5 + 4 = 9, 6 + 3 = 9, 9 - 1 = 8. 9-ийн дараа хоёр оронтой 10 гарч ирнэ!", comp: "8 < 9 < 10" },
+  { n: 10, word: "АРАВ", hero: "Хоёр алга", ico: "🙌", ex1: "10 Хуруу", ex1Ico: "🙌", ex2: "10 Аравт", ex2Ico: "🔟", ex3: "10 Алим", ex3Ico: "🍎", ex4: "10 Од", ex4Ico: "🌟", rule: "10 бол 1 ба 0 цифрээр бичигддэг хамгийн эхний хоёр оронтой тоо (1 аравт).", story: "Баяр хүргэе! Бид хоёр гарын 10 хуруу. 1-ээс 10 хүртэл тоолж сурсан чамд баяр хүргэе!", friends: "Сайн уу, 5 ба 5! Хоёр тав нийлээд бүтэн 10 буюу 1 аравтыг бүтээдэг!", meet: "10 нүдтэй хүрээ дүүрлээ! 5 + 5 = 10, 9 + 1 = 10. Чи 1–10 тооны эзэн боллоо!", comp: "9 < 10" }
+];
+
+let mode = 'letters';
+let idx = 0;
+
+function setMode(newMode) {
+  mode = newMode;
+  idx = 0;
+  document.getElementById('tabLetters').classList.toggle('active', mode === 'letters');
+  document.getElementById('tabNumbers').classList.toggle('active', mode === 'numbers');
+  render();
+}
+
+function go(newIdx) {
+  const len = mode === 'letters' ? LETTERS.length : NUMBERS.length;
+  idx = (newIdx + len) % len;
+  render();
+}
+
+function highlight(str, letChar) {
+  const re = new RegExp(`(${letChar}|${letChar.toLowerCase()})`, 'g');
+  return str.replace(re, `<b style="color:#d62828">$1</b>`);
+}
+
+function render() {
+  const bar = document.getElementById('selectorBar');
+  const grid = document.getElementById('comicGrid');
+
+  if (mode === 'letters') {
+    bar.innerHTML = LETTERS.map((item, i) =>
+      `<button class="chip ${item.type} ${i === idx ? 'active' : ''}" onclick="go(${i})">${item.u}</button>`
+    ).join('');
+
+    const d = LETTERS[idx];
+    const tc = d.type === 'vowel' ? 'vowel-txt' : d.type === 'cons' ? 'cons-txt' : 'sign-txt';
+    const tl = d.type === 'vowel' ? 'эгшиг үсэг' : d.type === 'cons' ? 'гийгүүлэгч үсэг' : 'тэмдэг үсэг';
+    const pool = ['А','Б','В','Г','Д','Е','Ж','З','И','Л','М','Н','О','Ө','Р','С','Т','У','Ү','Х','Ц','Ч','Ш','Э','Ю','Я'].filter(x => x !== d.u);
+    const quizSet = [d.u, pool[(idx*3)%pool.length], pool[(idx*5+1)%pool.length], d.u, pool[(idx*7+2)%pool.length], pool[(idx*2+4)%pool.length]];
+
+    grid.innerHTML = `
+      <section class="panel cover">
+        <div class="ribbon">Үсгийн ид шид • №${idx + 1}</div>
+        <div style="font-weight:900;color:#0c7b93;font-size:15px">МИНИЙ БЯЦХАН НОМЫН САН</div>
+        <div class="big-symbol ${tc}">${d.u} ${d.l}</div>
+        <div class="emoji-stage" style="font-size:56px">${d.hIco}</div>
+        <div style="font-weight:800;font-size:15px">${d.hero} ба ${d.u} үсэг</div>
+        <div class="panel-footer"><span>Гээгий багш</span><span class="page-num">★</span></div>
+      </section>
+
+      <section class="panel">
+        <div class="ribbon">1. ${d.u} үсгийг танилцъя</div>
+        <div class="big-symbol ${tc}" style="text-align:center;font-size:72px">${d.u} ${d.l}</div>
+        <div class="bubble"><b>${d.rule}</b></div>
+        <div class="bubble" style="background:#fffbeb">👧👦 «<b class="${tc}">${d.u}</b> гэж дуудъя!»</div>
+        <div class="panel-footer"><span>Үсэг таних</span><span class="page-num">1</span></div>
+      </section>
+
+      <section class="panel">
+        <div class="ribbon">2. ${d.u} үсэгтэй үгс</div>
+        <div class="word-cards">
+          <div class="w-card"><span class="ico">${d.f1Ico}</span><strong>${highlight(d.f1, d.u)}</strong></div>
+          <div class="w-card"><span class="ico">${d.f2Ico}</span><strong>${highlight(d.f2, d.u)}</strong></div>
+          <div class="w-card"><span class="ico">${d.f3Ico}</span><strong>${highlight(d.f3, d.u)}</strong></div>
+          <div class="w-card"><span class="ico">${d.f4Ico}</span><strong>${highlight(d.f4, d.u)}</strong></div>
+        </div>
+        <div class="panel-footer"><span>Шинэ үгс</span><span class="page-num">2</span></div>
+      </section>
+
+      <section class="panel">
+        <div class="ribbon">3. ${d.hero}-ийн адал явдал</div>
+        <div class="bubble">${highlight(d.story, d.u)}</div>
+        <div class="emoji-stage" style="font-size:54px">${d.hIco} 🎒</div>
+        <div class="panel-footer"><span>Комикс үлгэр</span><span class="page-num">3</span></div>
+      </section>
+
+      <section class="panel">
+        <div class="ribbon">4. Найзуудтайгаа уулзав</div>
+        <div class="bubble">${highlight(d.friends, d.u)}</div>
+        <div class="emoji-stage" style="font-size:48px">${d.hIco} ${d.f1Ico} ${d.f2Ico}</div>
+        <div class="panel-footer"><span>Харилцан яриа</span><span class="page-num">4</span></div>
+      </section>
+
+      <section class="panel">
+        <div class="ribbon">5. ${d.f4}-тай учрав</div>
+        <div class="bubble">${highlight(d.meet, d.u)}</div>
+        <div class="emoji-stage" style="font-size:48px">${d.hIco} 🤝 ${d.f4Ico}</div>
+        <div class="panel-footer"><span>Үгийн утга</span><span class="page-num">5</span></div>
+      </section>
+
+      <section class="panel">
+        <div class="ribbon">6. Бид юу сурсан бэ?</div>
+        <ul class="checklist">
+          <li>✅ <b class="${tc}">${d.u}</b> — ${tl}.</li>
+          <li>✅ ${d.rule}</li>
+          <li>✅ <b>${d.hero}, ${d.f1}, ${d.f2}</b> зэрэг үгэнд ордог.</li>
+        </ul>
+        <div class="panel-footer"><span>Дүгнэлт</span><span class="page-num">6</span></div>
+      </section>
+
+      <section class="panel">
+        <div class="ribbon">7. Дасгал даалгавар</div>
+        <div style="font-size:12.5px;font-weight:700">1. <span class="${tc}">${d.u}</span> үсгийг дугуйл:</div>
+        <div class="quiz-btns">
+          ${quizSet.map(ch => `<button class="q-btn" onclick="this.classList.add('${ch === d.u ? 'ok' : 'no'}')">${ch}</button>`).join('')}
+        </div>
+        <div style="font-size:12.5px;font-weight:700;margin-top:4px">2. Зургийг зөв үгтэй нь сонго:</div>
+        <div class="match-row"><span>${d.f1Ico}</span><button onclick="this.classList.add('matched')">${d.f1}</button></div>
+        <div class="match-row"><span>${d.f2Ico}</span><button onclick="this.classList.add('matched')">${d.f2}</button></div>
+        <div style="font-size:12.5px;font-weight:700;margin-top:4px">3. Бичээрэй: <span class="${tc}" style="font-size:16px">${d.u} ${d.l} ____</span></div>
+        <div class="panel-footer"><span>Гээгий багш</span><span class="page-num">7</span></div>
+      </section>
+    `;
+  } else {
+    bar.innerHTML = NUMBERS.map((item, i) =>
+      `<button class="chip num ${i === idx ? 'active' : ''}" onclick="go(${i})">${item.n}</button>`
+    ).join('');
+
+    const d = NUMBERS[idx];
+    let tfHtml = '<div class="ten-frame">';
+    for (let i = 1; i <= 10; i++) {
+      tfHtml += `<div class="tf-cell ${i <= d.n ? 'filled' : ''}">${i <= d.n ? d.ico : ''}</div>`;
+    }
+    tfHtml += '</div>';
+
+    const repeatedIcons = Array(d.n).fill(d.ico).join(' ');
+    const choices = [d.n, d.n === 1 ? 3 : d.n - 1, d.n === 10 ? 7 : d.n + 1, d.n === 5 ? 8 : 5];
+
+    grid.innerHTML = `
+      <section class="panel cover">
+        <div class="ribbon">Тооны ид шид • №${d.n}</div>
+        <div style="font-weight:900;color:#0c7b93;font-size:15px">МИНИЙ БЯЦХАН НОМЫН САН</div>
+        <div class="big-symbol num-txt">${d.n}</div>
+        <div style="font-size:19px;font-weight:900;color:#1d4ed8">${d.word}</div>
+        <div class="emoji-stage" style="font-size:32px">${repeatedIcons}</div>
+        <div class="panel-footer"><span>Гээгий багш</span><span class="page-num">★</span></div>
+      </section>
+
+      <section class="panel">
+        <div class="ribbon">1. ${d.n}-ийн цифрийг танилцъя</div>
+        <div class="big-symbol num-txt" style="text-align:center">${d.n} <span style="font-size:22px;color:#1d4ed8">(${d.word})</span></div>
+        ${tfHtml}
+        <div class="bubble"><b>${d.rule}</b></div>
+        <div class="panel-footer"><span>Тоо ба хэмжээ</span><span class="page-num">1</span></div>
+      </section>
+
+      <section class="panel">
+        <div class="ribbon">2. ${d.n} ширхэг зүйлс</div>
+        <div class="word-cards">
+          <div class="w-card"><span class="ico">${d.ex1Ico}</span><strong>${d.ex1}</strong></div>
+          <div class="w-card"><span class="ico">${d.ex2Ico}</span><strong>${d.ex2}</strong></div>
+          <div class="w-card"><span class="ico">${d.ex3Ico}</span><strong>${d.ex3}</strong></div>
+          <div class="w-card"><span class="ico">${d.ex4Ico}</span><strong>${d.ex4}</strong></div>
+        </div>
+        <div class="panel-footer"><span>Орчин тойрноо тоолъё</span><span class="page-num">2</span></div>
+      </section>
+
+      <section class="panel">
+        <div class="ribbon">3. ${d.hero}-ын адал явдал</div>
+        <div class="bubble">${d.story}</div>
+        <div class="emoji-stage" style="font-size:32px">${repeatedIcons}</div>
+        <div class="panel-footer"><span>Комикс үлгэр</span><span class="page-num">3</span></div>
+      </section>
+
+      <section class="panel">
+        <div class="ribbon">4. ${d.n}-ийн найзууд</div>
+        <div class="bubble">${d.friends}</div>
+        <div class="emoji-stage" style="font-size:42px">${d.ex1Ico} 🤝 ${d.ex2Ico}</div>
+        <div class="panel-footer"><span>Харьцуулалт: <b>${d.comp}</b></span><span class="page-num">4</span></div>
+      </section>
+
+      <section class="panel">
+        <div class="ribbon">5. ${d.n} хэрхэн бүтдэг вэ?</div>
+        <div class="bubble">${d.meet}</div>
+        <div style="text-align:center;font-weight:900;font-size:17px;color:#0c7b93;background:#f0f9ff;padding:8px;border-radius:12px">
+          ${d.n === 1 ? '0 + 1 = 1' : `${d.n - 1} + 1 = ${d.n} &nbsp;|&nbsp; ${d.n} - 1 = ${d.n - 1}`}
+        </div>
+        <div class="panel-footer"><span>Нэмэх ба хасах</span><span class="page-num">5</span></div>
+      </section>
+
+      <section class="panel">
+        <div class="ribbon">6. Бид юу сурсан бэ?</div>
+        <ul class="checklist">
+          <li>✅ <b>${d.n} (${d.word})</b> цифрийг зөв таньж, бичиж сурлаа.</li>
+          <li>✅ <b>${d.n}</b> ширхэг зүйлийг алдалгүй тоолдог боллоо.</li>
+          <li>✅ Хөрш тоонууд: <b>${d.comp}</b>.</li>
+        </ul>
+        <div class="panel-footer"><span>Дүгнэлт</span><span class="page-num">6</span></div>
+      </section>
+
+      <section class="panel">
+        <div class="ribbon">7. Дасгал даалгавар</div>
+        <div style="font-size:12.5px;font-weight:700">1. Дүрсийг тоолоод зөв тоог дар:</div>
+        <div style="text-align:center;font-size:19px;margin:4px 0">${repeatedIcons}</div>
+        <div class="quiz-btns">
+          ${choices.map(c => `<button class="q-btn" onclick="this.classList.add('${c === d.n ? 'ok' : 'no'}')">${c}</button>`).join('')}
+        </div>
+        <div style="font-size:12.5px;font-weight:700;margin-top:5px">2. Бодлогыг бод:</div>
+        <div style="background:#f8fbfd;padding:5px 10px;border-radius:8px;font-weight:800;text-align:center">
+          ${d.n === 1 ? '1 + 0 = [ 1 ]' : `${d.n - 1} + 1 = [ ? ]`}
+        </div>
+        <div style="font-size:12.5px;font-weight:700;margin-top:5px">3. Бичээрэй: <span class="num-txt" style="font-size:16px">${d.n} &nbsp; ${d.n} &nbsp; ____</span></div>
+        <div class="panel-footer"><span>Гээгий багш</span><span class="page-num">7</span></div>
+      </section>
+    `;
+  }
+}
+
+document.getElementById('prevBtn').onclick = () => go(idx - 1);
+document.getElementById('nextBtn').onclick = () => go(idx + 1);
+
+render();
+</script>
+</body>
+</html>

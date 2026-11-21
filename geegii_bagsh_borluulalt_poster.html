@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="mn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Гээгий багшийн бүтээл • Борлуулалтын постер ба Маркетингийн багц</title>
+<style>
+  :root {
+    --bg: #f0f4f8;
+    --ink: #173042;
+    --brand: #0c7b93;
+    --gold: #f59e0b;
+    --red: #e63946;
+    --teal: #0f766e;
+    --border: #cbd5e1;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+  }
+  header {
+    background: linear-gradient(135deg, #173042, #0c7b93);
+    color: #fff;
+    padding: 14px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 14px rgba(0,0,0,.15);
+  }
+  header h1 { margin: 0; font-size: 18px; }
+  header small { display: block; opacity: .88; font-size: 12px; }
+
+  .tabs {
+    display: flex;
+    gap: 6px;
+    background: rgba(255,255,255,.15);
+    padding: 4px;
+    border-radius: 12px;
+    flex-wrap: wrap;
+  }
+  .tab {
+    border: 0;
+    border-radius: 9px;
+    padding: 8px 13px;
+    font-weight: 800;
+    font-size: 12.5px;
+    cursor: pointer;
+    background: transparent;
+    color: #fff;
+  }
+  .tab.active { background: #fff; color: var(--ink); }
+
+  .print-btn {
+    background: var(--gold);
+    color: #173042;
+    border: 0;
+    border-radius: 10px;
+    padding: 9px 15px;
+    font-weight: 900;
+    font-size: 13px;
+    cursor: pointer;
+  }
+
+  main {
+    max-width: 1120px;
+    margin: 20px auto;
+    padding: 0 14px 40px;
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+  @media (max-width: 880px) { main { grid-template-columns: 1fr; } }
+
+  /* Control Sidebar */
+  .controls {
+    background: #fff;
+    border: 2px solid var(--border);
+    border-radius: 18px;
+    padding: 16px;
+    box-shadow: 0 6px 18px rgba(0,0,0,.06);
+  }
+  .controls h3 { margin: 0 0 12px; font-size: 15px; color: var(--brand); }
+  .field { margin-bottom: 11px; }
+  .field label { display: block; font-size: 12px; font-weight: 800; margin-bottom: 4px; color: #475569; }
+  .field input {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1.5px solid #94a3b8;
+    border-radius: 9px;
+    font-size: 13.5px;
+    font-weight: 700;
+  }
+
+  .copy-box {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1.5px dashed var(--border);
+  }
+  .copy-text {
+    background: #f8fafc;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 12.5px;
+    line-height: 1.45;
+    white-space: pre-wrap;
+    max-height: 220px;
+    overflow-y: auto;
+    margin-bottom: 8px;
+  }
+  .copy-btn {
+    width: 100%;
+    background: #16a34a;
+    color: #fff;
+    border: 0;
+    border-radius: 10px;
+    padding: 9px;
+    font-weight: 800;
+    cursor: pointer;
+    font-size: 13px;
+  }
+
+  /* Poster Canvas (4:5 Social Media / A4 ratio) */
+  .poster-stage {
+    display: flex;
+    justify-content: center;
+  }
+  .poster {
+    width: 100%;
+    max-width: 560px;
+    min-height: 700px;
+    border-radius: 26px;
+    padding: 28px 24px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 16px 38px rgba(23,48,66,.18);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 5px solid #fff;
+  }
+  .poster.theme-vip {
+    background: linear-gradient(160deg, #e0f2fe 0%, #fef9c3 52%, #dcfce7 100%);
+  }
+  .poster.theme-lib {
+    background: linear-gradient(160deg, #dbeafe 0%, #fffbeb 60%, #fce7f3 100%);
+  }
+  .poster.theme-game {
+    background: linear-gradient(160deg, #fef3c7 0%, #ccfbf1 55%, #e0e7ff 100%);
+  }
+
+  .p-top-badge {
+    display: inline-block;
+    background: #173042;
+    color: #fff;
+    font-weight: 900;
+    font-size: 12.5px;
+    padding: 6px 16px;
+    border-radius: 30px;
+    letter-spacing: .5px;
+    align-self: center;
+  }
+  .p-title {
+    text-align: center;
+    font-size: 32px;
+    font-weight: 900;
+    line-height: 1.18;
+    margin: 12px 0 6px;
+    color: #173042;
+    text-shadow: 2px 2px 0 rgba(255,255,255,.8);
+  }
+  .p-sub {
+    text-align: center;
+    font-size: 15px;
+    font-weight: 800;
+    color: #0c7b93;
+    margin-bottom: 14px;
+  }
+
+  .p-hero-icons {
+    text-align: center;
+    font-size: 46px;
+    margin: 4px 0 14px;
+    letter-spacing: 6px;
+  }
+
+  .p-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .p-card {
+    background: rgba(255,255,255,.92);
+    border: 2px solid #93c5fd;
+    border-radius: 16px;
+    padding: 11px 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,.05);
+  }
+  .p-card h4 { margin: 0 0 4px; font-size: 14.5px; color: #1d4ed8; }
+  .p-card p { margin: 0; font-size: 12.5px; line-height: 1.38; font-weight: 600; color: #334155; }
+
+  .p-single-box {
+    background: rgba(255,255,255,.94);
+    border: 2.5px solid #f59e0b;
+    border-radius: 18px;
+    padding: 14px 16px;
+    margin-bottom: 14px;
+  }
+  .p-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.7;
+  }
+
+  .p-price-banner {
+    background: linear-gradient(90deg, #e63946, #f48c06);
+    color: #fff;
+    border-radius: 18px;
+    padding: 12px 16px;
+    text-align: center;
+    box-shadow: 0 6px 16px rgba(230,57,70,.28);
+    margin-bottom: 12px;
+  }
+  .p-price-old {
+    text-decoration: line-through;
+    opacity: .85;
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .p-price-main {
+    font-size: 26px;
+    font-weight: 900;
+    letter-spacing: .5px;
+  }
+  .p-price-note {
+    font-size: 12px;
+    font-weight: 700;
+    margin-top: 2px;
+  }
+
+  .p-footer {
+    background: #173042;
+    color: #fff;
+    border-radius: 14px;
+    padding: 10px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    font-weight: 800;
+  }
+
+  @media print {
+    header, .controls { display: none !important; }
+    body { background: #fff; }
+    main { display: block; margin: 0; padding: 0; max-width: 100%; }
+    .poster { box-shadow: none; max-width: 100%; min-height: 96vh; border-radius: 0; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>🎨 Гээгий багшийн бүтээл — Борлуулалтын Постер & Маркетинг</h1>
+    <small>Үнэ, дугаараа оруулаад постер болгон хэвлэх эсвэл дэлгэцний зураг (Screenshot) авч нийтлээрэй</small>
+  </div>
+  <div class="tabs">
+    <button class="tab active" id="t0" onclick="setPoster(0)">👑 Хос VIP Багц (Постер 1)</button>
+    <button class="tab" id="t1" onclick="setPoster(1)">📚 65 Номын сан (Постер 2)</button>
+    <button class="tab" id="t2" onclick="setPoster(2)">🧩 Үг бүтээх тоглоом (Постер 3)</button>
+  </div>
+  <button class="print-btn" onclick="window.print()">🖨️ Постер хэвлэх / PDF</button>
+</header>
+
+<main>
+  <aside class="controls">
+    <h3>✏️ Постерын мэдээлэл засах</h3>
+    <div class="field">
+      <label>VIP Хос багцын үнэ:</label>
+      <input type="text" id="inVipPrice" value="25,000₮" oninput="render()">
+    </div>
+    <div class="field">
+      <label>Хос багцын хуучин үнэ (зураастай):</label>
+      <input type="text" id="inOldPrice" value="40,000₮" oninput="render()">
+    </div>
+    <div class="field">
+      <label>65 Номын сангийн дан үнэ:</label>
+      <input type="text" id="inLibPrice" value="20,000₮" oninput="render()">
+    </div>
+    <div class="field">
+      <label>Үг бүтээх тоглоомын дан үнэ:</label>
+      <input type="text" id="inGamePrice" value="15,000₮" oninput="render()">
+    </div>
+    <div class="field">
+      <label>Холбоо барих утас:</label>
+      <input type="text" id="inPhone" value="9911-XXXX" oninput="render()">
+    </div>
+    <div class="field">
+      <label>Пэйж / Хаяг:</label>
+      <input type="text" id="inPage" value="FB: Гээгий багшийн бүтээл" oninput="render()">
+    </div>
+
+    <div class="copy-box">
+      <h3 style="margin-bottom:6px">📋 Facebook-д тавих бэлэн пост</h3>
+      <div class="copy-text" id="fbText"></div>
+      <button class="copy-btn" onclick="copyFbText()">📄 Постын текстийг хуулах</button>
+    </div>
+  </aside>
+
+  <section class="poster-stage" id="posterStage"></section>
+</main>
+
+<script>
+let current = 0;
+
+function setPoster(idx) {
+  current = idx;
+  [0, 1, 2].forEach(i => document.getElementById(`t${i}`).classList.toggle('active', i === idx));
+  render();
+}
+
+function render() {
+  const vip = document.getElementById('inVipPrice').value;
+  const oldP = document.getElementById('inOldPrice').value;
+  const libP = document.getElementById('inLibPrice').value;
+  const gameP = document.getElementById('inGamePrice').value;
+  const phone = document.getElementById('inPhone').value;
+  const page = document.getElementById('inPage').value;
+
+  const stage = document.getElementById('posterStage');
+  const fbBox = document.getElementById('fbText');
+
+  if (current === 0) {
+    stage.innerHTML = `
+      <div class="poster theme-vip">
+        <div class="p-top-badge">✨ ГЭЭГИЙ БАГШИЙН БҮТЭЭЛ • 1-Р АНГИЙН ОНЦГОЙ БАГЦ ✨</div>
+        <div>
+          <h2 class="p-title">МИНИЙ БЯЦХАН НОМЫН САН<br><span style="color:#e63946">+</span> ҮЕЭР ҮГ БҮТЭЭХ ИД ШИД</h2>
+          <div class="p-sub">Хүүхэд утас, зурагтаас холдож ТОГЛОНГОО УНШИЖ, ТООЛЖ сурна!</div>
+          <div class="p-hero-icons">📚 🦁 🍎 🧩 🏆</div>
+        </div>
+
+        <div class="p-cards">
+          <div class="p-card">
+            <h4>📖 1. Цахим номын сан (65 ном)</h4>
+            <p>• А–Я хүртэлх <b>35 үсгийн</b> комикс ном<br>• Задгай, битүү <b>10 үеийн</b> унших ном<br>• <b>1–20 хүртэлх</b> тооны комикс ном<br>• Хүүхдийн нэртэй <b>Батламж</b> хэвлэх</p>
+          </div>
+          <div class="p-card" style="border-color:#5eead4">
+            <h4 style="color:#0f766e">🎮 2. Үг бүтээх тоглоом (30 үг)</h4>
+            <p>• Үеийг эвлүүлж үг бүтээх <b>3 түвшин</b><br>• 🔴 Эгшиг, 🔵 гийгүүлэгч өнгөний код<br>• Зөв хийвэл <b>од/оноо</b> авна<br>• Алдвал <b>5 зүрхэн амь</b> хасагдана</p>
+          </div>
+        </div>
+
+        <div class="p-price-banner">
+          <div class="p-price-old">Нийт үнэ: ${oldP}</div>
+          <div class="p-price-main">ХОС VIP БАГЦ: ${vip}</div>
+          <div class="p-price-note">💻 Компьютер, утас, таблет дээр интернетгүй ч шууд ажиллана • A4 хэвлэх боломжтой</div>
+        </div>
+
+        <div class="p-footer">
+          <span>📞 Захиалга: ${phone}</span>
+          <span>${page}</span>
+        </div>
+      </div>
+    `;
+
+    fbBox.textContent = `🌟 1-Р АНГИЙН СУРАГЧИД БОЛОН БЭЛТГЭЛ АНГИЙНХАНД ЗОРИУЛСАН ОНЦГОЙ ХОС БАГЦ! 🌟
+
+Хүүхэд тань үсгээ нүдлэх, үеэр холбож унших, 1-20 хүртэлх тоог ойлгохдоо түүртэж байна уу? 
+«Гээгий багшийн бүтээл»-ийн 2 ширхэг интерактив цахим хэрэглэгдэхүүнийг нэг дор хямдралтай аваарай!
+
+📚 БҮТЭЭГДЭХҮҮН 1: «Миний бяцхан номын сан» (Нийт 65 комикс ном)
+✅ А-Я хүртэлх 35 үсгийн зурагт комикс үлгэр, дасгал
+✅ Задгай ба битүү үеийг улаан/цэнхэр өнгөөр ялгаж унших 10 ном
+✅ 1-ээс 20 хүртэлх тооны аравт, нэгжийн бүтэцтэй 20 ном
+✅ Хүүхдийнхээ нэрийг бичээд А4 дээр хэвлэж өгөх «Уншигчийн батламж»
+
+🧩 БҮТЭЭГДЭХҮҮН 2: «Үеэр үг бүтээх ид шид» (Тоглоомон дасгал)
+✅ 3 түвшний 30 үгийг үеэр нь эвлүүлж бүтээх хөгжилтэй тоглоом
+✅ Зөв хийвэл оноо, алтан од авч урамшина; алдвал 5 зүрхэн амь хасагдана!
+
+💰 Хос VIP багцын үнэ: ${vip} (Үндсэн үнэ ${oldP})
+📌 Нэг удаа аваад насан туршдаа хэрэглэнэ. Интернет шаардахгүй, бүх төхөөрөмж дээр ажиллана, А4 цаасан дээр хэвлэж болно!
+
+📩 Авахыг хүсвэл чатаар холбогдох эсвэл ${phone} дугаарт залгаарай.`;
+  } else if (current === 1) {
+    stage.innerHTML = `
+      <div class="poster theme-lib">
+        <div class="p-top-badge">📚 ГЭЭГИЙ БАГШИЙН БҮТЭЭЛ • ЦАХИМ НОМЫН САН</div>
+        <div>
+          <h2 class="p-title">МИНИЙ БЯЦХАН НОМЫН САН<br><span style="color:#d62828">65 ЦУВРАЛ КОМИКС НОМ</span></h2>
+          <div class="p-sub">Унших • Тоолох • Бүтээх • Өөрийн нэртэй Батламж авах</div>
+          <div class="p-hero-icons">🔤 📖 🔢 👑</div>
+        </div>
+
+        <div class="p-single-box">
+          <ul class="p-list">
+            <li>🔴 <b>35 үсгийн комикс ном:</b> Үсэг бүр өөрийн баатар, үлгэр, дасгалтай</li>
+            <li>🟢 <b>10 үеэр унших ном:</b> Эгшиг улаан, гийгүүлэгч цэнхэр өнгөөр ялгарна</li>
+            <li>🔵 <b>20 тооны комикс ном:</b> 1–20 тоог 10-тын хүрээгээр нүдэлж сурна</li>
+            <li>🏆 <b>Уншигчийн батламж:</b> Хүүхдийн нэрийг шивээд А4 дээр хэвлэнэ</li>
+            <li>🖨️ <b>Хэвлэх горим:</b> Бүх номыг A4 цаасан дээр өнгөтөөр хэвлэх боломжтой</li>
+          </ul>
+        </div>
+
+        <div class="p-price-banner">
+          <div class="p-price-main">НОМЫН САНГИЙН ҮНЭ: ${libP}</div>
+          <div class="p-price-note">65 ширхэг бүрэн комикс ном + Батламж хэвлэх систем</div>
+        </div>
+
+        <div class="p-footer">
+          <span>📞 Захиалга: ${phone}</span>
+          <span>${page}</span>
+        </div>
+      </div>
+    `;
+
+    fbBox.textContent = `📚 65 ЦУВРАЛ КОМИКС НОМТОЙ «МИНИЙ БЯЦХАН НОМЫН САН» ХУДАЛДААНД ГАРЛАА!
+
+1-р ангийн сурагчдыг уншиж, тоолж сургах хамгийн сонирхолтой комикс номын сан:
+🔤 35 үсгийн ид шид (А–Я хүртэлх бүх үсгийн үлгэр, дасгал)
+📖 Үеэр унших ид шид (10 цуврал ном)
+🔢 Тооны ид шид (1–20 хүртэлх тооны 20 цуврал ном)
+🏆 Хүүхдийнхээ нэрийг бичиж А4 дээр хэвлэдэг «Уншигч, Тоочны Батламж»
+
+💰 Үнэ: ${libP}
+📞 Утас: ${phone} (${page})`;
+  } else {
+    stage.innerHTML = `
+      <div class="poster theme-game">
+        <div class="p-top-badge">🎮 ГЭЭГИЙ БАГШИЙН БҮТЭЭЛ • ИНТЕРАКТИВ ТОГЛООМ</div>
+        <div>
+          <h2 class="p-title">ҮЕЭР ҮГ БҮТЭЭХ ИД ШИД<br><span style="color:#0f766e">ТОГЛООМОН ДАСГАЛ</span></h2>
+          <div class="p-sub">Хүүхэд үеүүдийг зөв эвлүүлж, унших хурдаа нэмэгдүүлнэ!</div>
+          <div class="p-hero-icons">🍎 🦁 🦋 🚀 ⭐</div>
+        </div>
+
+        <div class="p-single-box" style="border-color:#0f766e">
+          <ul class="p-list">
+            <li>🌱 <b>3 шатны 30 үг:</b> Хялбар, дунд, ахисан түвшний 30 дасгал</li>
+            <li>🔴🔵 <b>Өнгөний ялгарал:</b> Эгшиг улаан, гийгүүлэгч цэнхэр тул уншихад амар</li>
+            <li>❤️ <b>5 зүрхэн амь:</b> Буруу эвлүүлбэл 1 амь хасагдаж анхаарлыг төвлөрүүлнэ</li>
+            <li>⭐ <b>Оноо ба Урамшуулал:</b> Зөв хийвэл +10 оноо, Гээгий багшийн урмын үг гарна</li>
+            <li>💡 <b>Тусламжийн товч:</b> Хүүхэд гацвал эхний үеийг зааж тусална</li>
+          </ul>
+        </div>
+
+        <div class="p-price-banner">
+          <div class="p-price-main">ТОГЛООМЫН ҮНЭ: ${gameP}</div>
+          <div class="p-price-note">Утас, таблет, компьютер дээр интернетгүй шууд тоглоно</div>
+        </div>
+
+        <div class="p-footer">
+          <span>📞 Захиалга: ${phone}</span>
+          <span>${page}</span>
+        </div>
+      </div>
+    `;
+
+    fbBox.textContent = `🧩 ХҮҮХДИЙНХЭЭ УНШИХ ЧАДВАРЫГ ТОГЛООМООР ХӨГЖҮҮЛЭЭРЭЙ!
+
+«Үеэр үг бүтээх ид шид» — 1-р ангийн сурагчдад зориулсан интерактив тоглоомон дасгал:
+✅ Зураг болон тайлбарыг хараад үеүүдийг зөв дарааллаар эвлүүлж үг бүтээнэ
+✅ 3 түвшний 30 сонирхолтой даалгавар
+✅ Зөв хийвэл оноо, алтан од авч баяр хүргэнэ; алдвал 5 зүрхэн амь хасагдана!
+
+💰 Үнэ: ${gameP}
+📞 Захиалга авах: ${phone} (${page})`;
+  }
+}
+
+function copyFbText() {
+  const txt = document.getElementById('fbText').textContent;
+  navigator.clipboard.writeText(txt).then(() => {
+    alert('✅ Постын текст хуулагдлаа! Одоо Facebook дээрээ Paste хийж нийтлээрэй.');
+  });
+}
+
+render();
+</script>
+</body>
+</html>

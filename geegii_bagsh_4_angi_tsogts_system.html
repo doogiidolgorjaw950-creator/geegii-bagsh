@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="mn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>4-р Ангийн Цогц Систем: Хөтөлбөр • Цахим хичээл • Хэрэглэгдэхүүн • Дасгал ажил | Гээгий багш</title>
+<style>
+  :root {
+    --bg: #f1f5f9;
+    --ink: #173042;
+    --brand: #6d28d9;
+    --warm: #f48c06;
+    --ok: #16a34a;
+    --bad: #dc2626;
+    --border: #cbd5e1;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; background: var(--bg); color: var(--ink); }
+  header {
+    background: linear-gradient(135deg, #4c1d95, #7c3aed);
+    color: #fff;
+    padding: 14px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 14px rgba(0,0,0,.18);
+  }
+  header h1 { margin: 0; font-size: 17.5px; }
+  header small { display: block; opacity: .9; font-size: 11.5px; }
+  .nav-tabs { display: flex; gap: 6px; background: rgba(255,255,255,.15); padding: 4px; border-radius: 12px; flex-wrap: wrap; }
+  .tab { border: 0; border-radius: 9px; padding: 8px 12px; font-weight: 800; font-size: 12.5px; cursor: pointer; background: transparent; color: #fff; }
+  .tab.active { background: #fff; color: var(--ink); }
+  main { max-width: 1060px; margin: 18px auto; padding: 0 14px 50px; }
+  .subj-bar { background: #fff; border: 2px solid var(--border); border-radius: 16px; padding: 12px 16px; margin-bottom: 16px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px; }
+  .subj-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+  .pill { border: 2px solid #cbd5e1; background: #f8fafc; border-radius: 10px; padding: 7px 12px; font-weight: 800; font-size: 12.5px; cursor: pointer; }
+  .pill.active { background: var(--brand); color: #fff; border-color: var(--brand); }
+  .btn { border: 0; border-radius: 10px; padding: 9px 15px; font-weight: 900; font-size: 13px; cursor: pointer; color: #fff; background: var(--brand); }
+  .btn-warm { background: var(--warm); }
+  .a4-page { background: #fff; border: 2px solid #94a3b8; border-radius: 18px; padding: 22px 24px; box-shadow: 0 10px 25px rgba(0,0,0,.07); }
+  .a4-head { display: flex; justify-content: space-between; align-items: center; border-bottom: 2.5px solid #173042; padding-bottom: 8px; margin-bottom: 14px; flex-wrap: wrap; gap: 8px; }
+  .a4-head h2 { margin: 0; font-size: 19px; color: var(--brand); }
+  .plan-tbl { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  .plan-tbl th, .plan-tbl td { border: 1.5px solid #94a3b8; padding: 9px 11px; vertical-align: top; line-height: 1.5; }
+  .plan-tbl th { background: #ede9fe; color: #5b21b6; font-weight: 900; text-align: left; }
+  .slide-box { background: linear-gradient(180deg, #fff 0%, #f5f3ff 100%); border: 3.5px solid var(--brand); border-radius: 24px; padding: 26px 22px; min-height: 410px; display: flex; flex-direction: column; justify-content: space-between; text-align: center; }
+  .slide-ico { font-size: 64px; margin: 8px 0; }
+  .slide-content { background: #fff; border: 2px solid #ddd6fe; border-radius: 16px; padding: 18px 20px; font-size: 19px; font-weight: 700; line-height: 1.65; max-width: 780px; margin: 0 auto; }
+  .q-opt { padding: 9px 16px; border-radius: 12px; border: 2px solid var(--brand); background: #ede9fe; font-size: 16px; font-weight: 900; cursor: pointer; margin: 4px; }
+  .q-opt.ok { background: var(--ok); color: #fff; border-color: #15803d; }
+  .cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 680px) { .cards-grid { grid-template-columns: 1fr; } }
+  .v-card { border: 2.5px dashed #475569; border-radius: 16px; padding: 16px; text-align: center; background: #fafafa; }
+  .wb-box { border: 2px solid #cbd5e1; border-radius: 14px; padding: 14px; margin-bottom: 12px; }
+  .wb-box h4 { margin: 0 0 8px; color: var(--brand); font-size: 15px; }
+  .ruled { height: 28px; border-bottom: 1.5px solid #a78bfa; margin-bottom: 6px; }
+  @media print {
+    header, .subj-bar, .no-print { display: none !important; }
+    body { background: #fff; }
+    main { margin: 0; padding: 0; max-width: 100%; }
+    .a4-page { border: 0; box-shadow: none; padding: 4mm; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>📙 4-Р АНГИЙН ЦОГЦ СУРГАЛТЫН СИСТЕМ (Гээгий багшийн бүтээл)</h1>
+    <small>Монгол хэл • Математик • Хүн ба Байгаль • Хүн ба Нийгэм • Дүрслэх урлаг, Технологи</small>
+  </div>
+  <div class="nav-tabs">
+    <button class="tab active" id="t0" onclick="setTab(0)">📋 1. Ээлжит хичээл</button>
+    <button class="tab" id="t1" onclick="setTab(1)">💻 2. Цахим хичээл</button>
+    <button class="tab" id="t2" onclick="setTab(2)">🃏 3. Хэрэглэгдэхүүн (A4)</button>
+    <button class="tab" id="t3" onclick="setTab(3)">📓 4. Дасгал ажил (A4)</button>
+  </div>
+</header>
+
+<main id="mainArea"></main>
+
+<script>
+const GRADE4_DATA = [
+  {
+    subject: "📖 Монгол хэл",
+    lessonTitle: "Эгшигт ба Заримдаг гийгүүлэгчийн дүрэм (7 + 9)",
+    aim: "7 эгшигт гийгүүлэгч (М, Н, Г, Л, Б, В, Р) ба 9 заримдаг гийгүүлэгчийг (Ц, Ж, З, С, Д, Т, Ш, Ч, Х) ялган таньж, балархай эгшгийг зөв бичнэ.",
+    materials: "7+9 гийгүүлэгчийн хүснэгт, хэлц үгийн карт, дасгал ажлын дэвтэр",
+    steps: [
+      { stage: "1. Сэдэлжүүлэлт", time: "5 мин", teacher: "«Монгол баавар» ба «Цацсан шагай» гэсэн тулгуур үгсээр гийгүүлэгчдийг ангилуулна.", student: "Эгшигт ба заримдаг гийгүүлэгчийг цээжээр нэрлэнэ." },
+      { stage: "2. Шинэ мэдлэг", time: "15 мин", teacher: "Эгшигт гийгүүлэгч үгийн эхэн, дунд, адагт аль алинд нь эгшиггүй бичигддэг, харин заримдаг гийгүүлэгчийн дараа заримдаг орвол сүүлийнх нь эгшигтэй бичигдэх дүрмийг заана.", student: "«Ах+д=Ахд биш Ахдад», «Ус+т=Уст» жишээн дээр дүрмийг шалгана." },
+      { stage: "3. Бататгал", time: "15 мин", teacher: "Уран зохиолын эхээс гол санааг олуулж, зөв бичих дасгал ажиллуулна.", student: "Дасгал ажлын дэвтэрт 3 даалгавар гүйцэтгэнэ." },
+      { stage: "4. Дүгнэлт", time: "5 мин", teacher: "Сурагчдын бичвэрийг дүгнэж урамшуулна.", student: "Дүрмээ бататгана." }
+    ],
+    slides: [
+      { ico: "🔤", title: "Эгшигт 7 ба Заримдаг 9 гийгүүлэгч", body: "<b>Эгшигт 7 (Монгол баавар):</b> М, Н, Г, Л, Б, В, Р<br><b>Заримдаг 9 (Цацсан шагай):</b> Ц, Ж, З, С, Д, Т, Ш, Ч, Х" },
+      { ico: "📝", title: "Заримдаг гийгүүлэгчийн дүрэм", body: "Заримдаг гийгүүлэгчийн дараа <b>заримдаг гийгүүлэгч</b> орвол сүүлийнх нь эгшигтэй бичигдэнэ:<br><b style='color:#6d28d9'>ХҮҮХЭД + Д = ХҮҮХДЭД &nbsp;|&nbsp; УЛС + Д = УЛСАД</b>" },
+      { ico: "🎯", title: "Шалгах асуулт", body: "Аль нь 7 эгшигт гийгүүлэгчид багтах вэ?", opts: ["М, Н, Г, Л, Б, В, Р", "Ц, Ж, З, С, Д, Т, Ш", "К, П, Ф, Щ"], ans: "М, Н, Г, Л, Б, В, Р" }
+    ],
+    visuals: [
+      { tag: "ЭГШИГТ 7", big: "М Н Г Л Б В Р", sub: "Монгол баавар — эгшиггүй бичигдэнэ" },
+      { tag: "ЗАРИМДАГ 9", big: "Ц Ж З С Д Т Ш Ч Х", sub: "Дараа нь заримдаг орвол эгшиг авна" },
+      { tag: "ҮГИЙН САН", big: "Ойролцоо ба Эсрэг утга", sub: "Өндөр 🆚 Нам  |  Сайхан — Үзэсгэлэнт" },
+      { tag: "УНШЛАГА", big: "Эхийн гол санааг олох", sub: "Зохиогч юу хэлэхийг хүссэн бэ?" }
+    ],
+    workbook: [
+      "1. Залгаврыг зөв залгаж бичээрэй: а) улс + д = ________  б) хүүхэд + д = ________  в) ном + д = ________  г) багш + д = ________",
+      "2. Дараах үгсийн эсрэг утгатай үгийг бичээрэй: а) өгөөмөр 🆚 ________  б) хичээнгүй 🆚 ________  в) гэрэлтэй 🆚 ________",
+      "3. «Эх оронч үзэл ба байгаль дэлхийгээ хайрлах нь» сэдвээр 6–8 өгүүлбэртэй эх зохион бичээрэй."
+    ]
+  },
+  {
+    subject: "🧮 Математик",
+    lessonTitle: "Олон оронтой тоо, Үлдэгдэлтэй хуваах ба Тэгш өнцөгтийн талбай, периметр",
+    aim: "Олон оронтой тоог унших, үлдэгдэлтэй хуваах үйлдлийг гүйцэтгэх, тэгш өнцөгт ба квадратын периметр (P), талбай (S)-г тооцоолно.",
+    materials: "Геометрийн дүрс, шугам, талбайн томьёоны үзүүлэн карт",
+    steps: [
+      { stage: "1. Сэдэлжүүлэлт", time: "5 мин", teacher: "25 ширхэг алимыг 4 тавганд тэнцүү хийвэл хэд илүү үлдэх вэ? гэж асууна.", student: "Таваг бүрд 6 алим орж, 1 алим үлдэнэ (25 ÷ 4 = 6, үлд. 1) гэж хариулна." },
+      { stage: "2. Шинэ мэдлэг", time: "15 мин", teacher: "Периметр P = (a + b) × 2 ба Талбай S = a × b томьёог тайлбарлан ялгааг ойлгуулна.", student: "Урт нь 8 см, өргөн нь 5 см тэгш өнцөгтийн P ба S-ийг олно." },
+      { stage: "3. Бататгал", time: "15 мин", teacher: "Өгүүлбэртэй бодлого болон үлдэгдэлтэй хуваах дасгал ажиллуулна.", student: "Дасгал ажлын хуудсыг бодно." },
+      { stage: "4. Дүгнэлт", time: "5 мин", teacher: "Томьёог цээжээр хэлүүлж урамшуулна.", student: "Дүгнэлт хийнэ." }
+    ],
+    slides: [
+      { ico: "➗", title: "Үлдэгдэлтэй хуваах үйлдэл", body: "<b>29 ÷ 4 = 7 (үлдэгдэл 1)</b><br><small>Шалгах: 7 × 4 + 1 = 29 (Үлдэгдэл нь үргэлж хуваагчаас бага байна!)</small>" },
+      { ico: "📐", title: "Периметр (P) ба Талбай (S)", body: "• <b>Периметр (Хүрээний урт):</b> P = (a + b) × 2<br>• <b>Талбай (Доторх хэмжээ):</b> S = a × b" },
+      { ico: "🎯", title: "Шалгах асуулт", body: "Урт нь 6 см, өргөн нь 4 см тэгш өнцөгтийн талбай (S) хэд вэ?", opts: ["20 см", "24 см²", "10 см²"], ans: "24 см²" }
+    ],
+    visuals: [
+      { tag: "ПЕРИМЕТР", big: "P = (a + b) × 2", sub: "Дүрсийн бүх талын нийлбэр урт" },
+      { tag: "ТАЛБАЙ", big: "S = a × b", sub: "Урт ба өргөний үржвэр (см², м²)" },
+      { tag: "ҮЛДЭГДЭЛТЭЙ ХУВААХ", big: "Үлдэгдэл < Хуваагч", sub: "a = b × c + r" },
+      { tag: "ОЛОН ОРОНТОЙ ТОО", big: "10,000 = Арван мянга", sub: "Нэгжийн ба Мянгатын анги" }
+    ],
+    workbook: [
+      "1. Үлдэгдэлтэй хуваагаад шалгаарай: а) 38 ÷ 5 = ____ (үлд. __)  б) 53 ÷ 7 = ____ (үлд. __)  в) 67 ÷ 8 = ____ (үлд. __)",
+      "2. Тал нь 7 см байх квадратын периметр (P) ба талбай (S)-г олоорой: P = __________, S = __________",
+      "3. Өгүүлбэртэй бодлого: Тэгш өнцөгт хэлбэртэй ногооны талбайн урт 12 м, өргөн 8 м бол хашаа барихад хэдэн метр тор хэрэгтэй вэ?"
+    ]
+  },
+  {
+    subject: "🔬 Хүн ба Байгаль",
+    lessonTitle: "Хүний Биеийн Эрхтэн Тогтолцоо ба Соронзон Үзэгдэл",
+    aim: "Хүний хоол боловсруулах болон амьсгалын эрхтний үүргийг мэдэж, соронз ямар биетийг татдагийг туршилтаар тайлбарлана.",
+    materials: "Хүний дотор эрхтний үзүүлэн, соронз, төмөр хадаас, модон харандаа",
+    steps: [
+      { stage: "1. Сэдэлжүүлэлт", time: "5 мин", teacher: "Гүнзгий амьсгаа авахад агаар бидний биеийн аль эрхтэнд ордог вэ? гэж асууна.", student: "Уушгинд ордог гэж хариулна." },
+      { stage: "2. Шинэ мэдлэг", time: "15 мин", teacher: "Амьсгалын (хамар, мөгөөрсөн хоолой, уушги) ба хоол боловсруулах (ам, улаан хоолой, ходоод, гэдэс) тогтолцоог заана.", student: "Соронзоор төмөр, зэс, мод, хуванцар биетүүдийг татуулж туршина." },
+      { stage: "3. Бататгал", time: "15 мин", teacher: "Дасгал ажлын хуудас дээр туршилтын үр дүн болон эрхтний үүргийг бичүүлнэ.", student: "Бие даан бөглөнө." },
+      { stage: "4. Дүгнэлт", time: "5 мин", teacher: "Эрүүл амьдралын хэв маягийн талаар дүгнэнэ.", student: "Сурсан зүйлээ ярина." }
+    ],
+    slides: [
+      { ico: "🫁", title: "Хүний Биеийн Эрхтэн Тогтолцоо", body: "• <b>Амьсгалын эрхтэн:</b> Хамар ➔ Мөгөөрсөн хоолой ➔ <b>Уушги</b><br>• <b>Хоол боловсруулах:</b> Ам ➔ Улаан хоолой ➔ <b>Ходоод</b> ➔ Нарийн, бүдүүн гэдэс" },
+      { ico: "🧲", title: "Соронз ба Түүний Шинж Чанар", body: "Соронз нь <b>төмөр, ган</b> зэрэг металл биетийг татдаг. Хойд (N) ба Өмнөд (S) гэсэн хоёр туйлтай. Ижил туйлууд түлхэлцэж, эсрэг туйлууд таталцана." },
+      { ico: "🎯", title: "Шалгах асуулт", body: "Соронз аль биетийг өөртөө татах вэ?", opts: ["Модон харандаа", "Төмөр хавчаар", "Хуванцар шугам"], ans: "Төмөр хавчаар" }
+    ],
+    visuals: [
+      { tag: "АМЬСГАЛЫН ЭРХТЭН", big: "🫁 Уушги", sub: "Хүчилтөрөгч авч нүүрсхүчлийн хий гаргана" },
+      { tag: "ХООЛ БОЛОВСРУУЛАХ", big: "🍎 Ходоод ба Гэдэс", sub: "Хоолыг шингээж биед энерги өгнө" },
+      { tag: "СОРОНЗЫН ТУЙЛ", big: "🧲 N (Хойд) • S (Өмнөд)", sub: "Эсрэг туйлууд таталцана" },
+      { tag: "ТУРШИЛТ", big: "Төмөр биет татагдана", sub: "Мод, шил, хуванцар татагдахгүй" }
+    ],
+    workbook: [
+      "1. Амьсгалын эрхтнүүдийг дарааллаар нь бичээрэй: 1) ________ ➔ 2) ________ ➔ 3) ________",
+      "2. Соронзонд татагдах 3 биет, татагдахгүй 3 биетийг ялган бичээрэй.",
+      "3. Уушгиа эрүүл байлгахын тулд бид ямар дадал хэвшүүлэх ёстой вэ? 2 зөвлөмж бичээрэй."
+    ]
+  },
+  {
+    subject: "🏛️ Хүн ба Нийгэм",
+    lessonTitle: "Монгол Улсын Үндсэн Хууль, Төрийн Бэлгэдэл ба Иргэний Оролцоо",
+    aim: "Монгол Улсын төрийн сүлд, далбаа, дууллын утга учрыг хүндэтгэн дээдэлж, сургууль орон нутгийнхаа амьдралд идэвхтэй оролцоно.",
+    materials: "Төрийн сүлд, далбаа, соёмбын тайлбар зураг",
+    steps: [
+      { stage: "1. Сэдэлжүүлэлт", time: "5 мин", teacher: "Төрийн дуулал эгшиглэхэд бид хэрхэн зогсож хүндэтгэл үзүүлдэг вэ? гэж асууна.", student: "Номхон зогсож, баруун гараа зүрхэн тус газраа тавьж дуулдгийг үзүүлнэ." },
+      { stage: "2. Шинэ мэдлэг", time: "15 мин", teacher: "Төрийн сүлдний дээд талд байх Чандмань эрдэнэ, алтан соёмбо, хүлэг морины бэлгэдлийг тайлбарлана.", student: "Соёмбо үсгийн дүрсүүдийн утгыг (гал, нар, сар, загас, арга билэг) тайлбарлана." },
+      { stage: "3. Бататгал", time: "15 мин", teacher: "Ангийн болон сургуулийн шийдвэр гаргахад сурагчид хэрхэн саналаа өгөх талаар ярилцана.", student: "Дасгал ажлын хуудсыг бөглөнө." },
+      { stage: "4. Дүгнэлт", time: "5 мин", teacher: "Эх оронч үзэл, хууль дүрмээ дээдлэх талаар дүгнэнэ.", student: "Дүгнэлт хийнэ." }
+    ],
+    slides: [
+      { ico: "🇲🇳", title: "Монгол Улсын Төрийн Бэлгэдэл", body: "1. <b>Төрийн сүлд</b><br>2. <b>Төрийн далбаа</b> (Алтан соёмботой улаан, хөх өнгө)<br>3. <b>Төрийн дуулал</b><br>4. <b>Төрийн тамга</b>" },
+      { ico: "🔥", title: "Алтан Соёмбын Бэлгэдэл", body: "• <b>Гал:</b> Мандан бадрахын бэлгэдэл (Өнгөрсөн, одоо, ирээдүй)<br>• <b>Нар, Сар:</b> Монголын ард түмэн үүрд мөнх оршихын бэлгэдэл" },
+      { ico: "🎯", title: "Шалгах асуулт", body: "Соёмбын хамгийн дээд талд ямар дүрс байдаг вэ?", opts: ["Нар", "Гурван үзүүртэй гал", "Хоёр загас"], ans: "Гурван үзүүртэй гал" }
+    ],
+    visuals: [
+      { tag: "ТӨРИЙН БЭЛГЭДЭЛ", big: "🇲🇳 Сүлд • Далбаа • Дуулал", sub: "Монгол Улсын тусгаар тогтнолын бэлгэдэл" },
+      { tag: "СОЁМБО", big: "🔥 Гал • ☀️ Нар • 🌙 Сар", sub: "Үүрд мандан бадрахын бэлгэдэл" },
+      { tag: "ХУУЛЬ ДҮРЭМ", big: "📜 Үндсэн хууль", sub: "Улс орны хамгийн дээд хууль" },
+      { tag: "ИРГЭНИЙ ОРОЛЦОО", big: "🗳️ Санал бодлоо илэрхийлье", sub: "Ардчилсан нийгмийн гишүүн" }
+    ],
+    workbook: [
+      "1. Монгол Улсын төрийн 4 бэлгэдлийг нэрлэн бичээрэй: 1) ________  2) ________  3) ________  4) ________",
+      "2. Төрийн дуулал эгшиглэх үед бид хэрхэн хүндэтгэл үзүүлэх ёстой вэ?",
+      "3. Ангийнхаа орчныг сайжруулах ямар шинэ санаа чамд байна вэ? Бичээрэй."
+    ]
+  },
+  {
+    subject: "🎨 Дүрслэх урлаг, Технологи",
+    lessonTitle: "Алслалт ба Орон Зайн Дүрслэл (Наана ба Цаана)",
+    aim: "Зураг дээр наана байгаа зүйлийг том, тод, цаана алсад байгаа зүйлийг жижиг, бүдэг зурж орон зайн гүнийг илэрхийлнэ.",
+    materials: "Зургийн дэвтэр, усан будаг, өнгийн харандаа, байгалийн зургийн үзүүлэн",
+    steps: [
+      { stage: "1. Сэдэлжүүлэлт", time: "5 мин", teacher: "Цонхоор харахад ойр байгаа мод ба алсад байгаа уулын аль нь том харагдаж байна вэ? гэж асууна.", student: "Ойр байгаа нь том, хол байгаа нь жижиг харагддагийг хэлнэ." },
+      { stage: "2. Шинэ мэдлэг", time: "15 мин", teacher: "Тэнгэрийн хаяаны шугам татаж, наана ба цаана байрлуулах «Алслалтын хууль»-ийг тайлбарлана.", student: "Тал нутаг, уулс, гэр, морьдыг наана ба цаана байрлуулан хар зураг гаргана." },
+      { stage: "3. Бүтээл хийх", time: "15 мин", teacher: "Ойрхныг тод өнгөөр, алсын уулсыг цайвар хөх өнгөөр будуулна.", student: "Байгалийн сэдэвт уран зураг бүтээнэ." },
+      { stage: "4. Дүгнэлт", time: "5 мин", teacher: "Бүтээлүүдэд үнэлгээ өгч урамшуулна.", student: "Алслалтын аргыг тайлбарлана." }
+    ],
+    slides: [
+      { ico: "🏔️", title: "Алслалт гэж юу вэ?", body: "• <b>Наана (Ойр):</b> Том хэмжээтэй, тод өнгөтэй, хуудасны доод хэсэгт зурна.<br>• <b>Цаана (Алс хол):</b> Жижиг хэмжээтэй, бүдэг цайвар өнгөтэй зурна." },
+      { ico: "🌅", title: "Тэнгэрийн хаяаны шугам", body: "Газар ба тэнгэрийн зааглах шугамыг <b>тэнгэрийн хаяаны шугам</b> гэнэ." },
+      { ico: "🎯", title: "Шалгах асуулт", body: "Зураг дээр алс хол байгаа уулыг хэрхэн дүрслэх вэ?", opts: ["Том бөгөөд хар өнгөөр", "Жижиг бөгөөд цайвар бүдэг өнгөөр", "Хамгийн доод талд"], ans: "Жижиг бөгөөд цайвар бүдэг өнгөөр" }
+    ],
+    visuals: [
+      { tag: "АЛСЛАЛТ (НААНА)", big: "🌲 ТОМ + ТОД ӨНГӨ", sub: "Үзэгчид ойр байрлах зүйлс" },
+      { tag: "АЛСЛАЛТ (ЦААНА)", big: "⛰️ Жижиг + Цайвар өнгө", sub: "Алс хол байрлах уул, үүл" },
+      { tag: "ТЭНГЭРИЙН ХАЯА", big: "🌅 Газар, тэнгэрийн зааг", sub: "Зохиомжийн үндсэн шугам" },
+      { tag: "УРАН ЗУРАГ", big: "🖌️ Байгалийн судалбар", sub: "Монгол орны үзэсгэлэнт байгаль" }
+    ],
+    workbook: [
+      "1. Зураг дээр орон зайн гүнийг харуулах «Алслалтын 2 дүрэм»-ийг бичээрэй.",
+      "2. Тэнгэрийн хаяаны шугам татаж, наана 1 том мод, цаана 3 жижиг уул, дээгүүр нь үүл зурж будаарай.",
+      "3. Байгалийн зураг зурахад ямар өнгөнүүдийг хольж гаргасан бэ? Бичээрэй."
+    ]
+  }
+];
+
+let tab = 0, subjIdx = 0, slideIdx = 0, quizMsg = "";
+function setTab(t) { tab = t; [0,1,2,3].forEach(i => document.getElementById(`t${i}`).classList.toggle('active', i === t)); render(); }
+function selectSubj(s) { subjIdx = s; slideIdx = 0; quizMsg = ""; render(); }
+function checkSlideQuiz(chosen, ans) { quizMsg = chosen === ans ? "🌟 Яг зөв! Гайхалтай!" : "❌ Дахин бодоод үзээрэй!"; render(); }
+
+function render() {
+  const main = document.getElementById('mainArea');
+  const cur = GRADE4_DATA[subjIdx];
+  const subjBar = `
+    <div class="subj-bar">
+      <div class="subj-pills">${GRADE4_DATA.map((d, i) => `<button class="pill ${i === subjIdx ? 'active' : ''}" onclick="selectSubj(${i})">${d.subject}</button>`).join('')}</div>
+      ${tab !== 1 ? `<button class="btn btn-warm" onclick="window.print()">🖨️ Хэвлэх (A4)</button>` : ''}
+    </div>
+  `;
+
+  let bodyHtml = "";
+  if (tab === 0) {
+    bodyHtml = `
+      <div class="a4-page">
+        <div class="a4-head"><h2>📋 Ээлжит хичээлийн төлөвлөлт: ${cur.lessonTitle}</h2><div style="font-size:12.5px;font-weight:800">4-р анги • 40 минут • ${cur.subject}</div></div>
+        <div style="background:#f8fafc;border:1.5px solid #cbd5e1;border-radius:12px;padding:10px 14px;margin-bottom:14px;font-size:13.5px;line-height:1.55"><b>🎯 Зорилго:</b> ${cur.aim}<br><b>🧰 Хэрэглэгдэхүүн:</b> ${cur.materials}</div>
+        <table class="plan-tbl">
+          <thead><tr><th style="width:140px">Үе шат</th><th style="width:70px">Хугацаа</th><th>Багшийн үйл ажиллагаа</th><th>Сурагчийн үйл ажиллагаа</th></tr></thead>
+          <tbody>${cur.steps.map(s => `<tr><td><b>${s.stage}</b></td><td><b>${s.time}</b></td><td>${s.teacher}</td><td>${s.student}</td></tr>`).join('')}</tbody>
+        </table>
+      </div>
+    `;
+  } else if (tab === 1) {
+    const sl = cur.slides[slideIdx];
+    const qHtml = sl.opts ? `<div style="margin-top:14px">${sl.opts.map(o => `<button class="q-opt ${quizMsg.includes('зөв') && o === sl.ans ? 'ok' : ''}" onclick="checkSlideQuiz('${o}', '${sl.ans}')">${o}</button>`).join('')}</div><div style="min-height:24px;margin-top:8px;font-size:16px;font-weight:900;color:${quizMsg.includes('зөв') ? '#16a34a' : '#dc2626'}">${quizMsg}</div>` : '';
+    bodyHtml = `
+      <div class="slide-box">
+        <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:900;color:#5b21b6;border-bottom:2px dashed #ddd6fe;padding-bottom:8px"><span>${cur.subject} • 4-р анги</span><span>Слайд ${slideIdx + 1} / ${cur.slides.length}</span></div>
+        <div style="padding:16px 0"><div class="slide-ico">${sl.ico}</div><h2 style="margin:0 0 12px;font-size:24px">${sl.title}</h2><div class="slide-content">${sl.body}${qHtml}</div></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;border-top:2px dashed #ddd6fe;padding-top:12px">
+          <button class="btn" style="background:#64748b" ${slideIdx === 0 ? 'disabled' : ''} onclick="slideIdx--;quizMsg='';render()">◀ Өмнөх</button>
+          <span style="font-size:13px;font-weight:800;color:#475569">${cur.lessonTitle}</span>
+          <button class="btn btn-warm" ${slideIdx + 1 >= cur.slides.length ? 'disabled' : ''} onclick="slideIdx++;quizMsg='';render()">Дараах ▶</button>
+        </div>
+      </div>
+    `;
+  } else if (tab === 2) {
+    bodyHtml = `
+      <div class="a4-page">
+        <div class="a4-head"><h2>🃏 Самбарын Хэрэглэгдэхүүн: ${cur.subject} (4-р анги)</h2><div style="font-size:12.5px;font-weight:800">Хайчлаад самбарт наах үзүүлэн карт ✂️</div></div>
+        <div class="cards-grid">${cur.visuals.map(v => `<div class="v-card"><div style="font-size:11.5px;font-weight:900;color:#64748b;margin-bottom:8px">${v.tag}</div><div style="font-size:28px;font-weight:900;color:#6d28d9;margin:12px 0">${v.big}</div><div style="font-size:14.5px;font-weight:800;color:#334155">${v.sub}</div></div>`).join('')}</div>
+      </div>
+    `;
+  } else {
+    bodyHtml = `
+      <div class="a4-page">
+        <div class="a4-head"><h2>📓 Дасгал Ажлын Дэвтэр: ${cur.subject} (4-р анги)</h2><div style="font-size:12.5px;font-weight:800">Нэр: ______________________ &nbsp;|&nbsp; Огноо: 2026.__.__</div></div>
+        ${cur.workbook.map((task, idx) => `<div class="wb-box"><h4>Дасгал ${idx + 1}</h4><div style="font-size:15px;font-weight:800;margin-bottom:10px;line-height:1.55">${task}</div><div class="ruled"></div><div class="ruled"></div></div>`).join('')}
+      </div>
+    `;
+  }
+  main.innerHTML = subjBar + bodyHtml;
+}
+render();
+</script>
+</body>
+</html>

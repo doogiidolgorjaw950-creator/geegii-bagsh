@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="mn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Байгаль шинжлэл • Нийгэм • Эрүүл мэнд | Гээгий багшийн бүтээл</title>
+<style>
+  :root {
+    --bg: #eef7fb;
+    --ink: #173042;
+    --brand: #0c7b93;
+    --green: #15803d;
+    --gold: #f48c06;
+    --ok: #16a34a;
+    --bad: #dc2626;
+    --border: #c5dce8;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    user-select: none;
+  }
+  header {
+    background: linear-gradient(135deg, #14532d, #0c7b93);
+    color: #fff;
+    padding: 13px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 14px rgba(0,0,0,.15);
+  }
+  header h1 { margin: 0; font-size: 17.5px; }
+  header small { display: block; opacity: .9; font-size: 11.5px; }
+
+  .tabs {
+    display: flex;
+    gap: 6px;
+    background: rgba(255,255,255,.16);
+    padding: 4px;
+    border-radius: 12px;
+    flex-wrap: wrap;
+  }
+  .tab {
+    border: 0;
+    border-radius: 9px;
+    padding: 8px 12px;
+    font-weight: 800;
+    font-size: 12.5px;
+    cursor: pointer;
+    background: transparent;
+    color: #fff;
+  }
+  .tab.active { background: #fff; color: var(--ink); }
+
+  main { max-width: 900px; margin: 18px auto; padding: 0 14px 45px; }
+
+  .hud {
+    background: #fff;
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    padding: 11px 18px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .board {
+    background: #fff;
+    border: 3px solid #2b5876;
+    border-radius: 24px;
+    padding: 24px 18px;
+    text-align: center;
+    box-shadow: 0 10px 26px rgba(23,48,66,.1);
+  }
+  .topic-tag {
+    display: inline-block;
+    background: #dcfce7;
+    color: #166534;
+    font-weight: 900;
+    font-size: 12.5px;
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+  }
+  .big-ico { font-size: 58px; margin: 8px 0; }
+  .q-txt { font-size: 20px; font-weight: 900; margin: 8px 0 16px; line-height: 1.4; }
+
+  .opt-grid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+  .opt-btn {
+    min-width: 150px;
+    padding: 12px 18px;
+    border-radius: 15px;
+    border: 2.5px solid #0c7b93;
+    background: linear-gradient(180deg, #fff, #e0f2fe);
+    font-size: 16.5px;
+    font-weight: 900;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #0c7b93;
+    transition: transform .1s;
+  }
+  .opt-btn:hover:not(:disabled) { transform: translateY(-2px); background: #bae6fd; }
+  .opt-btn.ok { background: var(--ok); color: #fff; border-color: #15803d; box-shadow: 0 4px 0 #15803d; }
+  .opt-btn.no { background: #fee2e2; color: var(--bad); border-color: var(--bad); box-shadow: 0 4px 0 var(--bad); }
+
+  .next-btn {
+    background: var(--gold);
+    color: #fff;
+    border: 0;
+    border-radius: 14px;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 900;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #c2410c;
+    margin-top: 14px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>🌿 Байгаль шинжлэл • 🏘️ Нийгэм • ❤️ Эрүүл мэнд</h1>
+    <small>Гээгий багшийн бүтээл • 1-р ангийн Хүн ба Орчин хөтөлбөрийн 3 бүлэг сэдэв</small>
+  </div>
+  <div class="tabs">
+    <button class="tab active" id="m0" onclick="setMode(0)">🌿 Байгаль шинжлэл (12)</button>
+    <button class="tab" id="m1" onclick="setMode(1)">🏘️ Нийгэм (12)</button>
+    <button class="tab" id="m2" onclick="setMode(2)">❤️ Эрүүл мэнд (12)</button>
+    <button class="tab" id="soundBtn" onclick="toggleSound()">🔊 Дуу: АСААЛТТАЙ</button>
+  </div>
+</header>
+
+<main id="app"></main>
+
+<script>
+// Web Audio API (Интернэтгүй үед ч дуугарах баярын ба алдааны аялгуу)
+let soundOn = true;
+function playTone(isOk) {
+  if (!soundOn) return;
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    if (isOk) {
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(523.25, ctx.currentTime);
+      osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.1);
+      osc.frequency.setValueAtTime(783.99, ctx.currentTime + 0.2);
+      gain.gain.setValueAtTime(0.18, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.35);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.35);
+    } else {
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(220, ctx.currentTime);
+      osc.frequency.linearRampToValueAtTime(150, ctx.currentTime + 0.25);
+      gain.gain.setValueAtTime(0.14, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.28);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.28);
+    }
+  } catch (e) {}
+}
+
+function toggleSound() {
+  soundOn = !soundOn;
+  document.getElementById('soundBtn').textContent = soundOn ? '🔊 Дуу: АСААЛТТАЙ' : '🔇 Дуу: ХААЛТТАЙ';
+}
+
+const TOPICS = [
+  // 1. БАЙГАЛЬ ШИНЖЛЭЛ (12 дасгал)
+  {
+    name: "Байгаль шинжлэл",
+    badgeBg: "#dcfce7",
+    badgeColor: "#166534",
+    items: [
+      { sub: "Улирал ба Байгаль", ico: "❄️", q: "Цас орж, гол мөрөн хөлддөг улирал аль нь вэ?", opts: ["Зун", "Өвөл", "Намар"], ans: "Өвөл" },
+      { sub: "Улирал ба Байгаль", ico: "🍂", q: "Модны навчис шарлаж унадаг, ургац хураадаг улирал аль нь вэ?", opts: ["Хавар", "Зун", "Намар"], ans: "Намар" },
+      { sub: "Улирал ба Байгаль", ico: "🌱", q: "Төл мал мэндэлж, ичсэн амьтад сэрдэг улирал аль нь вэ?", opts: ["Хавар", "Өвөл", "Намар"], ans: "Хавар" },
+      { sub: "Амьтны аймаг", ico: "🐑", q: "Аль нь гэрийн тэжээвэр таван хошуу мал вэ?", opts: ["Чоно", "Хонь", "Баавгай"], ans: "Хонь" },
+      { sub: "Амьтны аймаг", ico: "🐻", q: "Өвлийн улиралд ичдэг зэрлэг амьтан аль нь вэ?", opts: ["Баавгай", "Туулай", "Үнэг"], ans: "Баавгай" },
+      { sub: "Ургамал", ico: "🌲", q: "Өвөл, зунгүй мөнх ногооноороо байдаг мод аль нь вэ?", opts: ["Нарс, гацуур", "Улиас", "Хус"], ans: "Нарс, гацуур" },
+      { sub: "Ургамал", ico: "🌻", q: "Ургамал ургахад юу зайлшгүй хэрэгтэй вэ?", opts: ["Ус, нарны гэрэл, хөрс", "Чихэр, зайрмаг", "Харанхуй өрөө"], ans: "Ус, нарны гэрэл, хөрс" },
+      { sub: "Амьд ба Амьгүй байгаль", ico: "🌿", q: "Амьд байгальд аль нь хамаарах вэ?", opts: ["Чулуу, элс", "Ургамал, амьтан", "Ус, агаар"], ans: "Ургамал, амьтан" },
+      { sub: "Одон орон", ico: "☀️", q: "Дэлхий дээр гэрэл, дулаан өгдөг од аль нь вэ?", opts: ["Сар", "Нар", "Үүл"], ans: "Нар" },
+      { sub: "Одон орон", ico: "🌍", q: "Бидний амьдардаг гарагийг юу гэж нэрлэдэг вэ?", opts: ["Ангараг", "Дэлхий", "Бархасбадь"], ans: "Дэлхий" },
+      { sub: "Усны төлөв", ico: "🧊", q: "Ус хөлдөхөөрөө юу болж хувирдаг вэ?", opts: ["Мөс", "Уур", "Элс"], ans: "Мөс" },
+      { sub: "Байгаль хамгаалал", ico: "🗑️", q: "Уусан ундааны сав, чихрийн цаасаа хаана хаях вэ?", opts: ["Гудамжинд", "Хогийн саванд", "Голын усанд"], ans: "Хогийн саванд" }
+    ]
+  },
+
+  // 2. НИЙГЭМ (12 дасгал)
+  {
+    name: "Нийгэм ба Харилцаа",
+    badgeBg: "#e0f2fe",
+    badgeColor: "#0369a1",
+    items: [
+      { sub: "Миний гэр бүл", ico: "👨‍👩‍👧‍👦", q: "Аавын аавыг хэн гэж дууддаг вэ?", opts: ["Ах", "Өвөө", "Нагац"], ans: "Өвөө" },
+      { sub: "Миний эх орон", ico: "🇲🇳", q: "Манай улсын нийслэл хот аль нь вэ?", opts: ["Дархан", "Улаанбаатар", "Эрдэнэт"], ans: "Улаанбаатар" },
+      { sub: "Төрийн бэлгэдэл", ico: "🚩", q: "Монгол Улсын төрийн далбаа ямар өнгөнүүдтэй вэ?", opts: ["Улаан, хөх", "Ногоон, шар", "Цагаан, хар"], ans: "Улаан, хөх" },
+      { sub: "Үндэсний өв соёл", ico: "🏠", q: "Монголчуудын уламжлалт сууц аль нь вэ?", opts: ["Монгол гэр", "Майхан", "Овоохой"], ans: "Монгол гэр" },
+      { sub: "Замын хөдөлгөөний дүрэм", ico: "🚦", q: "Гэрлэн дохионы ямар өнгө асахад явган зорчигч зам хөндлөн гарах вэ?", opts: ["🔴 Улаан", "🟡 Шар", "🟢 Ногоон"], ans: "🟢 Ногоон" },
+      { sub: "Замын хөдөлгөөний дүрэм", ico: "🦓", q: "Авто зам хөндлөн гарахдаа хаагуур гарах ёстой вэ?", opts: ["Явган хүний гарцаар", "Хаанаас ч хамаагүй", "Машины урдуур гүйж"], ans: "Явган хүний гарцаар" },
+      { sub: "Сургуулийн дүрэм", ico: "🏫", q: "Багшийг хичээл зааж байх үед сурагч яах ёстой вэ?", opts: ["Анхааралтай сонсоно", "Чанга ярьж үймүүлнэ", "Тоглоомоо тоглоно"], ans: "Анхааралтай сонсоно" },
+      { sub: "Эелдэг харилцаа", ico: "🤝", q: "Бусдаас тусламж авсныхаа дараа ямар үг хэлэх вэ?", opts: ["Баярлалаа", "Баяртай", "Уучлаарай"], ans: "Баярлалаа" },
+      { sub: "Эелдэг харилцаа", ico: "🙏", q: "Санамсаргүй бусдыг гомдоосон эсвэл алдаа гаргасан бол ямар үг хэлэх вэ?", opts: ["Уучлаарай", "Сайн байна уу", "Баярлалаа"], ans: "Уучлаарай" },
+      { sub: "Ажил мэргэжил", ico: "👩‍⚕️", q: "Өвдсөн хүмүүсийг эмчилж эдгээдэг хүн хэн бэ?", opts: ["Эмч", "Багш", "Жолооч"], ans: "Эмч" },
+      { sub: "Ажил мэргэжил", ico: "👩‍🏫", q: "Хүүхдүүдэд эрдэм ном заадаг хүн хэн бэ?", opts: ["Багш", "Тогооч", "Барилгачин"], ans: "Багш" },
+      { sub: "Нийтийн эзэмшил", ico: "📚", q: "Номын сан болон автобусанд хэрхэн биеэ авч явах вэ?", opts: ["Чимээгүй, соёлтой байна", "Чанга хашхирна", "Суудал дээр гишгэнэ"], ans: "Чимээгүй, соёлтой байна" }
+    ]
+  },
+
+  // 3. ЭРҮҮЛ МЭНД БА АЮУЛГҮЙ БАЙДАЛ (12 дасгал)
+  {
+    name: "Эрүүл мэнд ба Аюулгүй байдал",
+    badgeBg: "#fee2e2",
+    badgeColor: "#991b1b",
+    items: [
+      { sub: "Ариун цэвэр", ico: "🪥", q: "Шүдээ өдөрт хэдэн удаа угаах вэ?", opts: ["Өглөө, орой 2 удаа", "Долоо хоногт 1 удаа", "Угаах шаардлагагүй"], ans: "Өглөө, орой 2 удаа" },
+      { sub: "Ариун цэвэр", ico: "🧼", q: "Хоол идэхийн өмнө болон гаднаас орж ирээд юу хийх ёстой вэ?", opts: ["Гараа савандаж угаах", "Шууд хоолоо идэх", "Зурагт үзэх"], ans: "Гараа савандаж угаах" },
+      { sub: "Эрүүл хооллолт", ico: "🥦", q: "Аль нь хүний биед хамгийн тустай эрүүл хүнс вэ?", opts: ["Жимс, хүнсний ногоо, сүү", "Хийжүүлсэн ундаа, чипс", "Хэт их чихэр"], ans: "Жимс, хүнсний ногоо, сүү" },
+      { sub: "Хүнсний аюулгүй байдал", ico: "🍎", q: "Жимс, хүнсний ногоог идэхийн өмнө яах ёстой вэ?", opts: ["Цэвэр усаар сайтар угаах", "Шууд хазаж идэх", "Арчихгүй идэх"], ans: "Цэвэр усаар сайтар угаах" },
+      { sub: "Мэдрэхүйн эрхтэн", ico: "👂", q: "Бид юуны тусламжтайгаар дуу чимээг сонсдог вэ?", opts: ["Нүд", "Чих", "Хамар"], ans: "Чих" },
+      { sub: "Мэдрэхүйн эрхтэн", ico: "👀", q: "Нүдээ хамгаалахын тулд утас, зурагтыг хэрхэн үзэх вэ?", opts: ["Хол зайнаас, богино хугацаагаар", "Нүүрэндээ тулгаж удаан үзнэ", "Харанхуйд удаан үзнэ"], ans: "Хол зайнаас, богино хугацаагаар" },
+      { sub: "Хөдөлгөөн ба Амралт", ico: "🏃", q: "Өглөө бүр дасгал хөдөлгөөн хийх нь ямар ач тустай вэ?", opts: ["Бие чийрэгжиж эрүүл өснө", "Ядарч өвдөнө", "Ач тусгүй"], ans: "Бие чийрэгжиж эрүүл өснө" },
+      { sub: "Улирлын хувцаслалт", ico: "🧥", q: "Өвлийн хүйтэнд даарч ханиад хүрэхгүйн тулд яах вэ?", opts: ["Дулаан хувцас, малгай, бээлий өмсөнө", "Нимгэн хувцастай гарна", "Малгайгүй гүйнэ"], ans: "Дулаан хувцас, малгай, бээлий өмсөнө" },
+      { sub: "Ахуйн аюулгүй байдал", ico: "🔌", q: "Цахилгааны залгуур болон чүдэнзээр тоглож болох уу?", opts: ["Болно", "Огт болохгүй, аюултай", "Ганцаараа үедээ болно"], ans: "Огт болохгүй, аюултай" },
+      { sub: "Ахуйн аюулгүй байдал", ico: "🚪", q: "Гэртээ ганцаараа байх үед танихгүй хүн хаалга тогшвол яах вэ?", opts: ["Хаалгаа нээж өгнө", "Хаалгаа нээхгүй, аав ээждээ хэлнэ", "Гараад зугтана"], ans: "Хаалгаа нээхгүй, аав ээждээ хэлнэ" },
+      { sub: "Онцгой байдал", ico: "🚒", q: "Гал түймэр гарсан үед ямар дугаар руу залгаж тусламж дуудах вэ?", opts: ["101", "102", "103"], ans: "101" },
+      { sub: "Онцгой байдал", ico: "🚑", q: "Эмнэлгийн яаралтай түргэн тусламжийн дугаар аль нь вэ?", opts: ["101", "103", "105"], ans: "103" }
+    ]
+  }
+];
+
+const PRAISES = [
+  "🌟 Гайхалтай! Яг зөв хариуллаа!",
+  "🎉 Браво! Чи үнэхээр ухаалаг хүүхэд юм!",
+  "👏 Зөв байна! +10 оноо нэмэгдлээ!",
+  "✨ Гээгий багш чамаар бахархаж байна!",
+  "🏆 Онц! Дараагийн дасгал руу орцгооё!"
+];
+
+let mode = 0; // 0 = Байгаль шинжлэл, 1 = Нийгэм, 2 = Эрүүл мэнд
+let idx = 0;
+let lives = 5;
+let score = 0;
+let solved = false;
+let wrongOpts = new Set();
+
+function setMode(m) {
+  mode = m;
+  idx = 0;
+  lives = 5;
+  score = 0;
+  solved = false;
+  wrongOpts.clear();
+  [0, 1, 2].forEach(i => document.getElementById(`m${i}`).classList.toggle('active', i === mode));
+  render();
+}
+
+function chooseOpt(optIdx) {
+  if (solved || lives <= 0) return;
+  const item = TOPICS[mode].items[idx];
+  const chosen = item.opts[optIdx];
+
+  if (chosen === item.ans) {
+    solved = true;
+    score += 10;
+    playTone(true);
+    const praise = PRAISES[Math.floor(Math.random() * PRAISES.length)];
+    render(`${praise} (+10 оноо)`, true);
+  } else {
+    wrongOpts.add(chosen);
+    lives--;
+    playTone(false);
+    if (lives <= 0) {
+      renderGameOver();
+    } else {
+      render(`❌ Буруу байна. Дахин бодоод үзээрэй! (Үлдсэн амь: ${lives})`, false);
+    }
+  }
+}
+
+function nextItem() {
+  const list = TOPICS[mode].items;
+  if (idx + 1 < list.length) {
+    idx++;
+    solved = false;
+    wrongOpts.clear();
+    render();
+  } else {
+    renderWin();
+  }
+}
+
+function render(msg = '', isOk = true) {
+  const app = document.getElementById('app');
+  const curTopic = TOPICS[mode];
+  const item = curTopic.items[idx];
+  const hearts = '❤️'.repeat(lives) + '🖤'.repeat(Math.max(0, 5 - lives));
+
+  const optsHtml = item.opts.map((o, i) => {
+    const okCls = solved && o === item.ans ? 'ok' : '';
+    const noCls = wrongOpts.has(o) ? 'no' : '';
+    return `<button class="opt-btn ${okCls} ${noCls}" ${solved ? 'disabled' : ''} onclick="chooseOpt(${i})">${o}</button>`;
+  }).join('');
+
+  app.innerHTML = `
+    <div class="hud">
+      <div style="font-size:21px;letter-spacing:2px">${hearts}</div>
+      <div style="font-weight:800;color:#0c7b93">Дасгал: ${idx + 1} / ${curTopic.items.length}</div>
+      <div style="background:#fef3c7;border:2px solid #f59e0b;color:#92400e;font-weight:900;padding:5px 14px;border-radius:20px">⭐ Оноо: ${score}</div>
+    </div>
+    <div class="board">
+      <div class="topic-tag" style="background:${curTopic.badgeBg};color:${curTopic.badgeColor}">${curTopic.name} • ${item.sub}</div>
+      <div class="big-ico">${item.ico}</div>
+      <div class="q-txt">${item.q}</div>
+      <div class="opt-grid">${optsHtml}</div>
+      <div style="min-height:30px;margin-top:14px;font-size:17px;font-weight:900;color:${isOk ? '#16a34a' : '#dc2626'}">${msg}</div>
+      ${solved ? `<button class="next-btn" onclick="nextItem()">Дараагийн дасгал ▶</button>` : ''}
+    </div>
+  `;
+}
+
+function renderWin() {
+  const stars = lives === 5 ? '⭐⭐⭐' : lives >= 3 ? '⭐⭐' : '⭐';
+  const curTopic = TOPICS[mode];
+  document.getElementById('app').innerHTML = `
+    <div class="board" style="padding:36px 20px">
+      <div style="font-size:50px">${stars}</div>
+      <h2 style="color:#16a34a;font-size:26px">БАЯР ХҮРГЭЕ! «${curTopic.name}» бүлгийг амжилттай дүүргэлээ!</h2>
+      <p style="font-size:17px;font-weight:700">Нийт оноо: <b>${score}</b></p>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+        <button class="next-btn" style="background:#64748b;box-shadow:none" onclick="setMode(${mode})">🔁 Дахин тоглох</button>
+        ${mode < 2 ? `<button class="next-btn" onclick="setMode(${mode + 1})">Дараагийн сэдэв рүү ▶</button>` : `<button class="next-btn" onclick="setMode(0)">🌿 Эхнээс нь тоглох</button>`}
+      </div>
+    </div>
+  `;
+}
+
+function renderGameOver() {
+  document.getElementById('app').innerHTML = `
+    <div class="board" style="padding:36px 20px">
+      <div style="font-size:50px">💔😢</div>
+      <h2 style="color:#dc2626;font-size:26px">Амь дууслаа!</h2>
+      <p style="font-size:16px;font-weight:700">Санаа бүү зов! Дахин оролдоод бүх зүрхээ хадгалж үзээрэй. Оноо: <b>${score}</b></p>
+      <button class="next-btn" onclick="setMode(${mode})">🔄 Дахин эхлэх</button>
+    </div>
+  `;
+}
+
+render();
+</script>
+</body>
+</html>

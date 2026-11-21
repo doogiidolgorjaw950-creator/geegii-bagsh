@@ -1,0 +1,704 @@
+<!doctype html>
+<html lang="mn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1-р анги: Хуулан бичиг ба Дасгал ажлын дэвтэр | Гээгий багшийн бүтээл</title>
+<style>
+  :root {
+    --bg: #eef7fb;
+    --ink: #173042;
+    --brand: #0c7b93;
+    --brand2: #f48c06;
+    --vowel: #d62828;
+    --cons: #1d4ed8;
+    --sign: #7c3aed;
+    --ok: #16a34a;
+    --bad: #dc2626;
+    --border: #c5dce8;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+  }
+  header {
+    background: linear-gradient(135deg, #173042, #0c7b93);
+    color: #fff;
+    padding: 12px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 14px rgba(0,0,0,.15);
+  }
+  header h1 { margin: 0; font-size: 17.5px; }
+  header small { display: block; opacity: .9; font-size: 11.5px; }
+
+  .tabs {
+    display: flex;
+    gap: 6px;
+    background: rgba(255,255,255,.15);
+    padding: 4px;
+    border-radius: 12px;
+    flex-wrap: wrap;
+  }
+  .tab-btn {
+    border: 0;
+    border-radius: 9px;
+    padding: 8px 13px;
+    font-weight: 800;
+    font-size: 12.5px;
+    cursor: pointer;
+    background: transparent;
+    color: #fff;
+  }
+  .tab-btn.active { background: #fff; color: var(--ink); }
+
+  main { max-width: 980px; margin: 18px auto; padding: 0 14px 50px; }
+
+  /* Toolbar */
+  .toolbar {
+    background: #fff;
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    padding: 12px 16px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .toolbar input, .toolbar select {
+    padding: 7px 10px;
+    border: 1.5px solid #94a3b8;
+    border-radius: 9px;
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .print-btn {
+    background: var(--brand2);
+    color: #fff;
+    border: 0;
+    border-radius: 10px;
+    padding: 9px 16px;
+    font-weight: 900;
+    cursor: pointer;
+    font-size: 13.5px;
+  }
+
+  /* Letter Selector Pills */
+  .letter-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    background: #fff;
+    padding: 10px;
+    border-radius: 14px;
+    border: 1.5px solid var(--border);
+    margin-bottom: 16px;
+  }
+  .l-pill {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    border: 1.5px solid #cbd5e1;
+    background: #f8fafc;
+    font-weight: 900;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  .l-pill.active {
+    background: #0c7b93;
+    color: #fff;
+    border-color: #0c7b93;
+  }
+
+  /* A4 Workbook Sheet */
+  .a4-sheet {
+    background: #fff;
+    border: 2.5px solid #2b5876;
+    border-radius: 18px;
+    padding: 24px 26px;
+    box-shadow: 0 10px 26px rgba(23,48,66,.1);
+  }
+  .sheet-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2.5px solid #0c7b93;
+    padding-bottom: 10px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .sheet-meta { font-size: 13px; font-weight: 800; color: #334155; }
+  .letter-showcase {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 14px;
+    background: #f8fafc;
+    border: 2px solid #cbd5e1;
+    border-radius: 16px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    align-items: center;
+  }
+  @media (max-width: 640px) { .letter-showcase { grid-template-columns: 1fr; } }
+
+  .big-char-box {
+    text-align: center;
+    background: #fff;
+    border: 2.5px solid #f59e0b;
+    border-radius: 14px;
+    padding: 8px;
+  }
+  .big-char {
+    font-size: 46px;
+    font-weight: 900;
+    line-height: 1.1;
+  }
+  .cursive-sample {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-style: italic;
+    font-size: 32px;
+    color: #0c7b93;
+    margin-top: 2px;
+  }
+  .word-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .w-card {
+    background: #fff;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 12px;
+    padding: 8px;
+    text-align: center;
+  }
+  .w-card .ico { font-size: 30px; }
+  .w-card .w-txt { font-size: 16px; font-weight: 900; margin-top: 2px; }
+  .w-card .w-syl { font-size: 12px; font-weight: 700; color: #64748b; }
+
+  /* Ruled Handwriting Lines (Ташуу шугамтай дэвтрийн мөр) */
+  .section-label {
+    font-size: 14px;
+    font-weight: 900;
+    color: #0c7b93;
+    margin: 12px 0 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .copy-lines {
+    border: 1.5px solid #94a3b8;
+    border-radius: 12px;
+    padding: 8px 12px;
+    background: #fff;
+    margin-bottom: 14px;
+  }
+  .ruled-row {
+    height: 36px;
+    border-bottom: 1.5px solid #60a5fa;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: 3px;
+    margin-bottom: 6px;
+  }
+  .ruled-row::before {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; top: 14px;
+    border-top: 1px dashed #93c5fd;
+  }
+  .trace-txt {
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    font-size: 21px;
+    font-weight: 700;
+    color: #94a3b8;
+    letter-spacing: 3px;
+    z-index: 1;
+  }
+
+  /* Copy Paragraph Box */
+  .copy-text-box {
+    background: #fffbeb;
+    border: 2px solid #fcd34d;
+    border-radius: 14px;
+    padding: 12px 16px;
+    margin-bottom: 12px;
+  }
+  .copy-text-title {
+    font-weight: 900;
+    font-size: 16px;
+    color: #b45309;
+    margin-bottom: 4px;
+  }
+  .copy-text-body {
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.6;
+  }
+
+  /* Workbook Tasks Box */
+  .task-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 8px;
+  }
+  @media (max-width: 680px) { .task-grid { grid-template-columns: 1fr; } }
+  .task-box {
+    border: 2px solid #93c5fd;
+    background: #f8fafc;
+    border-radius: 14px;
+    padding: 10px 14px;
+    font-size: 13.5px;
+    font-weight: 700;
+  }
+  .task-box h4 { margin: 0 0 6px; color: #1d4ed8; font-size: 14px; }
+  .sound-boxes {
+    display: inline-flex;
+    gap: 4px;
+    margin-top: 4px;
+  }
+  .s-cell {
+    width: 24px;
+    height: 24px;
+    border: 2px solid #475569;
+    background: #fff;
+    display: inline-block;
+  }
+
+  /* Interactive Game Mode */
+  .hud {
+    background: #fff;
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    padding: 12px 18px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .board {
+    background: #fff;
+    border: 3px solid #2b5876;
+    border-radius: 24px;
+    padding: 24px 18px;
+    text-align: center;
+    box-shadow: 0 10px 26px rgba(23,48,66,.1);
+  }
+  .opt-grid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 16px;
+  }
+  .opt-btn {
+    min-width: 90px;
+    padding: 12px 18px;
+    border-radius: 14px;
+    border: 2.5px solid #0c7b93;
+    background: linear-gradient(180deg, #fff, #e0f2fe);
+    font-size: 18px;
+    font-weight: 900;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #0c7b93;
+  }
+  .opt-btn.ok { background: var(--ok); color: #fff; border-color: #15803d; box-shadow: 0 4px 0 #15803d; }
+  .opt-btn.no { background: #fee2e2; color: var(--bad); border-color: var(--bad); box-shadow: 0 4px 0 var(--bad); }
+
+  @media print {
+    header, .toolbar, .letter-pills, .no-print { display: none !important; }
+    body { background: #fff; }
+    main { margin: 0; padding: 0; max-width: 100%; }
+    .a4-sheet { border: 0; box-shadow: none; padding: 6mm 8mm; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>✍️ 1-р анги: Хуулан бичиг ба Дасгал ажлын дэвтэр</h1>
+    <small>Гээгий багшийн бүтээл • Сурах бичгийн үсэг үзэх дарааллын дагуу (А–Я)</small>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" id="tab0" onclick="setTab(0)">📓 Хуулан бичиг & Дэвтэр (Хэвлэх)</button>
+    <button class="tab-btn" id="tab1" onclick="setTab(1)">🎮 Дасгал ажлын тоглоом (24 дасгал)</button>
+  </div>
+</header>
+
+<main id="appMain"></main>
+
+<script>
+const VOWELS = new Set(['А','Э','И','О','У','Ө','Ү','Е','Ё','Ю','Я','Ы','а','э','и','о','у','ө','ү','е','ё','ю','я','ы']);
+const SIGNS = new Set(['Ь','Ъ','ь','ъ']);
+
+function colorText(str) {
+  return [...str].map(ch => {
+    if (VOWELS.has(ch)) return `<span style="color:#d62828">${ch}</span>`;
+    if (SIGNS.has(ch)) return `<span style="color:#7c3aed">${ch}</span>`;
+    if (/[А-ЯӨҮЁа-яөүё]/.test(ch)) return `<span style="color:#1d4ed8">${ch}</span>`;
+    return ch;
+  }).join('');
+}
+
+// 1-р ангийн Цагаан толгойн сурах бичгийн үсэг үзэх дарааллаар (35 үсэг)
+const CURRICULUM_LETTERS = [
+  { ch: 'А', type: 'Эгшиг', words: [['🍎','АЛИМ','А-ЛИМ'],['🐎','АДУУ','А-ДУУ'],['🕷️','ААЛЗ','ААЛЗ']],
+    trace1: 'А а   А а   Аа   аа   Аа', trace2: 'а-лим   а-дуу   аав   а-гаа',
+    title: 'Аавын адуу', text: 'Аав адуугаа услахаар явлаа. Алаг унага эхийгээ даган давхив.' },
+  { ch: 'Э', type: 'Эгшиг', words: [['👵','ЭМЭЭ','Э-МЭЭ'],['🦋','ЭРВЭЭХЭЙ','ЭР-ВЭЭ-ХЭЙ'],['💊','ЭМ','ЭМ']],
+    trace1: 'Э э   Э э   Ээ   ээ   Ээ', trace2: 'э-мээ   ээж   эр-вээ-хэй   э-лэг',
+    title: 'Эмээгийн дээл', text: 'Эмээ минь эсгий урлаж, эрдэнийн сайхан дээл оёлоо.' },
+  { ch: 'И', type: 'Эгшиг', words: [['🐐','ИШИГ','И-ШИГ'],['🐆','ИРВЭС','ИР-ВЭС'],['🍵','ИДЭЭ','И-ДЭЭ']],
+    trace1: 'И и   И и   Ии   ии   Ии', trace2: 'и-шиг   ир-вэс   и-дээ   и-рэх',
+    title: 'Ишигний тоглоом', text: 'Ижилхэн хоёр ишиг хадны орой дээр харайн тоглоно.' },
+  { ch: 'О', type: 'Эгшиг', words: [['⭐','ОД','ОД'],['🌲','ОЙ','ОЙ'],['✈️','ОНГОЦ','ОН-ГОЦ']],
+    trace1: 'О о   О о   Оо   оо   Оо', trace2: 'од   ой   он-гоц   о-лон',
+    title: 'Ойн цоорхой', text: 'Ойн цоорхойд олон цэцэг дэлгэрч, оройд нь одод гялалзана.' },
+  { ch: 'У', type: 'Эгшиг', words: [['💧','УС','УС'],['⛰️','УУЛ','УУЛ'],['🍇','УСАН ҮЗЭМ','У-САН']],
+    trace1: 'У у   У у   Уу   уу   Уу', trace2: 'ус   уул   у-на-га   у-лаан',
+    title: 'Уулын булаг', text: 'Өндөр уулын бэлээс тунгалаг ус урсан мяралзана.' },
+  { ch: 'Ө', type: 'Эгшиг', words: [['🥚','ӨНДӨГ','ӨН-ДӨГ'],['🧸','ӨВӨӨ','Ө-ВӨӨ'],['❄️','ӨВӨЛ','Ө-ВӨЛ']],
+    trace1: 'Ө ө   Ө ө   Өө   өө   Өө', trace2: 'ө-вөө   өн-дөг   ө-вөл   өн-дөр',
+    title: 'Өвөөгийн үлгэр', text: 'Өвөл болоход өвөө минь бидэнд өнө эртний үлгэр ярьж өгдөг.' },
+  { ch: 'Ү', type: 'Эгшиг', words: [['🐄','ҮНЭЭ','Ү-НЭЭ'],['🦊','ҮНЭГ','Ү-НЭГ'],['☁️','ҮҮЛ','ҮҮЛ']],
+    trace1: 'Ү ү   Ү ү   Үү   үү   Үү', trace2: 'ү-нээ   ү-нэг   үүл   ү-зэг',
+    title: 'Үүр цайлаа', text: 'Үүр цайж, үүлэн дундаас алтан нар мандав.' },
+  { ch: 'М', type: 'Гийгүүлэгч', words: [['🐱','МУУР','МУУР'],['🌳','МОД','МОД'],['🐍','МОГОЙ','МО-ГОЙ']],
+    trace1: 'М м   ма   мэ   ми   мо   му   мө   мү', trace2: 'муур   мод   э-мээ   а-лим',
+    title: 'Миний муур', text: 'Манай муур маш цэвэрч. Өглөө бүр нүүрээ угаана.' },
+  { ch: 'С', type: 'Гийгүүлэгч', words: [['🌙','САР','САР'],['🥛','СҮҮ','СҮҮ'],['🏫','СУРГУУЛЬ','СУР-ГУУЛЬ']],
+    trace1: 'С с   са   сэ   си   со   су   сө   сү', trace2: 'сар   сүү   ус   са-наа',
+    title: 'Сайхан сүү', text: 'Сарнай охин өглөө бүр бүлээн сүү уугаад сургуульдаа явдаг.' },
+  { ch: 'Р', type: 'Гийгүүлэгч', words: [['📻','РАДИО','РА-ДИ-О'],['🖼️','ЗУРАГ','ЗУ-РАГ'],['🌷','САРНАЙ','САР-НАЙ']],
+    trace1: 'Р р   ра   рэ   ри   ро   ру   рө   рү', trace2: 'сар   гар   зу-раг   ир-вэс',
+    title: 'Уран зураг', text: 'Ариунаа уран зураг зурж, сарнай цэцэг будав.' },
+  { ch: 'Х', type: 'Гийгүүлэгч', words: [['✏️','ХАРАНДАА','ХА-РАН-ДАА'],['🐑','ХОНЬ','ХОНЬ'],['🦢','ХУН','ХУН']],
+    trace1: 'Х х   ха   хэ   хи   хо   ху   хө   хү', trace2: 'хонь   хун   ха-ран-даа   ах',
+    title: 'Хун шувуу', text: 'Хөх нуурын мандалд хос цагаан хун хөвнө.' },
+  { ch: 'Н', type: 'Гийгүүлэгч', words: [['☀️','НАР','НАР'],['🐕','НОХОЙ','НО-ХОЙ'],['📖','НОМ','НОМ']],
+    trace1: 'Н н   на   нэ   ни   но   ну   нө   нү', trace2: 'нар   ном   но-хой   ү-нээ',
+    title: 'Нарны илч', text: 'Нар мандаж, ном унших цаг боллоо. Наран номоо нээв.' },
+  { ch: 'Б', type: 'Гийгүүлэгч', words: [['🐻','БААВГАЙ','БААВ-ГАЙ'],['⚽','БӨМБӨГ','БӨМ-БӨГ'],['💍','БӨГЖ','БӨГЖ']],
+    trace1: 'Б б   ба   бэ   би   бо   бу   бө   бү', trace2: 'бөм-бөг   баав-гай   би-чиг',
+    title: 'Бат ба Бөмбөг', text: 'Бат бөмбөгөө аваад найзуудтайгаа тоглохоор гарлаа.' },
+  { ch: 'Л', type: 'Гийгүүлэгч', words: [['🥕','ЛУУВАН','ЛУУ-ВАН'],['🕯️','ЛАА','ЛАА'],['🦁','АРСЛАН','АРС-ЛАН']],
+    trace1: 'Л л   ла   лэ   ли   ло   лу   лө   лү', trace2: 'луу-ван   лаа   а-лим   мал',
+    title: 'Амтат лууван', text: 'Туулай луувангаа угаагаад амтархан идэв.' },
+  { ch: 'Ш', type: 'Гийгүүлэгч', words: [['🐦','ШУВУУ','ШУ-ВУУ'],['☂️','ШҮХЭР','ШҮ-ХЭР'],['🐜','ШОРГООЛЖ','ШОР-ГООЛЖ']],
+    trace1: 'Ш ш   ша   шэ   ши   шо   шу   шө   шү', trace2: 'шу-вуу   шү-хэр   и-шиг   шар',
+    title: 'Шувууны үүр', text: 'Шувуухай модон дээр үүрээ засаж, дэгдээхэйгээ өсгөнө.' },
+  { ch: 'Г', type: 'Гийгүүлэгч', words: [['🐷','ГАХАЙ','ГА-ХАЙ'],['🔥','ГАЛ','ГАЛ'],['🦢','ГАЛУУ','ГА-ЛУУ']],
+    trace1: 'Г г   га   гэ   ги   го   гу   гө   гү', trace2: 'гал   га-луу   гар   за-гас',
+    title: 'Ганган галуу', text: 'Ганган цагаан галуунууд голын усанд сэлнэ.' },
+  { ch: 'Д', type: 'Гийгүүлэгч', words: [['🥁','ДЭЛДЭН','ДЭЛ-ДЭН'],['🌊','ДАЛАЙ','ДА-ЛАЙ'],['👘','ДЭЭЛ','ДЭЭЛ']],
+    trace1: 'Д д   да   дэ   ди   до   ду   дө   дү', trace2: 'дээл   да-лай   од   мод',
+    title: 'Доржийн дэвтэр', text: 'Дорж дэвтэртээ цэвэрхэн, сайхан хуулан бичлээ.' },
+  { ch: 'Т', type: 'Гийгүүлэгч', words: [['🐫','ТЭМЭЭ','ТЭ-МЭЭ'],['🐰','ТУУЛАЙ','ТУУ-ЛАЙ'],['🐓','ТАХИА','ТА-ХИА']],
+    trace1: 'Т т   та   тэ   ти   то   ту   тө   тү', trace2: 'тэ-мээ   туу-лай   та-хиа   бат',
+    title: 'Таван хошуу мал', text: 'Тэмээ бол говийн хөлөг онгоц юм. Тэмээ их тэвчээртэй.' },
+  { ch: 'Ц', type: 'Гийгүүлэгч', words: [['🌸','ЦЭЦЭГ','ЦЭ-ЦЭГ'],['❄️','ЦАС','ЦАС'],['⏰','ЦАГ','ЦАГ']],
+    trace1: 'Ц ц   ца   цэ   ци   цо   цу   цө   цү', trace2: 'цэ-цэг   цас   цаг   цай',
+    title: 'Цэцэгт тал', text: 'Цэцэгс дэлгэрсэн талд эрвээхэй нисэлдэнэ.' },
+  { ch: 'З', type: 'Гийгүүлэгч', words: [['🐘','ЗААН','ЗААН'],['🐟','ЗАГАС','ЗА-ГАС'],['🐝','ЗӨГИЙ','ЗӨ-ГИЙ']],
+    trace1: 'З з   за   зэ   зи   зо   зу   зө   зү', trace2: 'заан   за-гас   зө-гий   зам',
+    title: 'Ажилч зөгий', text: 'Зөгий цэцэгнээс амтат бал цуглуулж үүрэндээ авчирна.' },
+  { ch: 'Ч', type: 'Гийгүүлэгч', words: [['🐺','ЧОНО','ЧО-НО'],['🍒','ЧАВГА','ЧАВ-ГА'],['👂','ЧИХ','ЧИХ']],
+    trace1: 'Ч ч   ча   чэ   чи   чо   чу   чө   чү', trace2: 'чо-но   чих   чав-га   ач',
+    title: 'Чимгээгийн чихэр', text: 'Чимгээ амтат чавга, чихрээ дүүтэйгээ хувааж идэв.' },
+  { ch: 'Ж', type: 'Гийгүүлэгч', words: [['🍊','ЖҮРЖ','ЖҮРЖ'],['🚙','ЖОЛООЧ','ЖО-ЛООЧ'],['🍑','ЖИМС','ЖИМС']],
+    trace1: 'Ж ж   жа   жэ   жи   жо   жу   жө   жү', trace2: 'жимс   жүрж   ээж   жил',
+    title: 'Жимсний цэцэрлэг', text: 'Жимсний цэцэрлэгт алим, жүрж, интоор ургажээ.' },
+  { ch: 'В', type: 'Гийгүүлэгч', words: [['🚐','АВТОБУС','АВ-ТО-БУС'],['🏺','ВААР','ВААР'],['🎸','ВИОЛОНЧЕЛЬ','ВИ-О']],
+    trace1: 'В в   ва   вэ   ви   во   ву   вө   вү', trace2: 'ваар   аав   тав   ха-вар',
+    title: 'Хаврын урь', text: 'Хавар болж, шувууд дулаан орноос буцаж ирлээ.' },
+  { ch: 'П', type: 'Гийгүүлэгч', words: [['🐧','ПИНГВИН','ПИНГ-ВИН'],['🚀','ПУУЖИН','ПУУ-ЖИН'],['👕','ПОДВОЛК','ПОД-ВОЛК']],
+    trace1: 'П п   па   пэ   пи   по   пу   пө   пү', trace2: 'пуу-жин   пинг-вин   сам-пин',
+    title: 'Сансрын пуужин', text: 'Пуужин сансарт хөөрч, од гарагийг судлав.' },
+  { ch: 'Ф', type: 'Гийгүүлэгч', words: [['📸','ФОТО','ФО-ТО'],['🏭','ФАБРИК','ФАБ-РИК'],['🦒','ЖИРАФ','ЖИ-РАФ']],
+    trace1: 'Ф ф   фа   фэ   фи   фо   фу   фө   фү', trace2: 'фо-то   жи-раф   шкаф',
+    title: 'Фото зураг', text: 'Бид ангиараа дурсгалын сайхан фото зураг авахуулав.' },
+  { ch: 'К', type: 'Гийгүүлэгч', words: [['🦘','КЕНГУРУ','КЕН-ГУ-РУ'],['💻','КОМПЬЮТЕР','КОМ-ПЬЮ-ТЕР'],['🎬','КИНО','КИ-НО']],
+    trace1: 'К к   ка   кэ   ки   ко   ку   кө   кү', trace2: 'ки-но   кен-гу-ру   парк',
+    title: 'Хүүхдийн парк', text: 'Амралтын өдөр бид хүүхдийн паркад тоглож, кино үзлээ.' },
+  { ch: 'Щ', type: 'Гийгүүлэгч', words: [['🪥','ЩЁТКА','ЩЁТ-КА'],['🍲','ЩИ','ЩИ'],['🖌️','ЩЁТК','ЩЁТК']],
+    trace1: 'Щ щ   ща   щэ   щи   що   щу', trace2: 'щёт-ка   шүд-ний щёт-ка',
+    title: 'Цэвэрч хүүхэд', text: 'Өглөө, орой бүр шүдний щёткоор шүдээ угааж хэвшье.' },
+  { ch: 'Е', type: 'Туслах эгшиг', words: [['🌍','ЕРТӨНЦ','ЕР-ТӨНЦ'],['9️⃣','ЕС','ЕС'],['🦌','ЕЛДЭН','ЕЛ-ДЭН']],
+    trace1: 'Е е   еэ   еө   еү   бие   үе', trace2: 'ес   ер-төнц   би-е   ү-е',
+    title: 'Есөн эрдэнэ', text: 'Ертөнцийн есөн гайхамшиг, есөн эрдэнийн тухай уншив.' },
+  { ch: 'Ё', type: 'Туслах эгшиг', words: [['🎄','ЁЛК','ЁЛК'],['🦢','ЁНДОН','ЁН-ДОН'],['🥞','ЁОВОН','ЁО-ВОН']],
+    trace1: 'Ё ё   ёо   ёу   оё   гоё   соёо', trace2: 'го-ё   со-ёо   ёо-вон   о-ёх',
+    title: 'Гоё дээл', text: 'Эгч минь гоё хээтэй дээл оёж, ёслолын баярт өмслөө.' },
+  { ch: 'Ю', type: 'Туслах эгшиг', words: [['💎','ЮМ','ЮМ'],[' yurt','ЮРТ','ЮРТ'],['📖','ЮҮДЭН','ЮҮ-ДЭН']],
+    trace1: 'Ю ю   юу   юү   аюу   оюу   юүдэн', trace2: 'о-юу   юү-дэн   а-юу   юм',
+    title: 'Оюу эрдэнэ', text: 'Оюунцэцэг оюу шигтгээтэй гоё малгай, юүдэн өмсөв.' },
+  { ch: 'Я', type: 'Туслах эгшиг', words: [['🐐','ЯМАА','Я-МАА'],['🐢','ЯСТ МЭЛХИЙ','ЯСТ'],['🦴','ЯС','ЯС']],
+    trace1: 'Я я   яа   яу   ая   уя   ямаа', trace2: 'я-маа   а-я   у-яа   я-вах',
+    title: 'Ямааны ишиг', text: 'Ямаа ишгээ дагуулан наранд ээн хэвтэнэ.' },
+  { ch: 'Ы', type: 'Урт эгшиг', words: [['🐎','АДУУНЫ','А-ДУУ-НЫ'],['🌲','МОДНЫ','МОД-НЫ'],['⛰️','УУЛЫН','УУ-ЛЫН']],
+    trace1: 'Ы ы   ны   ры   лы   мы   сы', trace2: 'уу-лын   мод-ны   а-дуу-ны',
+    title: 'Уулын орой', text: 'Өндөр уулын орой дээгүүр цагаан үүл хөвнө.' },
+  { ch: 'Ь', type: 'Зөөлний тэмдэг', words: [['🐎','МОРЬ','МОРЬ'],['🐑','ХОНЬ','ХОНЬ'],['❄️','ЦАСАН ШИРХЭГ','ХУЛЬ']],
+    trace1: 'Ь ь   морь   хонь   амь   соль', trace2: 'морь   хонь   тавь   харь',
+    title: 'Хурдан морь', text: 'Хээр морь наадамд түрүүлж, хүүхдүүд баярлан хөөрөв.' },
+  { ch: 'Ъ', type: 'Хатуугийн тэмдэг', words: [['✍️','БОДЪЁ','БОДЪ-Ё'],['📖','УНШЪЯ','УНШЪ-Я'],['🏃','ЯВЪЯ','ЯВЪ-Я']],
+    trace1: 'Ъ ъ   бодъё   уншъя   явъя   авъя', trace2: 'бодъ-ё   уншъ-я   бичъ-е',
+    title: 'Номоо уншъя', text: 'Бүгдээрээ номоо сайн уншъя, бодлогоо зөв бодъё!' }
+];
+
+// ИНТЕРАКТИВ ДАСГАЛ АЖЛЫН ТОГЛООМ (24 дасгал)
+const GAME_TASKS = [
+  { q: "«АЛИМ» гэдэг үг хэдэн үетэй вэ?", hint: "Эгшгийн тоогоор үеийн тоог олоорой: А-ЛИМ", opts: ["1 үетэй", "2 үетэй", "3 үетэй"], ans: "2 үетэй" },
+  { q: "Дутуу үсгийг нөхөөрэй: М _ Д (Ойд ургадаг)", hint: "Уруул цорвойж хэлэгддэг эгшиг", opts: ["А", "О", "И"], ans: "О" },
+  { q: "«ЭРВЭЭХЭЙ» гэдэг үгэнд хэдэн ЭГШИГ үсэг байна вэ?", hint: "Э, ЭЭ, ЭЙ гэсэн эгшгүүдийг тоол!", opts: ["3 эгшиг", "4 эгшиг", "5 эгшиг"], ans: "5 эгшиг" },
+  { q: "Зөв үеэр тасалсан хувилбарыг сонгоорой: «СУРГУУЛЬ»", hint: "Хоёр үетэй үг", opts: ["СУР-ГУУЛЬ", "СУ-РГУУЛЬ", "СУРГ-УУЛЬ"], ans: "СУР-ГУУЛЬ" },
+  { q: "«МОРЬ» гэдэг үгийн төгсгөлд ямар тэмдэг үсэг орсон бэ?", hint: "Р гийгүүлэгчийг зөөлрүүлж дуудна", opts: ["Ъ (Хатуугийн тэмдэг)", "Ь (Зөөлний тэмдэг)", "Ы (Урт эгшиг)"], ans: "Ь (Зөөлний тэмдэг)" },
+  { q: "Дутуу үеийг нөхөөрэй: ТУУ - ___ (Урт чихтэй амьтан)", hint: "Л гийгүүлэгчтэй үе", opts: ["ЛАЙ", "ГАЙ", "САЙ"], ans: "ЛАЙ" },
+  { q: "Аль үг нь «Н» үсгээр эхэлсэн бэ?", hint: "Тэнгэрт мандаж дулаацуулдаг", opts: ["САР", "НАР", "ОД"], ans: "НАР" },
+  { q: "«БОДЪЁ» гэдэг үгэнд ямар тэмдэг үсэг орсон бэ?", hint: "Эр үгийн гийгүүлэгчийн ард Ё эгшиг орохдоо...", opts: ["Ь", "Ъ", "И"], ans: "Ъ" },
+  { q: "«ЗАГАС» гэдэг үг хэдэн үсэгтэй вэ?", hint: "З - А - Г - А - С", opts: ["4 үсэг", "5 үсэг", "6 үсэг"], ans: "5 үсэг" },
+  { q: "Аль нь ЭГШИГ үсэг вэ?", hint: "Ам ангайж дуугардаг улаан өнгийн үсэг", opts: ["М", "Ө", "Р"], ans: "Ө" },
+  { q: "Өгүүлбэрийг зөв гүйцээгээрэй: «Үхэр ____ иднэ.»", hint: "Бэлчээрт ургадаг ургамал", opts: ["өвс", "мах", "сүү"], ans: "өвс" },
+  { q: "«ХАРАНДАА» гэдэг үг хэдэн үетэй вэ?", hint: "ХА - РАН - ДАА", opts: ["2 үетэй", "3 үетэй", "4 үетэй"], ans: "3 үетэй" },
+  { q: "Аль үг нь 1 үетэй вэ?", hint: "Ганцхан эгшигтэй үг", opts: ["УУЛ", "УНАГА", "УСАН"], ans: "УУЛ" },
+  { q: "Дутуу үсгийг нөх: Ц _ Ц _ Г", hint: "Хавар дэлгэрдэг", opts: ["А, А", "Э, Э", "О, О"], ans: "Э, Э" },
+  { q: "«ОЮУ» гэдэг үгэнд хэдэн үсэг байна вэ?", hint: "О - Ю - У", opts: ["2 үсэг", "3 үсэг", "4 үсэг"], ans: "3 үсэг" },
+  { q: "Зөв бичсэн үгийг олоорой:", hint: "Эмээгийн өмсдөг үндэсний хувцас", opts: ["дэл", "дээл", "дэйл"], ans: "дээл" },
+  { q: "«АДУУНЫ» гэдэг үгийн төгсгөлд ямар урт эгшиг байна вэ?", hint: "Эр үгийн төгсгөлд ордог урт эгшиг", opts: ["ИЙ", "Ы", "ҮҮ"], ans: "Ы" },
+  { q: "Өгүүлбэрийн төгсгөлд ямар тэмдэг тавих вэ? «Чи номоо уншсан уу__»", hint: "Асуусан утгатай өгүүлбэр", opts: [". (Цэг)", "? (Асуултын тэмдэг)", "! (Анхаарлын тэмдэг)"], ans: "? (Асуултын тэмдэг)" },
+  { q: "«ЯМАА» гэдэг үг ямар үсгээр эхэлсэн бэ?", hint: "Туслах эгшиг", opts: ["Е", "Ё", "Я"], ans: "Я" },
+  { q: "«СҮҮ» гэдэг үг хэдэн авиатай (дуудлагатай) вэ?", hint: "Урт ҮҮ нь нэг авиа болно: С + ҮҮ", opts: ["2 авиа", "3 авиа", "4 авиа"], ans: "2 авиа" },
+  { q: "Аль нь ГИЙГҮҮЛЭГЧ үсэг вэ?", hint: "Цэнхэр өнгөөр тэмдэглэдэг үсэг", opts: ["У", "Ш", "Ү"], ans: "Ш" },
+  { q: "Дутуу үеийг нөхөөрэй: БААВ - ___", hint: "Зөгийн балд дуртай том амьтан", opts: ["ГАЙ", "ЛАЙ", "НАЙ"], ans: "ГАЙ" },
+  { q: "Өгүүлбэрийг гүйцээ: «Хун шувуу ____ хөвнө.»", hint: "Хун хаана амьдардаг вэ?", opts: ["нууранд", "модонд", "элсэнд"], ans: "нууранд" },
+  { q: "Цагаан толгойн хамгийн сүүлийн үсэг аль нь вэ?", hint: "35 дахь үсэг", opts: ["Ю", "Я", "Ь"], ans: "Я" }
+];
+
+let activeTab = 0;
+let curLetterIdx = 0;
+let studentName = "Бат-Эрдэнэ";
+let studentClass = "1-р анги";
+
+// Game state
+let gIdx = 0;
+let lives = 5;
+let score = 0;
+let solved = false;
+let wrongOpts = new Set();
+
+function setTab(t) {
+  activeTab = t;
+  [0, 1].forEach(i => document.getElementById(`tab${i}`).classList.toggle('active', i === t));
+  render();
+}
+
+function selectLetter(idx) {
+  curLetterIdx = idx;
+  render();
+}
+
+function checkGame(idx) {
+  if (solved || lives <= 0) return;
+  const item = GAME_TASKS[gIdx];
+  const chosen = item.opts[idx];
+  if (chosen === item.ans) {
+    solved = true;
+    score += 10;
+    render("🌟 Гайхалтай! Яг зөв хариуллаа! (+10 оноо)", "fb-ok");
+  } else {
+    wrongOpts.add(chosen);
+    lives--;
+    if (lives <= 0) {
+      renderGameOver();
+    } else {
+      render(`❌ Буруу байна. Дахин сайн бодоорой! (Үлдсэн амь: ${lives})`, "fb-bad");
+    }
+  }
+}
+
+function nextGame() {
+  if (gIdx + 1 < GAME_TASKS.length) {
+    gIdx++;
+    solved = false;
+    wrongOpts.clear();
+    render();
+  } else {
+    renderGameWin();
+  }
+}
+
+function restartGame() {
+  gIdx = 0;
+  lives = 5;
+  score = 0;
+  solved = false;
+  wrongOpts.clear();
+  render();
+}
+
+function render(msg = '', msgCls = '') {
+  const main = document.getElementById('appMain');
+
+  if (activeTab === 0) {
+    // WORKBOOK & COPYBOOK VIEW
+    const L = CURRICULUM_LETTERS[curLetterIdx];
+    const pillsHtml = CURRICULUM_LETTERS.map((item, i) =>
+      `<button class="l-pill ${i === curLetterIdx ? 'active' : ''}" onclick="selectLetter(${i})">${item.ch}</button>`
+    ).join('');
+
+    const wordsHtml = L.words.map(w => `
+      <div class="w-card">
+        <div class="ico">${w[0]}</div>
+        <div class="w-txt">${colorText(w[1])}</div>
+        <div class="w-syl">${w[2]}</div>
+      </div>
+    `).join('');
+
+    const mainWord = L.words[0][1];
+    const charBoxes = [...mainWord].map(() => `<span class="s-cell"></span>`).join('');
+
+    main.innerHTML = `
+      <div class="toolbar">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+          <label style="font-size:12.5px;font-weight:800">Сурагчийн нэр:</label>
+          <input type="text" value="${studentName}" oninput="studentName=this.value;document.getElementById('sNamePrint').textContent=this.value">
+          <label style="font-size:12.5px;font-weight:800">Анги:</label>
+          <input type="text" style="width:100px" value="${studentClass}" oninput="studentClass=this.value;document.getElementById('sClassPrint').textContent=this.value">
+        </div>
+        <button class="print-btn" onclick="window.print()">🖨️ Энэ хуудсыг хэвлэх (A4)</button>
+      </div>
+
+      <div class="letter-pills">${pillsHtml}</div>
+
+      <div class="a4-sheet">
+        <div class="sheet-head">
+          <div>
+            <span style="background:#e0f2fe;color:#0369a1;padding:3px 10px;border-radius:12px;font-size:12px;font-weight:900">Хичээл №${curLetterIdx + 1} • ${L.type}</span>
+            <h2 style="margin:4px 0 0;font-size:21px">«${L.ch}» үсэг — Хуулан бичиг ба Дасгал ажил</h2>
+          </div>
+          <div class="sheet-meta">
+            Сурагч: <span id="sNamePrint" style="text-decoration:underline">${studentName}</span> &nbsp;|&nbsp;
+            Анги: <span id="sClassPrint">${studentClass}</span>
+          </div>
+        </div>
+
+        <div class="letter-showcase">
+          <div class="big-char-box">
+            <div class="big-char">${colorText(L.ch + ' ' + L.ch.toLowerCase())}</div>
+            <div class="cursive-sample">${L.ch} ${L.ch.toLowerCase()}</div>
+            <div style="font-size:11px;font-weight:800;color:#64748b">Дармал ба Бичмэл</div>
+          </div>
+          <div class="word-cards">${wordsHtml}</div>
+        </div>
+
+        <div class="section-label">✍️ 1. Цэвэр сайхан хуулан бичээрэй (Үсэг ба үеийн холбоо)</div>
+        <div class="copy-lines">
+          <div class="ruled-row"><span class="trace-txt">${L.trace1}</span></div>
+          <div class="ruled-row"></div>
+          <div class="ruled-row"><span class="trace-txt">${L.trace2}</span></div>
+          <div class="ruled-row"></div>
+        </div>
+
+        <div class="section-label">📖 2. Эхийг уншаад доорх мөрөнд хуулан бичээрэй</div>
+        <div class="copy-text-box">
+          <div class="copy-text-title">«${L.title}»</div>
+          <div class="copy-text-body">${colorText(L.text)}</div>
+        </div>
+        <div class="copy-lines">
+          <div class="ruled-row"></div>
+          <div class="ruled-row"></div>
+          <div class="ruled-row"></div>
+        </div>
+
+        <div class="section-label">🧩 3. Дасгал ажлын дэвтэр (Авиа, үсгийн задаргаа)</div>
+        <div class="task-grid">
+          <div class="task-box">
+            <h4>Дасгал 1: Үгийн бүтцийг олоорой</h4>
+            <div>Үг: <b>${mainWord}</b> (${L.words[0][2]})</div>
+            <div style="margin-top:4px">Нийт үсгийн тоо: [ ___ ] &nbsp;|&nbsp; Үеийн тоо: [ ___ ]</div>
+            <div style="margin-top:6px">Эгшиг үсгийг улаанаар, гийгүүлэгчийг цэнхрээр буд:</div>
+            <div class="sound-boxes">${charBoxes}</div>
+          </div>
+          <div class="task-box">
+            <h4>Дасгал 2: Үсгийг таньж дугуйлаарай</h4>
+            <div style="font-size:16px;letter-spacing:5px;margin:6px 0;background:#fff;padding:6px;border-radius:8px;border:1px dashed #94a3b8">
+              А ${L.ch} М С ${L.ch.toLowerCase()} Р О ${L.ch} Н Б ${L.ch.toLowerCase()}
+            </div>
+            <div>Өөрийн үнэлгээ: &nbsp; 😊 Сайн &nbsp;&nbsp; 😐 Дунд &nbsp;&nbsp; 🤔 Хичээнэ</div>
+          </div>
+        </div>
+      </div>
+    `;
+  } else {
+    // INTERACTIVE GAME VIEW
+    const item = GAME_TASKS[gIdx];
+    const hearts = '❤️'.repeat(lives) + '🖤'.repeat(Math.max(0, 5 - lives));
+    const optsHtml = item.opts.map((o, i) => {
+      const isOk = solved && o === item.ans;
+      const isNo = wrongOpts.has(o);
+      return `<button class="opt-btn ${isOk ? 'ok' : ''} ${isNo ? 'no' : ''}" ${solved ? 'disabled' : ''} onclick="checkGame(${i})">${o}</button>`;
+    }).join('');
+
+    main.innerHTML = `
+      <div class="hud">
+        <div style="font-size:21px;letter-spacing:2px">${hearts}</div>
+        <div style="font-weight:800;color:#0c7b93">Дасгал: ${gIdx + 1} / ${GAME_TASKS.length}</div>
+        <div style="background:#fef3c7;border:2px solid #f59e0b;color:#92400e;font-weight:900;padding:5px 14px;border-radius:20px">⭐ Оноо: ${score}</div>
+      </div>
+
+      <div class="board">
+        <span style="background:#e0f2fe;color:#0369a1;padding:5px 14px;border-radius:20px;font-weight:800;font-size:13px">💡 Санамж: ${item.hint}</span>
+        <h2 style="font-size:22px;margin:16px 0 8px">${item.q}</h2>
+        <div class="opt-grid">${optsHtml}</div>
+        <div style="min-height:30px;margin-top:14px;font-size:17px;font-weight:900;color:${msgCls === 'fb-ok' ? '#16a34a' : '#dc2626'}">${msg}</div>
+        ${solved ? `<button class="print-btn" style="margin-top:10px;font-size:16px;padding:12px 24px" onclick="nextGame()">Дараагийн дасгал ▶</button>` : ''}
+      </div>
+    `;
+  }
+}
+
+function renderGameWin() {
+  const stars = lives === 5 ? '⭐⭐⭐' : lives >= 3 ? '⭐⭐' : '⭐';
+  document.getElementById('appMain').innerHTML = `
+    <div class="board" style="padding:36px 20px">
+      <div style="font-size:50px">${stars}</div>
+      <h2 style="color:#16a34a;font-size:26px">БАЯР ХҮРГЭЕ! Бүх 24 дасгалыг амжилттай хийлээ!</h2>
+      <p style="font-size:17px;font-weight:700">Нийт цуглуулсан оноо: <b>${score}</b></p>
+      <button class="print-btn" style="margin-top:14px;font-size:16px;padding:12px 24px" onclick="restartGame()">🔁 Дахин тоглох</button>
+    </div>
+  `;
+}
+
+function renderGameOver() {
+  document.getElementById('appMain').innerHTML = `
+    <div class="board" style="padding:36px 20px">
+      <div style="font-size:50px">💔😢</div>
+      <h2 style="color:#dc2626;font-size:26px">Амь дууслаа!</h2>
+      <p style="font-size:16px;font-weight:700">«Хуулан бичиг & Дэвтэр» хэсгээс дүрмээ сэргээж хараад дахин оролдоорой. Оноо: <b>${score}</b></p>
+      <div style="margin-top:14px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+        <button class="print-btn" onclick="restartGame()">🔄 Дахин эхлэх</button>
+        <button class="print-btn" style="background:#0c7b93" onclick="setTab(0)">📓 Дэвтэр харах</button>
+      </div>
+    </div>
+  `;
+}
+
+render();
+</script>
+</body>
+</html>

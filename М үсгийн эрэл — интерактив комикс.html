@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>М үсгийн эрэл — интерактив комикс</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff8ec;--ink:#1d1b2e;--cap:#fff1b8;--btn:#e8416b;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1e2140;--ink:#f6f3ff;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1e2140;--ink:#f6f3ff;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Nunito","Trebuchet MS",Arial,sans-serif;font-weight:700}
+main{max-width:860px;margin:0 auto;padding:14px}
+h1{text-align:center;font-size:2rem;margin:6px 0 2px;font-weight:900}
+h1 b{color:#d62f50}h1 i{font-style:normal;color:#2672c9}
+.sub{text-align:center;margin:0 0 6px;opacity:.75}
+#vinfo{text-align:center;font-size:.85rem;margin:0 0 10px;opacity:.8}
+#grid{display:grid;grid-template-columns:1fr;gap:14px}
+@media(min-width:720px){#grid{grid-template-columns:1fr 1fr}}
+.p{background:#fff;border:4px solid #1d1b2e;border-radius:18px;overflow:hidden;opacity:0;transform:translateY(18px) scale(.97);pointer-events:none;transition:.5s}
+.p.on{opacity:1;transform:none;pointer-events:auto}
+.cap{display:flex;align-items:center;gap:8px;background:var(--cap);color:#1d1b2e;border-bottom:3px solid #1d1b2e;padding:8px 10px;font-size:1.05rem;font-weight:900}
+.cap button{font-size:1.1rem;border:0;background:none;cursor:pointer;padding:2px 6px}
+svg{display:block;width:100%;height:auto}
+.bub{cursor:pointer}.bub text{font-weight:900;font-size:15px;fill:#1d1b2e}
+.card{cursor:pointer}
+.bob{animation:bob 2.4s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%}
+.flt{animation:flt 2.8s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 50%}
+.fly{animation:fly 3.2s ease-in-out infinite alternate}
+.hop{animation:hop .5s}
+.wig{animation:wig .6s}
+@keyframes bob{50%{transform:translateY(-5px) scaleY(1.02)}}
+@keyframes flt{50%{transform:translateY(-9px) rotate(3deg)}}
+@keyframes fly{from{transform:translate(0,0) rotate(0)}to{transform:translate(-26px,14px) rotate(14deg)}}
+@keyframes hop{40%{transform:translateY(-18px) scale(1.15)}}
+@keyframes wig{25%{transform:rotate(-6deg)}75%{transform:rotate(6deg)}}
+.fall{animation:fall 3s linear infinite}
+@keyframes fall{from{transform:translateY(-30px)}to{transform:translateY(260px)}}
+#ctl{text-align:center;margin:16px 0}
+.btn{font:inherit;font-weight:900;font-size:1.2rem;border:0;border-radius:999px;padding:14px 28px;background:var(--btn);color:#fff;cursor:pointer;min-height:52px}
+.btn:focus-visible,.cap button:focus-visible{outline:4px solid #ffc92e;outline-offset:2px}
+.dots{text-align:center;font-size:1.3rem;letter-spacing:4px}
+#gsc{margin-left:auto;font-weight:900}
+#gre{font:inherit;font-weight:900;border:0;border-radius:999px;background:var(--btn);color:#fff;padding:4px 14px;cursor:pointer}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<main>
+<h1><b>М</b> <i>үсгийн эрэл</i></h1>
+<p class="sub">Ми ба Са  |  Дарж сонс, хөдөлгө!</p>
+<p id="vinfo"></p>
+<div class="dots" id="dots"></div>
+<div id="grid"></div>
+<div class="p" id="game" style="margin-top:14px"><div class="cap"><button id="gsay" aria-label="Дахин сонс">🔊</button><span id="gcap">Даалгавар: картыг ол!</span><span id="gsc">0 / 6</span><button id="gre" style="display:none">🔁</button></div><svg id="gsvg" viewBox="0 0 300 240" role="img"></svg></div>
+<div id="ctl"><button class="btn" id="next">Эхлэх ▶</button></div>
+</main>
+<script>
+const $=s=>document.querySelector(s);
+/* voice */
+let VO=null,MN=false;
+function pick(){try{const v=speechSynthesis.getVoices();VO=v.find(x=>/^mn/i.test(x.lang.replace('_','-')))||v.find(x=>/mongol/i.test(x.name));MN=!!VO;if(!VO)VO=v.find(x=>/^ru/i.test(x.lang.replace('_','-')));
+ $('#vinfo').textContent=MN?'🔊 Монгол дуу идэвхтэй':VO?'🔊 Монгол дуу олдсонгүй, орос дуугаар ойролцоо уншуулж байна':'🔇 Энэ төхөөрөмж дээр дуу байхгүй'}catch(e){}}
+try{speechSynthesis.onvoiceschanged=pick;pick()}catch(e){}
+function say(t){try{speechSynthesis.cancel();let s=t.toLowerCase();if(!MN)s=s.replace(/ө/g,'ё').replace(/ү/g,'ю');const u=new SpeechSynthesisUtterance(s);if(VO){u.voice=VO;u.lang=VO.lang}else u.lang='mn-MN';u.rate=MN?.8:.65;u.pitch=1.05;speechSynthesis.speak(u)}catch(e){}}
+/* characters */
+const K='stroke="#1d1b2e" stroke-width="2.5"';
+function eyes(e,sp,y){let o='';for(const d of[-1,1]){const x=d*sp;
+ if(e=='happy')o+=`<path d="M${x-7} ${y+3}q7-11 14 0" fill="none" stroke="#1d1b2e" stroke-width="3.4" stroke-linecap="round"/>`;
+ else if(e=='surprised')o+=`<circle cx="${x}" cy="${y}" r="7" fill="#fff" ${K}/><circle cx="${x}" cy="${y}" r="3" fill="#1d1b2e"/>`;
+ else o+=`<circle cx="${x}" cy="${y}" r="3.5" fill="#1d1b2e"/>`}
+ if(e=='sad')o+=`<path d="M${-sp-6} ${y-6}l11 4M${sp+6} ${y-6}l-11 4" ${K}/><ellipse cx="${sp+5}" cy="${y+10}" rx="2.4" ry="4" fill="#7cc6f5"/>`;return o}
+function mouth(e,y){return e=='happy'?`<path d="M-9 ${y}q9 11 18 0" fill="none" stroke="#1d1b2e" stroke-width="3.2" stroke-linecap="round"/>`:e=='sad'?`<path d="M-7 ${y+5}q7-8 14 0" fill="none" ${K}/>`:`<ellipse cx="0" cy="${y+3}" rx="4" ry="5" fill="#7a2d2d" ${K}/>`}
+function bear(x,y,s,e,up){const arm=d=>`<ellipse cx="${d*33}" cy="${up?-66:-40}" rx="8" ry="15" fill="#b97a4a" ${K}/>`;
+ return `<g transform="translate(${x} ${y}) scale(${s})" class="who" data-w="bear"><g class="bob">
+ <ellipse cx="-14" cy="-6" rx="11" ry="7" fill="#8d5a32" ${K}/><ellipse cx="14" cy="-6" rx="11" ry="7" fill="#8d5a32" ${K}/>
+ <ellipse cx="0" cy="-38" rx="28" ry="32" fill="#e8685f" ${K}/><ellipse cx="0" cy="-34" rx="15" ry="17" fill="#f2a79f"/>${arm(-1)}${arm(1)}
+ <circle cx="-24" cy="-118" r="11" fill="#b97a4a" ${K}/><circle cx="24" cy="-118" r="11" fill="#b97a4a" ${K}/>
+ <ellipse cx="0" cy="-92" rx="32" ry="30" fill="#b97a4a" ${K}/><ellipse cx="0" cy="-85" rx="13" ry="10" fill="#f6dcb8" ${K}/><ellipse cx="0" cy="-90" rx="4.5" ry="3.2" fill="#1d1b2e"/>
+ ${eyes(e,12,-98)}${mouth(e,-80)}</g></g>`}
+function bird(x,y,s,e,fly){const wy=fly?-70:-44,wr=fly?20:15;
+ return `<g transform="translate(${x} ${y}) scale(${s})" class="who"><g class="${fly?'flt':'bob'}">
+ ${fly?'':'<path d="M-8-14v-12M8-14v-12" stroke="#e8962c" stroke-width="3"/>'}
+ <path d="M-22-34l-22-6 4 14z" fill="#3478b5" ${K}/><circle cx="0" cy="-44" r="28" fill="#5aa9e6" ${K}/><ellipse cx="0" cy="-36" rx="17" ry="15" fill="#e3f3ff"/>
+ <ellipse cx="-33" cy="${wy}" rx="8" ry="${wr}" fill="#3478b5" ${K}/><ellipse cx="33" cy="${wy}" rx="8" ry="${wr}" fill="#3478b5" ${K}/>
+ <path d="M-6-52h12l-6 10z" fill="#ffb23f" ${K}/>${eyes(e,11,-64)}</g></g>`}
+function card(x,y,t,w,h,sz,cls){const c=t.replace(/м/g,'<tspan fill="#d62f50">м</tspan>').replace(/М/g,'<tspan fill="#d62f50">М</tspan>');
+ return `<g transform="translate(${x} ${y})"><g class="card ${cls||''}" data-s="${t}"><rect x="${-w/2}" y="${-h/2}" width="${w}" height="${h}" rx="9" fill="#fff" ${K}/><text y="${sz*.35}" text-anchor="middle" font-size="${sz}" font-weight="900" fill="#1d1b2e">${c}</text></g></g>`}
+function bub(cx,cy,t,tx,ty){return `<g class="bub" data-t="${t}" data-c="${cx} ${cy} ${tx} ${ty}"><path fill="#fff" ${K}/><rect fill="#fff" ${K}/><path class="j" stroke="#fff" stroke-width="4"/><text text-anchor="middle"></text></g>`}
+const sky=(c)=>`<rect width="300" height="240" fill="${c||'#d6efff'}"/><rect y="180" width="300" height="60" fill="#bfe3a8"/>`;
+const wind=(x,y)=>`<path d="M${x} ${y}h34a8 8 0 1 0-8-8" fill="none" stroke="#7aa9d6" stroke-width="3" stroke-linecap="round"/>`;
+const P=[
+['Ми М үсгээ харууллаа.',sky()+bear(80,205,.9,'happy')+card(220,145,'М',70,84,56)+bub(95,58,'Энэ бол М!',82,92)],
+['Салхи үсгүүдийг үлээв.',sky('#c9dcec')+bear(66,208,.85,'surprised')+[[170,110,'ма'],[235,70,'мэ'],[250,140,'ми'],[190,170,'мо']].map(([a,b,t],i)=>`<g class="fly" style="animation-delay:${i*.4}s">${card(a,b,t,52,40,24)}</g>`).join('')+wind(120,40)+wind(150,92)+bub(88,54,'Үсгүүд|алга боллоо!',66,102)],
+['Са туслахаар ирэв.',sky()+bear(70,208,.7,'surprised')+bird(210,165,1.05,'happy',1)+bub(205,38,'Хамт олъё!',205,76)],
+['Тэд үеүүдийг олов.',sky()+bear(55,208,.75,'happy')+bird(138,212,.85,'surprised')+card(205,198,'ми',54,40,26)+card(264,198,'ма',54,40,26)+bub(62,48,'Энд ми!',58,112)+bub(170,100,'Энд ма!',142,152)],
+['Ми үеүүдээ эгнүүлэв.',sky()+bear(52,208,.75,'happy')+'<rect x="108" y="150" width="178" height="66" rx="10" fill="#c98a52" '+K+'/>'+['ма','мэ','ми','мо'].map((t,i)=>card(139+i*38,184,t,34,32,18)).join('')+bub(62,52,'Бүгд олдлоо!',56,114)],
+['Хамтдаа хайвал олдоно.',sky('#ffeab5')+Array.from({length:8},(_,i)=>`<text class="fall" style="animation-delay:${i*.37}s" x="${20+i*36}" y="0" font-size="20">${i%2?'⭐':'💛'}</text>`).join('')+bear(88,208,.85,'happy',1)+bird(215,170,1,'happy',1)+bub(90,54,'Баярлалаа!',88,100)]
+];
+const g=$('#grid');
+P.forEach((p,i)=>{const d=document.createElement('div');d.className='p';
+ d.innerHTML=`<div class="cap"><button aria-label="Уншуул">🔊</button><span>${i+1}. ${p[0]}</span></div><svg viewBox="0 0 300 240" role="img">${p[1]}</svg>`;
+ d.querySelector('.cap button').onclick=()=>say(p[0]);g.append(d)});
+$('#dots').textContent='○○○○○○';
+function fit(d){d.querySelectorAll('.bub').forEach(b=>{if(b.dataset.done)return;const [cx,cy,tx,ty]=b.dataset.c.split(' ').map(Number),L=b.dataset.t.split('|'),t=b.querySelector('text');
+ t.innerHTML=L.map((l,i)=>`<tspan x="${cx}" dy="${i?18:0}">${l}</tspan>`).join('');t.setAttribute('y',cy-(L.length-1)*9+5);
+ const bb=t.getBBox(),w=bb.width+24,h=bb.height+14,x=cx-w/2,y=bb.y-7;
+ const r=b.querySelector('rect');r.setAttribute('x',x);r.setAttribute('y',y);r.setAttribute('width',w);r.setAttribute('height',h);r.setAttribute('rx',13);
+ const bx=Math.min(Math.max(cx,x+14),x+w-14);
+ b.querySelector('path').setAttribute('d',`M${bx-8} ${y+h-1}L${tx} ${ty}L${bx+8} ${y+h-1}Z`);
+ b.querySelector('.j').setAttribute('d',`M${bx-6} ${y+h}H${bx+6}`);b.dataset.done=1;
+ b.onclick=()=>say(L.join(' '))})}
+function wire(d){d.querySelectorAll('.card').forEach(c=>c.onclick=()=>{c.classList.remove('hop');void c.getBoundingClientRect();c.classList.add('hop');say(c.dataset.s)});
+ d.querySelectorAll('.who').forEach(w=>w.onclick=()=>{w.classList.remove('wig');void w.getBoundingClientRect();w.classList.add('wig')})}
+const GS=['ма','мэ','ми','мо','мө'],LS=['маа','мээ','мий','май'],GD=['ам','эм','им','ом','ум','өм','мү'];
+const PAIR={'маа':'ма','мээ':'мэ','мий':'ми','май':'ма'};
+let gq=[],gi=0,gt='',glock=false,gop=[],lvl=0;
+const shuf=a=>[...a].sort(()=>Math.random()-.5),cw=t=>Math.max(60,t.length*17+24);
+function hopEl(c){c.classList.remove('hop');void c.getBoundingClientRect();c.classList.add('hop')}
+function gBtn(t,f){const b=$('#gre');b.textContent=t;b.style.display=t?'':'none';b.onclick=f}
+function gDraw(e,txt,opts){const sl=[[190,72],[252,122],[158,160],[238,184]];
+ $('#gsvg').innerHTML=sky()+bear(64,208,.85,e)+opts.map((t,i)=>`<g class="flt" style="animation-delay:${i*.5}s">${card(sl[i][0],sl[i][1],t,cw(t),46,26)}</g>`).join('')+bub(88,46,txt,64,98);
+ fit($('#game'));
+ $('#gsvg').querySelectorAll('.card').forEach(c=>c.onclick=()=>pickCard(c));
+ $('#gsvg').querySelectorAll('.who').forEach(w=>w.onclick=()=>{w.classList.remove('wig');void w.getBoundingClientRect();w.classList.add('wig')})}
+function gIntro(){const sl=[[155,82],[240,82],[155,142],[240,142]];
+ $('#gcap').textContent='Шинэ! Урт хос эгшиг: аа, ээ, ий, ай';$('#gsc').textContent='';
+ $('#gsvg').innerHTML=sky()+bear(48,210,.7,'happy')+LS.map((t,i)=>`<g class="flt" style="animation-delay:${i*.3}s">${card(sl[i][0],sl[i][1],t,cw(t)+6,40,26)}</g>`).join('')+bub(58,36,'Урт үе!',48,118);
+ fit($('#game'));
+ $('#gsvg').querySelectorAll('.card').forEach(c=>c.onclick=()=>{hopEl(c);say(c.dataset.s)});
+ $('#gsvg').querySelectorAll('.who').forEach(w=>w.onclick=()=>{w.classList.remove('wig');void w.getBoundingClientRect();w.classList.add('wig')});
+ gBtn('Тоглоё ▶',()=>startGame(1));say('Урт үе')}
+function startGame(l){lvl=l||0;gq=shuf(lvl?LS:GS);gi=0;gBtn('',null);$('#game').classList.add('on');gRound()}
+function gRound(){const tot=lvl?4:5;
+ if(gi>=tot){if(!lvl){gIntro();return}
+  $('#gcap').textContent='Бүх үеийг олчлоо! 🎉';$('#gsc').textContent=tot+' / '+tot;gDraw('happy','Баяр хүргэе!',[]);gBtn('🔁 Дахин',()=>startGame(0));say('Баяр хүргэе');return}
+ gt=gq[gi];glock=false;
+ gop=shuf(lvl?[gt,PAIR[gt],...shuf(LS.filter(x=>x!==gt)).slice(0,2)]:[gt,...shuf([...GS.filter(x=>x!==gt),...GD]).slice(0,3)]);
+ $('#gcap').textContent=(lvl?'Урт үе':'Даалгавар')+': картыг ол!';$('#gsc').textContent=gi+' / '+tot;
+ gDraw('surprised','«'+gt+'» ол!',gop);say(gt)}
+function pickCard(c){if(glock)return;const t=c.dataset.s;say(t);const tot=lvl?4:5;
+ if(t===gt){glock=true;gi++;$('#gsc').textContent=gi+' / '+tot;gDraw('happy','Зөв! Гайхалтай!',gop);const k=[...$('#gsvg').querySelectorAll('.card')].find(x=>x.dataset.s===gt);if(k)hopEl(k);setTimeout(gRound,1500)}
+ else{hopEl(c);$('#gcap').textContent='Дахин сонс, дахин оролд!'}}
+$('#gsay').onclick=()=>{if(gt)say(gt)};
+let n=0;
+$('#next').onclick=()=>{
+ if(n>=6){g.querySelectorAll('.p').forEach(p=>p.classList.remove('on'));$('#game').classList.remove('on');n=0;$('#dots').textContent='○○○○○○';$('#next').textContent='Эхлэх ▶';scrollTo({top:0,behavior:'smooth'});return}
+ const d=g.children[n];d.classList.add('on');fit(d);wire(d);n++;if(n===6)startGame();
+ $('#dots').textContent='●'.repeat(n)+'○'.repeat(6-n);
+ say(P[n-1][0]);d.scrollIntoView({behavior:'smooth',block:'center'});
+ $('#next').textContent=n<6?'Дараах ➜':'🔁 Дахин үзэх'};
+</script>
+</body>
+</html>

@@ -1,0 +1,732 @@
+<!doctype html>
+<html lang="mn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Багшийн Хэрэглэгдэхүүний Багц, Олон Аргын Дасгал & Урамшууллын Систем | Гээгий багш</title>
+<style>
+  :root {
+    --bg: #f1f5f9;
+    --ink: #173042;
+    --brand: #0c7b93;
+    --gold: #f48c06;
+    --vowel: #d62828;
+    --cons: #1d4ed8;
+    --ok: #16a34a;
+    --bad: #dc2626;
+    --border: #cbd5e1;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+  }
+  header {
+    background: linear-gradient(135deg, #0f172a, #0c7b93);
+    color: #fff;
+    padding: 13px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 14px rgba(0,0,0,.18);
+  }
+  header h1 { margin: 0; font-size: 17.5px; }
+  header small { display: block; opacity: .88; font-size: 11.5px; }
+
+  .nav-tabs {
+    display: flex;
+    gap: 6px;
+    background: rgba(255,255,255,.15);
+    padding: 4px;
+    border-radius: 12px;
+    flex-wrap: wrap;
+  }
+  .tab {
+    border: 0;
+    border-radius: 9px;
+    padding: 8px 12px;
+    font-weight: 800;
+    font-size: 12.5px;
+    cursor: pointer;
+    background: transparent;
+    color: #fff;
+  }
+  .tab.active { background: #fff; color: var(--ink); }
+
+  main { max-width: 1060px; margin: 18px auto; padding: 0 14px 50px; }
+
+  .toolbar {
+    background: #fff;
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    padding: 12px 16px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .toolbar input, .toolbar select {
+    padding: 7px 10px;
+    border: 1.5px solid #94a3b8;
+    border-radius: 9px;
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .btn {
+    border: 0;
+    border-radius: 10px;
+    padding: 8px 14px;
+    font-weight: 900;
+    font-size: 12.5px;
+    cursor: pointer;
+    color: #fff;
+    background: var(--brand);
+    transition: transform .1s;
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .btn-gold { background: var(--gold); }
+  .btn-ok { background: var(--ok); }
+  .btn-red { background: var(--bad); }
+  .btn-purple { background: #7c3aed; }
+
+  /* A4 Sheet */
+  .a4-page {
+    background: #fff;
+    border: 2px solid #94a3b8;
+    border-radius: 16px;
+    padding: 22px 24px;
+    box-shadow: 0 10px 25px rgba(0,0,0,.08);
+  }
+  .a4-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2.5px solid #173042;
+    padding-bottom: 8px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .a4-header h2 { margin: 0; font-size: 18.5px; }
+  .a4-meta { font-size: 12.5px; font-weight: 800; color: #334155; }
+
+  /* 1. Topic Visuals (Сэдэв бүрийн олон төрлийн хэрэглэгдэхүүн) */
+  .topic-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+  .t-pill {
+    border: 2px solid #cbd5e1;
+    background: #fff;
+    border-radius: 10px;
+    padding: 7px 12px;
+    font-weight: 800;
+    font-size: 12.5px;
+    cursor: pointer;
+  }
+  .t-pill.active {
+    background: #0c7b93;
+    color: #fff;
+    border-color: #0c7b93;
+  }
+  .cards-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  @media (max-width: 680px) { .cards-grid { grid-template-columns: 1fr; } }
+  .flash-card {
+    border: 2.5px dashed #475569;
+    border-radius: 18px;
+    padding: 14px;
+    text-align: center;
+    background: #fafafa;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 220px;
+  }
+  .fc-top { display: flex; justify-content: space-between; font-size: 11.5px; font-weight: 900; color: #64748b; }
+  .fc-main { font-size: 52px; font-weight: 900; line-height: 1.1; margin: 6px 0; }
+  .fc-sub { font-size: 18px; font-weight: 800; color: #173042; }
+
+  /* 2. Multi-Method Task Builder (Дасгал даалгаврын тоог олон аргаар нэмэх) */
+  .builder-panel {
+    background: #fff;
+    border: 2px solid #93c5fd;
+    border-radius: 16px;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+  }
+  .builder-panel h3 { margin: 0 0 10px; font-size: 15px; color: #1d4ed8; }
+  .method-btns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+  }
+  .ws-block {
+    border: 2px solid #94a3b8;
+    border-radius: 14px;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+    position: relative;
+    background: #fff;
+  }
+  .ws-block-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1.5px dashed #cbd5e1;
+    padding-bottom: 6px;
+    margin-bottom: 8px;
+  }
+  .ws-block-head h4 { margin: 0; font-size: 14.5px; color: #0c7b93; }
+  .ws-items-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px 18px;
+  }
+  @media (max-width: 640px) { .ws-items-grid { grid-template-columns: 1fr; } }
+  .ws-row {
+    font-size: 15.5px;
+    font-weight: 800;
+    padding: 4px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .blank-box {
+    display: inline-block;
+    min-width: 46px;
+    height: 26px;
+    border: 2px solid #334155;
+    border-radius: 6px;
+    background: #f8fafc;
+    vertical-align: middle;
+  }
+
+  /* 3. Student Workbook */
+  .wb-section {
+    border: 2px solid #cbd5e1;
+    border-radius: 14px;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+  }
+  .wb-section h3 { margin: 0 0 8px; font-size: 14.5px; color: #1d4ed8; }
+  .ruled {
+    height: 30px;
+    border-bottom: 1.5px solid #60a5fa;
+    position: relative;
+    margin-bottom: 5px;
+  }
+  .ruled::before {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; top: 11px;
+    border-top: 1px dashed #93c5fd;
+  }
+
+  /* 4. Reward & Praise System (Хүүхдүүдээ урамшуулах хэсэг) */
+  .reward-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 820px) { .reward-layout { grid-template-columns: 1fr; } }
+  .reward-box {
+    background: #fff;
+    border: 2px solid #cbd5e1;
+    border-radius: 18px;
+    padding: 16px;
+    box-shadow: 0 6px 16px rgba(0,0,0,.05);
+  }
+  .student-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 10px;
+    border-bottom: 1px dashed #cbd5e1;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .student-row:last-child { border-bottom: 0; }
+  .badge-chip {
+    display: inline-block;
+    background: #fef3c7;
+    border: 1.5px solid #f59e0b;
+    color: #92400e;
+    font-size: 11.5px;
+    font-weight: 900;
+    padding: 2px 8px;
+    border-radius: 12px;
+  }
+  .cert-preview {
+    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 50%, #e0f2fe 100%);
+    border: 5px double #f59e0b;
+    border-radius: 20px;
+    padding: 22px 18px;
+    text-align: center;
+    position: relative;
+  }
+  .praise-toast {
+    background: #dcfce7;
+    border: 2px solid #16a34a;
+    color: #14532d;
+    font-weight: 900;
+    padding: 10px 14px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    text-align: center;
+    font-size: 14.5px;
+  }
+
+  @media print {
+    header, .toolbar, .topic-pills, .builder-panel, .no-print { display: none !important; }
+    body { background: #fff; }
+    main { margin: 0; padding: 0; max-width: 100%; }
+    .a4-page, .cert-preview { border: 2px solid #173042; box-shadow: none; padding: 8mm; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>👩‍🏫 Багшийн Хэрэглэгдэхүүний Багц, Дасгал Үүсгэгч & Урамшуулал</h1>
+    <small>Гээгий багшийн бүтээл • Сэдэв бүрийн үзүүлэн • Олон аргаар дасгал нэмэх • Сурагч урамшуулах самбар</small>
+  </div>
+  <div class="nav-tabs">
+    <button class="tab active" id="t0" onclick="setTab(0)">🃏 1. Сэдэв бүрийн хэрэглэгдэхүүн</button>
+    <button class="tab" id="t1" onclick="setTab(1)">➕ 2. Олон аргын дасгал нэмэх</button>
+    <button class="tab" id="t2" onclick="setTab(2)">📓 3. Дасгал ажлын дэвтэр</button>
+    <button class="tab" id="t3" onclick="setTab(3)">🏅 4. Хүүхдүүдээ урамшуулах</button>
+  </div>
+</header>
+
+<main id="mainArea"></main>
+
+<script>
+const VOWELS = new Set(['А','Э','И','О','У','Ө','Ү','Е','Ё','Ю','Я','Ы']);
+function colorWord(w) {
+  return [...w].map(c => VOWELS.has(c)
+    ? `<span style="color:#d62828">${c}</span>`
+    : (/[А-ЯӨҮЁ]/.test(c) ? `<span style="color:#1d4ed8">${c}</span>` : c)
+  ).join('');
+}
+
+// 1. СЭДЭВ БҮРИЙН ОЛОН ТӨРЛИЙН ХЭРЭГЛЭГДЭХҮҮН (6 сэдэв x 4 төрлийн хэрэглэгдэхүүн)
+const TOPIC_VISUALS = [
+  {
+    title: "Сэдэв 1: Эгшиг ба Гийгүүлэгч үсгийн хэрэглэгдэхүүн",
+    cards: [
+      { tag: "ҮСГИЙН ТАНИЛЦУУЛГА", big: "А а", ico: "🍎", sub: "Эгшиг үсэг • А-ЛИМ (2 үе)" },
+      { tag: "ҮЕЭР ХОЛБОХ ХҮСНЭГТ", big: "МА МЭ МИ МО", ico: "🧩", sub: "М гийгүүлэгч + Эгшиг" },
+      { tag: "ТЭМДЭГ ҮСГИЙН ДҮРЭМ", big: "Ь  vs  Ъ", ico: "🐎 ✍️", sub: "МОРЬ (Зөөлөн) • БОДЪЁ (Хатуу)" },
+      { tag: "УРТ БА ХОС ЭГШИГ", big: "АА • АЙ", ico: "🌙 🐰", sub: "СААД • ТУУ-ЛАЙ" }
+    ]
+  },
+  {
+    title: "Сэдэв 2: 10 хүртэлх тооны бүтэц (Тооны байшин & 10-тын хүрээ)",
+    cards: [
+      { tag: "ТООНЫ БАЙШИН", big: "🏠 6", ico: "🔴🔴🔴🔴 🔵🔵", sub: "6 = 4 + 2  |  6 = 3 + 3" },
+      { tag: "10-ТЫН ХҮРЭЭ (TEN FRAME)", big: "10 = 7 + 3", ico: "🟥🟥🟥🟥🟥<br>🟥🟥🟦🟦🟦", sub: "7 улаан + 3 цэнхэр = 10" },
+      { tag: "БҮХЭЛ БА ХЭСЭГ", big: "8 ➔ 5 + ?", ico: "⚖️", sub: "Бүхэл 8-аас 5-ыг авбал 3" },
+      { tag: "ХОС ТООНЫ БҮТЭЦ", big: "4 + 4 = 8", ico: "🐙", sub: "Тэнцүү хоёр хэсэгт хуваах" }
+    ]
+  },
+  {
+    title: "Сэдэв 3: Тоон шулуун дээрх нэмэх, хасах хэрэглэгдэхүүн",
+    cards: [
+      { tag: "УРАГШ ҮСРЭХ (+)", big: "3 + 4 = 7", ico: "🐰 ➔➔➔➔", sub: "Тоон шулуун дээр баруун тийш 4 алхам" },
+      { tag: "ХОЙШ УХРАХ (−)", big: "9 − 3 = 6", ico: "⬅️⬅️⬅️ 🐰", sub: "Тоон шулуун дээр зүүн тийш 3 алхам" },
+      { tag: "ХӨРШ ТООГ ОЛОХ", big: "6 ◀ [ 7 ] ▶ 8", ico: "📏", sub: "Өмнөх тоо (6), Дараагийн тоо (8)" },
+      { tag: "АРАВТ БҮРДҮҮЛЭХ", big: "9 + 4 = 13", ico: "9 + 1 + 3", sub: "Эхлээд 10 болгоод, үлдсэн 3-ыг нэмнэ" }
+    ]
+  },
+  {
+    title: "Сэдэв 4: Дэс дугаар ба Орон зайн баримжаа",
+    cards: [
+      { tag: "ЗҮҮНЭЭС ТООЛОХ", big: "1-р ➔ 5-р", ico: "🦁 🐘 🦒 🦓 🐵", sub: "Зүүн талаас 4-р нь 🦓 Тахь" },
+      { tag: "БАРУУНААС ТООЛОХ", big: "5-р ⬅ 1-р", ico: "🍎 🍌 🍇 🍓 🍊", sub: "Баруун талаас 2-р нь 🍓 Гүзээлзгэнэ" },
+      { tag: "ДЭЭР БА ДООР", big: "⬆️ ДЭЭР / ⬇️ ДООР", ico: "🐦 🌳 🐇", sub: "Модны дээр шувуу, доор туулай" },
+      { tag: "ЗҮЙ ТОГТОЛ (ДАРААЛАЛ)", big: "🔴 🔵 🔴 🔵 ❓", ico: "🔄", sub: "Давтагдах зүй тогтлыг олох" }
+    ]
+  },
+  {
+    title: "Сэдэв 5: Геометрийн дүрс ба Биет",
+    cards: [
+      { tag: "ГУРВАЛЖИН", big: "🔺", ico: "3 тал • 3 орой", sub: "Гурвалжин дүрсний үзүүлэн" },
+      { tag: "АМ ДӨРВӨЛЖИН", big: "🟦", ico: "4 тэнцүү тал", sub: "Дөрвөлжин дүрсний үзүүлэн" },
+      { tag: "ТЭГШ ӨНЦӨГТ", big: "🟩", ico: "Эсрэг тал тэнцүү", sub: "Ном, самбар, хаалгатай төстэй" },
+      { tag: "ДУГУЙ БА БӨМБӨРЦӨГ", big: "🔴 ⚽", ico: "Өнцөггүй дүрс", sub: "Нар, бөмбөг, цагтай төстэй" }
+    ]
+  },
+  {
+    title: "Сэдэв 6: Хэмжигдэхүүн (Цаг, Мөнгө, Урт, Жин) ба Өгөгдөл",
+    cards: [
+      { tag: "БҮТЭН ЦАГ", big: "🕒 3:00", ico: "Богино 3 • Урт 12", sub: "Цаг хэмжих үзүүлэн" },
+      { tag: "МОНГОЛ ТӨГРӨГ", big: "10₮ + 20₮ = 30₮", ico: "🪙 🪙", sub: "Мөнгөн тэмдэгт тооцоолох" },
+      { tag: "УРТ БА ЖИН", big: "🐘 Хүнд • 🐭 Хөнгөн", ico: "⚖️ 📏", sub: "Хэмжигдэхүүнийг жиших" },
+      { tag: "ХҮСНЭГТЭН ӨГӨГДӨЛ", big: "🍎 5  |  🍌 8", ico: "📊", sub: "Хамгийн олон ба цөөнийг олох" }
+    ]
+  }
+];
+
+// 2. ДАСГАЛ ДААЛГАВРЫН ТООГ ОЛОН АРГААР НЭМЭХ ГЕНЕРАТОР
+let activeBlocks = []; // Багшийн нэмсэн дасгалын блокууд
+let blockCounter = 0;
+
+function rand(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function addTaskBlock(methodKey, count = 4) {
+  blockCounter++;
+  let title = "";
+  let rows = [];
+
+  if (methodKey === 'direct_add') {
+    title = `Шууд нэмэх үйлдэл (${count} бодлого)`;
+    for (let i = 0; i < count; i++) {
+      const a = rand(1, 9), b = rand(1, 10 - a);
+      rows.push({ left: `${a} + ${b} =`, right: `<span class="blank-box"></span>` });
+    }
+  } else if (methodKey === 'direct_sub') {
+    title = `Шууд хасах үйлдэл (${count} бодлого)`;
+    for (let i = 0; i < count; i++) {
+      const a = rand(4, 10), b = rand(1, a - 1);
+      rows.push({ left: `${a} − ${b} =`, right: `<span class="blank-box"></span>` });
+    }
+  } else if (methodKey === 'missing_part') {
+    title = `Тооны бүтэц: Дутуу нэмэгдэхүүн олох (${count} бодлого)`;
+    for (let i = 0; i < count; i++) {
+      const w = rand(5, 10), p = rand(1, w - 1);
+      rows.push({ left: `${p} + <span class="blank-box"></span> = ${w}`, right: `(Бүхэл: ${w})` });
+    }
+  } else if (methodKey === 'make_ten') {
+    title = `20 дотор: Аравт бүрдүүлж нэмэх арга (${count} бодлого)`;
+    for (let i = 0; i < count; i++) {
+      const a = rand(7, 9), b = rand(3, 8);
+      const toTen = 10 - a;
+      rows.push({ left: `${a} + ${b} = (${a} + ${toTen}) + ${b - toTen} =`, right: `<span class="blank-box"></span>` });
+    }
+  } else if (methodKey === 'compare') {
+    title = `Илэрхийлэл жиших: <, >, = тэмдэг тавих (${count} бодлого)`;
+    for (let i = 0; i < count; i++) {
+      const a = rand(2, 6), b = rand(1, 4), c = rand(4, 10);
+      rows.push({ left: `${a} + ${b} &nbsp;<span class="blank-box" style="min-width:34px"></span>&nbsp; ${c}`, right: `` });
+    }
+  } else if (methodKey === 'word_problem') {
+    title = `Өгүүлбэртэй бодлого бодох (${count} бодлого)`;
+    const stories = [
+      "Ширээн дээр 5 алим байв. Ээж дахин 3 алим тавив. Нийт хэдэн алим болов?",
+      "Мөчир дээр 8 шувуу сууж байснаас 3 нь нисэв. Хэдэн шувуу үлдсэн бэ?",
+      "Бат 6 харандаатай, Дорж 4 харандаатай. Хоёулаа нийлээд хэдэн харандаатай вэ?",
+      "Сагсанд 10 бөмбөг байснаас 4-ийг нь авч тоглов. Сагсанд хэд үлдсэн бэ?",
+      "Нэг талд 7 цэцэг, нөгөө талд 3 цэцэг ургажээ. Нийт хэдэн цэцэг вэ?",
+      "9 чихэрнээс 5-ыг нь дүүдээ өгөв. Өөрт хэдэн чихэр үлдсэн бэ?"
+    ].sort(() => Math.random() - 0.5);
+    for (let i = 0; i < Math.min(count, stories.length); i++) {
+      rows.push({ left: `${i + 1}) ${stories[i]}`, right: `Хариу: <span class="blank-box"></span>`, fullWidth: true });
+    }
+  } else if (methodKey === 'mn_syllable') {
+    title = `Монгол хэл: Үгсийг үеэр таслан бичих ба дутуу үсэг нөхөх (${count} даалгавар)`;
+    const words = [
+      ["А _ И М", "А-ЛИМ"], ["Н _ Р А Н", "НА-РАН"], ["С У Р _ У У Л Ь", "СУР-ГУУЛЬ"],
+      ["Б А А В _ А Й", "БААВ-ГАЙ"], ["Т У У _ А Й", "ТУУ-ЛАЙ"], ["Ц Э _ Э Г", "ЦЭ-ЦЭГ"],
+      ["Х А Р А Н _ А А", "ХА-РАН-ДАА"], ["З Ө _ И Й", "ЗӨ-ГИЙ"]
+    ].sort(() => Math.random() - 0.5);
+    for (let i = 0; i < Math.min(count, words.length); i++) {
+      rows.push({ left: `${colorWord(words[i][0])}`, right: `Үеэр: <span class="blank-box" style="min-width:95px"></span>` });
+    }
+  }
+
+  activeBlocks.push({ id: blockCounter, title, rows });
+  render();
+}
+
+function removeBlock(id) {
+  activeBlocks = activeBlocks.filter(b => b.id !== id);
+  render();
+}
+
+// Эхлэхэд 2 жишээ блок бэлэн байна
+addTaskBlock('direct_add', 4);
+addTaskBlock('missing_part', 4);
+
+// 4. ХҮҮХДҮҮДЭЭ УРАМШУУЛАХ СИСТЕМ (Хувь сурагч + Баг + Батламж)
+let students = [
+  { name: "Анужин", stars: 4, badge: "🌟 Уншигч од" },
+  { name: "Бат-Эрдэнэ", stars: 5, badge: "🧮 Мундаг тоочин" },
+  { name: "Тэмүүлэн", stars: 3, badge: "✍️ Цэвэр бичигтэн" },
+  { name: "Мишээл", stars: 5, badge: "🏆 Тэргүүний сурагч" },
+  { name: "Энхжин", stars: 4, badge: "💡 Сэргэлэн оюун" },
+  { name: "Хулан", stars: 3, badge: "🌸 Идэвхтэй сурагч" }
+];
+let selectedCertStudent = 0;
+let certTitle = "«Шилдэг тоочин ба Уншигч»";
+let praiseBanner = "";
+
+const PRAISE_MESSAGES = [
+  "🌟 Гайхалтай! Чи өнөөдөр маш хичээнгүй, идэвхтэй оролцлоо!",
+  "👏 Баяр хүргэе! Гээгий багш нь чамаар маш их бахархаж байна!",
+  "🏆 Онцгой амжилт! Чи бол манай ангийн үлгэр жишээ сурагч юм!",
+  "✨ Мундаг байна! Өдөр бүр ингэж хичээвэл чи бүхнийг чадна!"
+];
+
+function giveStar(idx, delta) {
+  students[idx].stars = Math.max(0, students[idx].stars + delta);
+  if (delta > 0) {
+    const p = PRAISE_MESSAGES[Math.floor(Math.random() * PRAISE_MESSAGES.length)];
+    praiseBanner = `🎉 ${students[idx].name} сурагчид +1 Алтан од өглөө! ${p}`;
+  }
+  render();
+}
+
+function addNewStudent() {
+  const inp = document.getElementById('newStuInp');
+  if (!inp || !inp.value.trim()) return;
+  students.push({ name: inp.value.trim(), stars: 1, badge: "⭐ Шинэ од" });
+  inp.value = "";
+  render();
+}
+
+let tab = 0;
+let topicIdx = 0;
+let teacherName = "Гээгий багш";
+let schoolInfo = "1-р анги";
+let addCountSel = 4;
+
+function setTab(t) {
+  tab = t;
+  [0, 1, 2, 3].forEach(i => document.getElementById(`t${i}`).classList.toggle('active', i === t));
+  render();
+}
+
+function render() {
+  const main = document.getElementById('mainArea');
+
+  if (tab === 0) {
+    // 1. СЭДЭВ БҮРИЙН ОЛОН ТӨРЛИЙН ХЭРЭГЛЭГДЭХҮҮН
+    const cur = TOPIC_VISUALS[topicIdx];
+    main.innerHTML = `
+      <div class="toolbar">
+        <div style="font-weight:800;font-size:13.5px">🃏 Сэдэв бүрээр бэлтгэсэн 24 төрлийн самбарын үзүүлэн ба тараах материал</div>
+        <button class="btn btn-gold" onclick="window.print()">🖨️ Сэдвийн хэрэглэгдэхүүн хэвлэх (A4)</button>
+      </div>
+
+      <div class="topic-pills">
+        ${TOPIC_VISUALS.map((t, i) => `
+          <button class="t-pill ${i === topicIdx ? 'active' : ''}" onclick="topicIdx=${i};render()">${i + 1}. ${t.title.split(': ')[1]}</button>
+        `).join('')}
+      </div>
+
+      <div class="a4-page">
+        <div class="a4-header">
+          <h2>${cur.title}</h2>
+          <div class="a4-meta">Хайчлаад самбарт наах буюу сурагчдад үзүүлнэ • ${teacherName}</div>
+        </div>
+        <div class="cards-grid">
+          ${cur.cards.map(c => `
+            <div class="flash-card">
+              <div class="fc-top"><span>✂️ ХЭРЭГЛЭГДЭХҮҮН</span><span>${c.tag}</span></div>
+              <div class="fc-main">${colorWord(c.big)}</div>
+              <div style="font-size:34px;margin:4px 0">${c.ico}</div>
+              <div class="fc-sub">${c.sub}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  } else if (tab === 1) {
+    // 2. ДАСГАЛ ДААЛГАВРЫН ТООГ ОЛОН АРГААР НЭМЭХ СИСТЕМ
+    main.innerHTML = `
+      <div class="builder-panel">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:10px">
+          <h3 style="margin:0">➕ Дасгал даалгаврын тоог олон аргаар нэмэх удирдлага</h3>
+          <div style="display:flex;gap:8px;align-items:center">
+            <label style="font-size:12.5px;font-weight:800">Нэг дор нэмэх бодлогын тоо:</label>
+            <select onchange="addCountSel=Number(this.value)">
+              <option value="2" ${addCountSel===2?'selected':''}>+2 дасгал</option>
+              <option value="4" ${addCountSel===4?'selected':''}>+4 дасгал</option>
+              <option value="6" ${addCountSel===6?'selected':''}>+6 дасгал</option>
+              <option value="8" ${addCountSel===8?'selected':''}>+8 дасгал</option>
+            </select>
+            <button class="btn btn-red" onclick="activeBlocks=[];render()">🗑️ Бүгдийг цэвэрлэх</button>
+            <button class="btn btn-gold" onclick="window.print()">🖨️ Ажлын хуудас хэвлэх (A4)</button>
+          </div>
+        </div>
+
+        <div class="method-btns">
+          <button class="btn btn-ok" onclick="addTaskBlock('direct_add', addCountSel)">➕ Шууд нэмэх</button>
+          <button class="btn btn-ok" onclick="addTaskBlock('direct_sub', addCountSel)">➖ Шууд хасах</button>
+          <button class="btn" onclick="addTaskBlock('missing_part', addCountSel)">🏠 Тооны бүтэц (Дутуу тоо)</button>
+          <button class="btn" onclick="addTaskBlock('make_ten', addCountSel)">🔟 Аравт бүрдүүлэх арга</button>
+          <button class="btn btn-purple" onclick="addTaskBlock('compare', addCountSel)">⚖️ Жиших (&lt;, &gt;, =)</button>
+          <button class="btn btn-purple" onclick="addTaskBlock('word_problem', addCountSel)">📖 Өгүүлбэртэй бодлого</button>
+          <button class="btn btn-gold" onclick="addTaskBlock('mn_syllable', addCountSel)">🔤 Үг, үеийн дасгал</button>
+        </div>
+      </div>
+
+      <div class="a4-page">
+        <div class="a4-header">
+          <div>
+            <h2>📝 БАГШИЙН БЭЛТГЭСЭН АЖЛЫН ХУУДАС (Нийт ${activeBlocks.reduce((s, b) => s + b.rows.length, 0)} дасгал)</h2>
+            <div style="font-size:12.5px;font-weight:700;margin-top:3px">Сурагчийн овог, нэр: ___________________________ &nbsp;|&nbsp; Анги: ${schoolInfo}</div>
+          </div>
+          <div class="a4-meta">Багш: ${teacherName} • Огноо: 2026.__.__</div>
+        </div>
+
+        ${activeBlocks.length === 0 ? `<div style="text-align:center;padding:30px;color:#64748b;font-weight:800">👆 Дээрх товчнуудаас хүссэн аргаа сонгож дасгал даалгавар нэмнэ үү!</div>` : ''}
+
+        ${activeBlocks.map((b, idx) => `
+          <div class="ws-block">
+            <div class="ws-block-head">
+              <h4>Даалгавар ${idx + 1}. ${b.title}</h4>
+              <button class="no-print" onclick="removeBlock(${b.id})" style="border:0;background:#fee2e2;color:#dc2626;border-radius:6px;padding:3px 8px;font-weight:800;cursor:pointer;font-size:11.5px">✖ Хасах</button>
+            </div>
+            <div class="ws-items-grid" style="${b.rows[0]?.fullWidth ? 'grid-template-columns:1fr' : ''}">
+              ${b.rows.map(r => `
+                <div class="ws-row">
+                  <span>${r.left}</span>
+                  <span>${r.right}</span>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `).join('')}
+
+        <div style="margin-top:14px;padding-top:10px;border-top:1.5px solid #cbd5e1;display:flex;justify-content:space-between;font-size:13px;font-weight:800">
+          <span>Сурагчийн өөрийн үнэлгээ: 😊 Маш сайн &nbsp; 😐 Дунд &nbsp; 💪 Дахин хичээнэ</span>
+          <span>Багшийн урамшуулал: ⭐⭐⭐⭐⭐</span>
+        </div>
+      </div>
+    `;
+  } else if (tab === 2) {
+    // 3. ДАСГАЛ АЖЛЫН ДЭВТЭР
+    main.innerHTML = `
+      <div class="toolbar">
+        <div style="font-weight:800;font-size:13.5px">📓 1-р ангийн нэгдсэн «Дасгал ажлын дэвтэр» (Сурагч бүрд хувилж тараах A4 хуудас)</div>
+        <button class="btn btn-gold" onclick="window.print()">🖨️ Дэвтрийн хуудас хэвлэх (A4)</button>
+      </div>
+
+      <div class="a4-page">
+        <div class="a4-header">
+          <h2>📓 СУРАГЧИЙН ДАСГАЛ АЖЛЫН ДЭВТЭР</h2>
+          <div class="a4-meta">Нэр: ______________________ &nbsp;|&nbsp; Анги: ${schoolInfo}</div>
+        </div>
+
+        <div class="wb-section">
+          <h3>✍️ Дасгал 1. Цэвэр сайхан хуулан бичээрэй</h3>
+          <div style="font-size:15px;font-weight:800;margin-bottom:6px;color:#334155">
+            Эрдэм ном сурах нь хамгийн эрхэм баялаг мөн.
+          </div>
+          <div class="ruled"></div>
+          <div class="ruled"></div>
+        </div>
+
+        <div class="wb-section">
+          <h3>🔤 Дасгал 2. Дутуу үсгийг нөхөөд үеэр таслан бичээрэй</h3>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;font-size:16px;font-weight:900">
+            <div>1) А _ И М ➔ ___________</div>
+            <div>2) Н _ Р А Н ➔ ___________</div>
+            <div>3) Ц Э Ц _ Г ➔ ___________</div>
+          </div>
+        </div>
+
+        <div class="wb-section">
+          <h3>🏠 Дасгал 3. Тооны байшингийн хоосон нүдийг бөглөөрэй</h3>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;text-align:center;font-weight:900">
+            <div style="border:2px solid #f59e0b;border-radius:10px;padding:6px">🏠 7<br>4 ба [ __ ]<br>5 ба [ __ ]</div>
+            <div style="border:2px solid #f59e0b;border-radius:10px;padding:6px">🏠 8<br>6 ба [ __ ]<br>4 ба [ __ ]</div>
+            <div style="border:2px solid #f59e0b;border-radius:10px;padding:6px">🏠 9<br>5 ба [ __ ]<br>7 ба [ __ ]</div>
+            <div style="border:2px solid #f59e0b;border-radius:10px;padding:6px">🏠 10<br>6 ба [ __ ]<br>8 ба [ __ ]</div>
+          </div>
+        </div>
+
+        <div class="wb-section" style="margin-bottom:0">
+          <h3>🔟 Дасгал 4. Аравт бүрдүүлэх аргаар бодоорой</h3>
+          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;font-size:16px;font-weight:900">
+            <div>9 + 4 = (9 + __ ) + __ = ____</div>
+            <div>8 + 5 = (8 + __ ) + __ = ____</div>
+          </div>
+        </div>
+      </div>
+    `;
+  } else {
+    // 4. ХҮҮХДҮҮДЭЭ УРАМШУУЛАХ ХЭСЭГ
+    const stu = students[selectedCertStudent] || students[0];
+    main.innerHTML = `
+      <div class="toolbar">
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+          <input type="text" id="newStuInp" placeholder="Шинэ сурагчийн нэр...">
+          <button class="btn btn-ok" onclick="addNewStudent()">➕ Сурагч нэмэх</button>
+        </div>
+        <button class="btn btn-gold" onclick="window.print()">🖨️ Баярын бичиг / Батламж хэвлэх</button>
+      </div>
+
+      ${praiseBanner ? `<div class="praise-toast no-print">${praiseBanner}</div>` : ''}
+
+      <div class="reward-layout">
+        <div class="reward-box no-print">
+          <h3 style="margin:0 0 10px;color:#0c7b93">⭐ Ангийн сурагчдын урамшууллын самбар</h3>
+          ${students.map((s, i) => `
+            <div class="student-row">
+              <div>
+                <b style="font-size:15px">${i + 1}. ${s.name}</b>
+                <span class="badge-chip">${s.badge}</span>
+                <div style="font-size:16px;margin-top:2px">${'⭐'.repeat(s.stars) || '☆'} (${s.stars} од)</div>
+              </div>
+              <div style="display:flex;gap:5px;align-items:center">
+                <button class="btn btn-ok" style="padding:5px 10px" onclick="giveStar(${i}, 1)">+1 ⭐</button>
+                <button class="btn btn-red" style="padding:5px 9px" onclick="giveStar(${i}, -1)">-1</button>
+                <button class="btn btn-gold" style="padding:5px 10px" onclick="selectedCertStudent=${i};render()">🏅 Батламж</button>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+
+        <div class="reward-box">
+          <div class="no-print" style="margin-bottom:10px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+            <label style="font-size:12.5px;font-weight:800">Шагналын нэр:</label>
+            <select onchange="certTitle=this.value;render()">
+              <option value="«Шилдэг тоочин ба Уншигч»">«Шилдэг тоочин ба Уншигч»</option>
+              <option value="«Цэвэр бичигтэн сурагч»">«Цэвэр бичигтэн сурагч»</option>
+              <option value="«Ангийн тэргүүний оюунлаг сурагч»">«Ангийн тэргүүний оюунлаг сурагч»</option>
+              <option value="«Идэвх зүтгэлтэй, хичээнгүй сурагч»">«Идэвх зүтгэлтэй, хичээнгүй сурагч»</option>
+            </select>
+          </div>
+
+          <div class="cert-preview">
+            <div style="font-size:42px">🏆👑🌟</div>
+            <h2 style="margin:6px 0;font-size:24px;color:#b45309;letter-spacing:1px">ТАЛАРХАЛ БА УРАМШУУЛАЛ</h2>
+            <p style="font-size:14px;font-weight:700;margin:6px 0">${schoolInfo}-ийн сурагч</p>
+            <div style="font-size:28px;font-weight:900;color:#173042;text-decoration:underline;margin:8px 0">${stu.name}</div>
+            <p style="font-size:14.5px;font-weight:700;line-height:1.5;margin:8px 0">
+              Хичээлдээ идэвх зүтгэлтэй оролцож, <b>${stu.stars} алтан од</b> цуглуулан<br>
+              <span style="color:#d62828;font-size:17px;font-weight:900">${certTitle}</span><br>
+              өргөмжлөлөөр шагнагдав!
+            </p>
+            <div style="margin-top:16px;display:flex;justify-content:space-between;font-size:13px;font-weight:800;color:#334155">
+              <span>Ангийн багш: ${teacherName}</span>
+              <span>2026 он</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+}
+
+render();
+</script>
+</body>
+</html>

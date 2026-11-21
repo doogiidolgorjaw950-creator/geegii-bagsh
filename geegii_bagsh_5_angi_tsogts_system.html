@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="mn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>5-р Ангийн Цогц Систем: Хөтөлбөр • Цахим хичээл • Хэрэглэгдэхүүн • Дасгал ажил | Гээгий багш</title>
+<style>
+  :root {
+    --bg: #f1f5f9;
+    --ink: #173042;
+    --brand: #be123c;
+    --warm: #f48c06;
+    --ok: #16a34a;
+    --bad: #dc2626;
+    --border: #cbd5e1;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; background: var(--bg); color: var(--ink); }
+  header {
+    background: linear-gradient(135deg, #881337, #be123c);
+    color: #fff;
+    padding: 14px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 14px rgba(0,0,0,.18);
+  }
+  header h1 { margin: 0; font-size: 17.5px; }
+  header small { display: block; opacity: .9; font-size: 11.5px; }
+  .nav-tabs { display: flex; gap: 6px; background: rgba(255,255,255,.15); padding: 4px; border-radius: 12px; flex-wrap: wrap; }
+  .tab { border: 0; border-radius: 9px; padding: 8px 12px; font-weight: 800; font-size: 12.5px; cursor: pointer; background: transparent; color: #fff; }
+  .tab.active { background: #fff; color: var(--ink); }
+  main { max-width: 1060px; margin: 18px auto; padding: 0 14px 50px; }
+  .subj-bar { background: #fff; border: 2px solid var(--border); border-radius: 16px; padding: 12px 16px; margin-bottom: 16px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px; }
+  .subj-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+  .pill { border: 2px solid #cbd5e1; background: #f8fafc; border-radius: 10px; padding: 7px 12px; font-weight: 800; font-size: 12.5px; cursor: pointer; }
+  .pill.active { background: var(--brand); color: #fff; border-color: var(--brand); }
+  .btn { border: 0; border-radius: 10px; padding: 9px 15px; font-weight: 900; font-size: 13px; cursor: pointer; color: #fff; background: var(--brand); }
+  .btn-warm { background: var(--warm); }
+  .a4-page { background: #fff; border: 2px solid #94a3b8; border-radius: 18px; padding: 22px 24px; box-shadow: 0 10px 25px rgba(0,0,0,.07); }
+  .a4-head { display: flex; justify-content: space-between; align-items: center; border-bottom: 2.5px solid #173042; padding-bottom: 8px; margin-bottom: 14px; flex-wrap: wrap; gap: 8px; }
+  .a4-head h2 { margin: 0; font-size: 19px; color: var(--brand); }
+  .plan-tbl { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  .plan-tbl th, .plan-tbl td { border: 1.5px solid #94a3b8; padding: 9px 11px; vertical-align: top; line-height: 1.5; }
+  .plan-tbl th { background: #ffe4e6; color: #9f1239; font-weight: 900; text-align: left; }
+  .slide-box { background: linear-gradient(180deg, #fff 0%, #fff1f2 100%); border: 3.5px solid var(--brand); border-radius: 24px; padding: 26px 22px; min-height: 410px; display: flex; flex-direction: column; justify-content: space-between; text-align: center; }
+  .slide-ico { font-size: 64px; margin: 8px 0; }
+  .slide-content { background: #fff; border: 2px solid #fecdd3; border-radius: 16px; padding: 18px 20px; font-size: 19px; font-weight: 700; line-height: 1.65; max-width: 780px; margin: 0 auto; }
+  .q-opt { padding: 9px 16px; border-radius: 12px; border: 2px solid var(--brand); background: #ffe4e6; font-size: 16px; font-weight: 900; cursor: pointer; margin: 4px; }
+  .q-opt.ok { background: var(--ok); color: #fff; border-color: #15803d; }
+  .cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 680px) { .cards-grid { grid-template-columns: 1fr; } }
+  .v-card { border: 2.5px dashed #475569; border-radius: 16px; padding: 16px; text-align: center; background: #fafafa; }
+  .wb-box { border: 2px solid #cbd5e1; border-radius: 14px; padding: 14px; margin-bottom: 12px; }
+  .wb-box h4 { margin: 0 0 8px; color: var(--brand); font-size: 15px; }
+  .ruled { height: 28px; border-bottom: 1.5px solid #fb7185; margin-bottom: 6px; }
+  @media print {
+    header, .subj-bar, .no-print { display: none !important; }
+    body { background: #fff; }
+    main { margin: 0; padding: 0; max-width: 100%; }
+    .a4-page { border: 0; box-shadow: none; padding: 4mm; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>📕 5-Р АНГИЙН ЦОГЦ СУРГАЛТЫН СИСТЕМ (Гээгий багшийн бүтээл)</h1>
+    <small>Монгол хэл • Математик • Хүн ба Байгаль • Хүн ба Нийгэм • Дүрслэх урлаг, Технологи</small>
+  </div>
+  <div class="nav-tabs">
+    <button class="tab active" id="t0" onclick="setTab(0)">📋 1. Ээлжит хичээл</button>
+    <button class="tab" id="t1" onclick="setTab(1)">💻 2. Цахим хичээл</button>
+    <button class="tab" id="t2" onclick="setTab(2)">🃏 3. Хэрэглэгдэхүүн (A4)</button>
+    <button class="tab" id="t3" onclick="setTab(3)">📓 4. Дасгал ажил (A4)</button>
+  </div>
+</header>
+
+<main id="mainArea"></main>
+
+<script>
+const GRADE5_DATA = [
+  {
+    subject: "📖 Монгол хэл",
+    lessonTitle: "Өгүүлбэрийн гишүүд (Өгүүлэгдэхүүн, Өгүүлэхүүн) ба Эсээ бичих",
+    aim: "Өгүүлбэрийн гол гишүүд болох өгүүлэгдэхүүн (Хэн? Юу?), өгүүлэхүүн (Яав? Ямар вэ?)-ийг ялган таньж, үндэслэлтэй богино эсээ бичнэ.",
+    materials: "Өгүүлбэрийн задлалын бүдүүвч, эсээний бүтцийн карт, ажлын хуудас",
+    steps: [
+      { stage: "1. Сэдэлжүүлэлт", time: "5 мин", teacher: "«Алтан намар ирлээ.» өгүүлбэрийг самбарт бичиж, Юу? Яав? асуултаар задлуулна.", student: "Намар (Юу?), ирлээ (Яав?) гэж гол гишүүдийг нэрлэнэ." },
+      { stage: "2. Шинэ мэдлэг", time: "15 мин", teacher: "Өгүүлэгдэхүүн ба өгүүлэхүүнийг зураасаар тэмдэглэх арга, мөн эсээний 3 хэсэг (Эхлэл-Санаа-Дүгнэлт)-ийг заана.", student: "Өгөгдсөн өгүүлбэрүүдэд гол гишүүдийг олж зурна." },
+      { stage: "3. Бататгал", time: "15 мин", teacher: "«Ном уншихын ач тус» сэдвээр үндэслэлтэй эсээ бичүүлнэ.", student: "Дасгал ажлын дэвтэрт 8–10 өгүүлбэртэй эсээ бичнэ." },
+      { stage: "4. Дүгнэлт", time: "5 мин", teacher: "Шилдэг эсээг ангид уншуулж урамшуулна.", student: "Бичвэртээ дүгнэлт хийнэ." }
+    ],
+    slides: [
+      { ico: "🔍", title: "Өгүүлбэрийн Гол Гишүүд", body: "• <b>Өгүүлэгдэхүүн (Хэн? Юу?):</b> Үйлийн эзнийг заана (1 шулуун зураас).<br>• <b>Өгүүлэхүүн (Яав? Ямар вэ?):</b> Үйл хөдлөл, шинжийг заана (2 шулуун зураас)." },
+      { ico: "✍️", title: "Эсээ Бичих 3 Алхам", body: "1. <b>Эхлэл:</b> Сэдвээ танилцуулж гол санаагаа дэвшүүлэх<br>2. <b>Их бие:</b> 2–3 баримт, жишээгээр нотлох<br>3. <b>Төгсгөл:</b> Дүгнэлт хийж уриалах" },
+      { ico: "🎯", title: "Шалгах асуулт", body: "«Сурагчид хичээлээ хийв.» өгүүлбэрийн өгүүлэгдэхүүн аль нь вэ?", opts: ["Сурагчид", "хичээлээ", "хийв"], ans: "Сурагчид" }
+    ],
+    visuals: [
+      { tag: "ӨГҮҮЛЭГДЭХҮҮН", big: "Хэн? Юу? (———)", sub: "Үйлийн эзнийг заах гол гишүүн" },
+      { tag: "ӨГҮҮЛЭХҮҮН", big: "Яав? Яах вэ? (===)", sub: "Өгүүлбэрийг төгсгөх гол гишүүн" },
+      { tag: "ЭСЭЭНИЙ БҮТЭЦ", big: "Эхлэл • Нотолгоо • Дүгнэлт", sub: "Өөрийн үзэл бодлоо илэрхийлэх бичвэр" },
+      { tag: "НАЙРУУЛГА ЗҮЙ", big: "Үг давтахгүй бичих", sub: "Ойролцоо утгатай үгсийг сонгох" }
+    ],
+    workbook: [
+      "1. Өгүүлбэрийн гол гишүүдийг олж зурна уу: а) Хурдан морьд барианд орлоо.  б) Оюунлаг сурагчид ном их уншдаг.",
+      "2. Энгийн өгүүлбэрийг дэлгэрүүлж бичээрэй: «Шувууд нислээ.» ➔ ________________________________________________",
+      "3. «Цахим орчныг зөв зохистой ашиглах нь» сэдвээр 8–10 өгүүлбэртэй эсээ бичээрэй."
+    ]
+  },
+  {
+    subject: "🧮 Математик",
+    lessonTitle: "Энгийн ба Аравтын бутархай, Процент (%) ба Хурд-Хугацаа-Зам",
+    aim: "Энгийн ба аравтын бутархайг харилцан шилжүүлэх, 10%, 25%, 50%-ийг олох, хөдөлгөөний бодлогыг (S = v × t) бодож сурна.",
+    materials: "Бутархайн тойрог, хөдөлгөөний томьёоны үзүүлэн карт, ажлын хуудас",
+    steps: [
+      { stage: "1. Сэдэлжүүлэлт", time: "5 мин", teacher: "1/2 буюу тал, 1/4 буюу дөрөвний нэгийг процент (%) болон аравтын бутархайгаар хэрхэн бичихийг асууна.", student: "1/2 = 0.5 = 50%, 1/4 = 0.25 = 25% гэж хариулна." },
+      { stage: "2. Шинэ мэдлэг", time: "15 мин", teacher: "Зам S = v × t, Хурд v = S ÷ t, Хугацаа t = S ÷ v гурвалсан томьёог тайлбарлана.", student: "60 км/цаг хурдтай машин 3 цагт ямар зам туулахыг бодно." },
+      { stage: "3. Бататгал", time: "15 мин", teacher: "Бутархай, процент, хөдөлгөөний нийлмэл бодлого бодуулна.", student: "Дасгал ажлын хуудсыг бие даан бодно." },
+      { stage: "4. Дүгнэлт", time: "5 мин", teacher: "Бага боловсролын математикийн гол томьёонуудыг дүгнэж урамшуулна.", student: "Томьёонуудаа бататгана." }
+    ],
+    slides: [
+      { ico: "🥧", title: "Бутархай ба Процент (%)", body: "• <b>1/2 = 0.5 = 50%</b> (Тал хэсэг)<br>• <b>1/4 = 0.25 = 25%</b> (Дөрөвний нэг)<br>• <b>1/10 = 0.1 = 10%</b> (Аравны нэг)" },
+      { ico: "🚗", title: "Хөдөлгөөний Бодлогын Томьёо", body: "• <b>Зам:</b> S = v × t<br>• <b>Хурд:</b> v = S ÷ t<br>• <b>Хугацаа:</b> t = S ÷ v" },
+      { ico: "🎯", title: "Шалгах асуулт", body: "80 км/цаг хурдтай галт тэрэг 4 цагт хэдэн км зам туулах вэ?", opts: ["20 км", "240 км", "320 км"], ans: "320 км" }
+    ],
+    visuals: [
+      { tag: "БУТАРХАЙ ➔ ПРОЦЕНТ", big: "1/2 = 0.5 = 50%", sub: "Нийт хэмжээний тэн хагас" },
+      { tag: "ПРОЦЕНТ ОЛОХ", big: "200-ийн 25% = 50", sub: "200 ÷ 4 = 50" },
+      { tag: "ЗАМ ОЛОХ", big: "S = v × t", sub: "Зам = Хурд × Хугацаа" },
+      { tag: "ХУРД БА ХУГАЦАА", big: "v = S ÷ t  |  t = S ÷ v", sub: "Хөдөлгөөний хамаарал" }
+    ],
+    workbook: [
+      "1. Хүснэгтийг нөхнө үү: а) 3/4 = 0.___ = ___%   б) 1/5 = 0.___ = ___%   в) 120-ийн 50% = ____   г) 80-ын 25% = ____",
+      "2. Аравтын бутархайн үйлдэл гүйцэтгээрэй: а) 4.7 + 3.8 = ____  б) 10.5 − 4.2 = ____  в) 2.5 × 4 = ____",
+      "3. Өгүүлбэртэй бодлого: Дугуйчин 15 км/цаг хурдтайгаар 45 км замыг хэдэн цагт туулах вэ?"
+    ]
+  },
+  {
+    subject: "🔬 Хүн ба Байгаль",
+    lessonTitle: "Нарны Аймаг, Цахилгаан Хэлхээ ба Экосистем",
+    aim: "Нарны аймгийн 8 гарагийг дарааллаар нь нэрлэж, энгийн цахилгаан хэлхээ хэрхэн ажилладаг болон идэш тэжээлийн хэлхээг тайлбарлана.",
+    materials: "Нарны аймгийн үзүүлэн, зай (батарей), чийдэн, дамжуулагч утас",
+    steps: [
+      { stage: "1. Сэдэлжүүлэлт", time: "5 мин", teacher: "Дэлхий нарыг хэдэн хоногт нэг бүтэн тойрдог вэ? гэж асууна.", student: "365 хоног буюу 1 жилд тойрдгийг хэлнэ." },
+      { stage: "2. Шинэ мэдлэг", time: "15 мин", teacher: "Нарны аймгийн 8 гараг болон битүү цахилгаан хэлхээгээр гүйдэл гүйж чийдэн асдагийг үзүүлнэ.", student: "Идэш тэжээлийн хэлхээ (Өвс ➔ Туулай ➔ Үнэг) зохионо." },
+      { stage: "3. Бататгал", time: "15 мин", teacher: "Цахилгаан эрчим хүчийг хэмнэх, аюулгүй ашиглах дүрмийг ярилцана.", student: "Дасгал ажлын хуудсыг бөглөнө." },
+      { stage: "4. Дүгнэлт", time: "5 мин", teacher: "Шинжлэх ухаанч эрэл хайгуул хийхийг уриална.", student: "Дүгнэлт хийнэ." }
+    ],
+    slides: [
+      { ico: "🪐", title: "Нарны Аймгийн 8 Гараг", body: "Нарнаас эхлэн дарааллаар нь:<br><b>1. Буд, 2. Сугар, 3. Дэлхий, 4. Ангараг, 5. Бархасбадь, 6. Санчир, 7. Тэнгэрийн ван, 8. Далайн ван</b>" },
+      { ico: "💡", title: "Энгийн Цахилгаан Хэлхээ", body: "🔋 <b>Тэжээл үүсгэгч (Зай)</b> + 🔌 <b>Дамжуулагч утас</b> + 🔘 <b>Унтраалга</b> + 💡 <b>Хэрэглэгч (Чийдэн)</b> = Битүү хэлхээ" },
+      { ico: "🎯", title: "Шалгах асуулт", body: "Дэлхий нарнаас тоолоход хэд дэх гараг вэ?", opts: ["2 дахь", "3 дахь", "4 дэх"], ans: "3 дахь" }
+    ],
+    visuals: [
+      { tag: "НАРНЫ АЙМАГ", big: "☀️ ➔ 🌍 Дэлхий (3-р гараг)", sub: "8 гараг нарыг тойрон эргэнэ" },
+      { tag: "ЦАХИЛГААН ХЭЛХЭЭ", big: "🔋 + 🔌 + 💡 = Асна", sub: "Битүү хэлхээгээр гүйдэл гүйнэ" },
+      { tag: "ИДЭШ ТЭЖЭЭЛИЙН ХЭЛХЭЭ", big: "🌿 Өвс ➔ 🐇 Туулай ➔ 🦊 Үнэг", sub: "Байгалийн тэнцвэрт байдал" },
+      { tag: "ЭРЧИМ ХҮЧ ХЭМНЭЛТ", big: "💡 Хэрэггүй гэрлээ унтраая", sub: "Эх дэлхийгээ хайрлая" }
+    ],
+    workbook: [
+      "1. Нарны аймгийн 8 гарагийг нарнаас эхлэн дарааллаар нь бичээрэй.",
+      "2. Энгийн цахилгаан хэлхээний 4 үндсэн хэсгийг нэрлэн бичээрэй: 1) ________  2) ________  3) ________  4) ________",
+      "3. Ой мод, тал хээрийн 1 идэш тэжээлийн хэлхээ зохиож зураглана уу."
+    ]
+  },
+  {
+    subject: "🏛️ Хүн ба Нийгэм",
+    lessonTitle: "Монголын Түүхэн Өв Соёл, Эдийн Засаг ба Хуримтлал",
+    aim: "Монголын эзэнт гүрний түүхэн өв соёлоор бахархаж, мөнгөний үнэ цэнэ, хэрэгцээ ба хүслийн ялгаа, хуримтлал үүсгэх ач тусыг ойлгоно.",
+    materials: "Түүхэн дурсгалын зураг, төсөв ба хуримтлалын хүснэгт",
+    steps: [
+      { stage: "1. Сэдэлжүүлэлт", time: "5 мин", teacher: "Өдөр тутмын «Хэрэгцээ» (хоол, хувцас, хичээлийн хэрэгсэл) ба «Хүсэл» (үнэтэй тоглоом, чихэр)-ийн ялгааг асууна.", student: "Хэрэгцээ нь зайлшгүй шаардлагатай зүйл болохыг тайлбарлана." },
+      { stage: "2. Шинэ мэдлэг", time: "15 мин", teacher: "Халаасны мөнгөө төлөвлөж, тодорхой хэсгийг нь хуримтлуулах аргыг заана. Мөн Чингис хааны байгуулсан Их Монгол Улсын түүхэн өвийг танилцуулна.", student: "7 хоногийн хувийн төсвийн төлөвлөгөө зохионо." },
+      { stage: "3. Бататгал", time: "15 мин", teacher: "Соёлын өвийг хамгаалах талаар хэлэлцүүлэг өрнүүлнэ.", student: "Дасгал ажлын хуудсыг бөглөнө." },
+      { stage: "4. Дүгнэлт", time: "5 мин", teacher: "Санхүүгийн сахилга баттай, түүхээ мэддэг иргэн байхыг уриална.", student: "Дүгнэлт хийнэ." }
+    ],
+    slides: [
+      { ico: "💰", title: "Хэрэгцээ ба Хүсэл, Хуримтлал", body: "• <b>Хэрэгцээ:</b> Амьдрахад зайлшгүй хэрэгтэй (хоол хүнс, ном, хувцас)<br>• <b>Хүсэл:</b> Байвал сайн ч зайлшгүй биш зүйлс<br>• <b>Хуримтлал:</b> Ирээдүйн зорилгодоо зориулж хадгалсан мөнгө" },
+      { ico: "🐎", title: "Монголын Түүхэн Өв Соёл", body: "1206 онд Эзэн Чингис хаан Их Монгол Улсыг байгуулж, Морин өртөө, Их Засаг хууль, Монгол бичгийн соёлыг дэлхийд түгээсэн." },
+      { ico: "🎯", title: "Шалгах асуулт", body: "Аль нь хүний зайлшгүй «Хэрэгцээ» вэ?", opts: ["Эрүүл хоол хүнс, ундны ус", "Хамгийн сүүлийн үеийн видео тоглоом", "Олон төрлийн чихэр"], ans: "Эрүүл хоол хүнс, ундны ус" }
+    ],
+    visuals: [
+      { tag: "САНХҮҮГИЙН БОЛОВСРОЛ", big: "Хэрэгцээ 🆚 Хүсэл", sub: "Эхлээд хэрэгцээгээ хангая" },
+      { tag: "ХУРИМТЛАЛ", big: "🏦 Бага багаар хуримтлуулъя", sub: "Зорилготой хэмнэлт" },
+      { tag: "ТҮҮХЭН ӨВ", big: "📜 1206 он • Их Монгол Улс", sub: "Түүх соёлоороо бахархъя" },
+      { tag: "МОНГОЛ БИЧИГ", big: "Үндэсний бичиг соёл", sub: "Өв соёлоо өвлөн суралцъя" }
+    ],
+    workbook: [
+      "1. Өөрийн амьдралын 3 хэрэгцээ, 3 хүслийг ялган бичээрэй.",
+      "2. Хэрэв чамд 10,000 төгрөг байвал хэрхэн зарцуулж, хэдийг нь хуримтлуулах вэ? Төлөвлөгөө бичээрэй.",
+      "3. Монголын түүх, соёлын өвөөс 3 жишээ нэрлэн бичээрэй."
+    ]
+  },
+  {
+    subject: "🎨 Дүрслэх урлаг, Технологи",
+    lessonTitle: "Харьцаа ба Зохиомж, Дизайны Анхан Шатны Төсөл",
+    aim: "Хүний бие болон эд зүйлсийн хэсгүүдийн зөв харьцааг баримтлан зурж, өдөр тутмын хэрэглээний шинэ бүтээгдэхүүний загвар зохионо.",
+    materials: "Зургийн дэвтэр, шугам, харандаа, дахин боловсруулах материал (картон, цаас)",
+    steps: [
+      { stage: "1. Сэдэлжүүлэлт", time: "5 мин", teacher: "Аливаа эд зүйлсийг зөв харьцаатай зурах нь яагаад чухал вэ? гэж асууна.", student: "Хэт том эсвэл хэт жижиг зурагдахаас сэргийлж бодит харагдуулдгийг хэлнэ." },
+      { stage: "2. Шинэ мэдлэг", time: "15 мин", teacher: "Дизайн буюу хэрэглэгчдэд ээлтэй, үзэмжтэй бүтээгдэхүүн зохион бүтээх 4 алхмыг (Санаа ➔ Загвар ➔ Бүтээх ➔ Турших) заана.", student: "Ширээний харандааны сав эсвэл номын хавчуургын дизайны зураг гаргана." },
+      { stage: "3. Бүтээл хийх", time: "15 мин", teacher: "Гар доорх материалаар загвар бүтээлээ урлуулна.", student: "Төслийн бүтээлээ хийж танилцуулна." },
+      { stage: "4. Дүгнэлт", time: "5 мин", teacher: "Шилдэг дизайны санаануудыг урамшуулна.", student: "Бүтээлээ хамгаалж ярина." }
+    ],
+    slides: [
+      { ico: "📐", title: "Дүрслэлийн Харьцаа", body: "Бүхэл зүйл ба түүний хэсгүүдийн хэмжээний зөв зохицлыг <b>харьцаа</b> гэнэ.<br>Жишээ: Байшингийн хаалга, цонх нь байшингийн нийт өндөртэй зохицсон байх ёстой." },
+      { ico: "💡", title: "Дизайн Төслийн 4 Алхам", body: "1. <b>Асуудал ба Санаа олох</b><br>2. <b>Ноорог зураг (Эскиз) гаргах</b><br>3. <b>Материал сонгож бүтээх</b><br>4. <b>Туршиж сайжруулах</b>" },
+      { ico: "🎯", title: "Шалгах асуулт", body: "Шинэ бүтээл хийхийн өмнө цаасан дээр урьдчилан зурсан загварыг юу гэдэг вэ?", opts: ["Ноорог зураг (Эскиз)", "Хүрээ", "Сүүдэр"], ans: "Ноорог зураг (Эскиз)" }
+    ],
+    visuals: [
+      { tag: "ХАРЬЦАА", big: "📐 Бүхэл ба Хэсгийн зохицол", sub: "Зөв хэмжээстэй дүрслэл" },
+      { tag: "ДИЗАЙН", big: "💡 Гоёмсог + Хэрэгцээтэй", sub: "Амьдралд тустай бүтээл" },
+      { tag: "НООРОГ ЗУРАГ", big: "✏️ Эскиз гаргах", sub: "Бүтээхээс өмнө төлөвлөе" },
+      { tag: "ЭКО БҮТЭЭЛ", big: "♻️ Дахин ашиглах", sub: "Хаягдал цаас, картоноор урлая" }
+    ],
+    workbook: [
+      "1. Дүрслэх урлагт «Харьцаа» гэж юуг хэлдэг вэ? Өөрийн үгээр тайлбарлан бичээрэй.",
+      "2. Дизайн төсөл хэрэгжүүлэх 4 үе шатыг дарааллаар нь бичээрэй.",
+      "3. «Ухаалаг хичээлийн ширээ» эсвэл «Олон үйлдэлт харандааны сав»-ны ноорог зургийг (эскиз) зурж тайлбар бичээрэй."
+    ]
+  }
+];
+
+let tab = 0, subjIdx = 0, slideIdx = 0, quizMsg = "";
+function setTab(t) { tab = t; [0,1,2,3].forEach(i => document.getElementById(`t${i}`).classList.toggle('active', i === t)); render(); }
+function selectSubj(s) { subjIdx = s; slideIdx = 0; quizMsg = ""; render(); }
+function checkSlideQuiz(chosen, ans) { quizMsg = chosen === ans ? "🌟 Яг зөв! Гайхалтай!" : "❌ Дахин бодоод үзээрэй!"; render(); }
+
+function render() {
+  const main = document.getElementById('mainArea');
+  const cur = GRADE5_DATA[subjIdx];
+  const subjBar = `
+    <div class="subj-bar">
+      <div class="subj-pills">${GRADE5_DATA.map((d, i) => `<button class="pill ${i === subjIdx ? 'active' : ''}" onclick="selectSubj(${i})">${d.subject}</button>`).join('')}</div>
+      ${tab !== 1 ? `<button class="btn btn-warm" onclick="window.print()">🖨️ Хэвлэх (A4)</button>` : ''}
+    </div>
+  `;
+
+  let bodyHtml = "";
+  if (tab === 0) {
+    bodyHtml = `
+      <div class="a4-page">
+        <div class="a4-head"><h2>📋 Ээлжит хичээлийн төлөвлөлт: ${cur.lessonTitle}</h2><div style="font-size:12.5px;font-weight:800">5-р анги • 40 минут • ${cur.subject}</div></div>
+        <div style="background:#f8fafc;border:1.5px solid #cbd5e1;border-radius:12px;padding:10px 14px;margin-bottom:14px;font-size:13.5px;line-height:1.55"><b>🎯 Зорилго:</b> ${cur.aim}<br><b>🧰 Хэрэглэгдэхүүн:</b> ${cur.materials}</div>
+        <table class="plan-tbl">
+          <thead><tr><th style="width:140px">Үе шат</th><th style="width:70px">Хугацаа</th><th>Багшийн үйл ажиллагаа</th><th>Сурагчийн үйл ажиллагаа</th></tr></thead>
+          <tbody>${cur.steps.map(s => `<tr><td><b>${s.stage}</b></td><td><b>${s.time}</b></td><td>${s.teacher}</td><td>${s.student}</td></tr>`).join('')}</tbody>
+        </table>
+      </div>
+    `;
+  } else if (tab === 1) {
+    const sl = cur.slides[slideIdx];
+    const qHtml = sl.opts ? `<div style="margin-top:14px">${sl.opts.map(o => `<button class="q-opt ${quizMsg.includes('зөв') && o === sl.ans ? 'ok' : ''}" onclick="checkSlideQuiz('${o}', '${sl.ans}')">${o}</button>`).join('')}</div><div style="min-height:24px;margin-top:8px;font-size:16px;font-weight:900;color:${quizMsg.includes('зөв') ? '#16a34a' : '#dc2626'}">${quizMsg}</div>` : '';
+    bodyHtml = `
+      <div class="slide-box">
+        <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:900;color:#9f1239;border-bottom:2px dashed #fecdd3;padding-bottom:8px"><span>${cur.subject} • 5-р анги</span><span>Слайд ${slideIdx + 1} / ${cur.slides.length}</span></div>
+        <div style="padding:16px 0"><div class="slide-ico">${sl.ico}</div><h2 style="margin:0 0 12px;font-size:24px">${sl.title}</h2><div class="slide-content">${sl.body}${qHtml}</div></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;border-top:2px dashed #fecdd3;padding-top:12px">
+          <button class="btn" style="background:#64748b" ${slideIdx === 0 ? 'disabled' : ''} onclick="slideIdx--;quizMsg='';render()">◀ Өмнөх</button>
+          <span style="font-size:13px;font-weight:800;color:#475569">${cur.lessonTitle}</span>
+          <button class="btn btn-warm" ${slideIdx + 1 >= cur.slides.length ? 'disabled' : ''} onclick="slideIdx++;quizMsg='';render()">Дараах ▶</button>
+        </div>
+      </div>
+    `;
+  } else if (tab === 2) {
+    bodyHtml = `
+      <div class="a4-page">
+        <div class="a4-head"><h2>🃏 Самбарын Хэрэглэгдэхүүн: ${cur.subject} (5-р анги)</h2><div style="font-size:12.5px;font-weight:800">Хайчлаад самбарт наах үзүүлэн карт ✂️</div></div>
+        <div class="cards-grid">${cur.visuals.map(v => `<div class="v-card"><div style="font-size:11.5px;font-weight:900;color:#64748b;margin-bottom:8px">${v.tag}</div><div style="font-size:28px;font-weight:900;color:#be123c;margin:12px 0">${v.big}</div><div style="font-size:14.5px;font-weight:800;color:#334155">${v.sub}</div></div>`).join('')}</div>
+      </div>
+    `;
+  } else {
+    bodyHtml = `
+      <div class="a4-page">
+        <div class="a4-head"><h2>📓 Дасгал Ажлын Дэвтэр: ${cur.subject} (5-р анги)</h2><div style="font-size:12.5px;font-weight:800">Нэр: ______________________ &nbsp;|&nbsp; Огноо: 2026.__.__</div></div>
+        ${cur.workbook.map((task, idx) => `<div class="wb-box"><h4>Дасгал ${idx + 1}</h4><div style="font-size:15px;font-weight:800;margin-bottom:10px;line-height:1.55">${task}</div><div class="ruled"></div><div class="ruled"></div></div>`).join('')}
+      </div>
+    `;
+  }
+  main.innerHTML = subjBar + bodyHtml;
+}
+render();
+</script>
+</body>
+</html>

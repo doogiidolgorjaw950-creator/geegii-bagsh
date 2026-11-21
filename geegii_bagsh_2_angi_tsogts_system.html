@@ -1,0 +1,512 @@
+<!doctype html>
+<html lang="mn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2-р Ангийн Цогц Систем: Хөтөлбөр • Цахим хичээл • Хэрэглэгдэхүүн • Дасгал ажил | Гээгий багш</title>
+<style>
+  :root {
+    --bg: #f1f5f9;
+    --ink: #173042;
+    --brand: #0c7b93;
+    --warm: #f48c06;
+    --purple: #7c3aed;
+    --ok: #16a34a;
+    --bad: #dc2626;
+    --border: #cbd5e1;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+  }
+  header {
+    background: linear-gradient(135deg, #1e1b4b, #0c7b93);
+    color: #fff;
+    padding: 14px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 14px rgba(0,0,0,.18);
+  }
+  header h1 { margin: 0; font-size: 17.5px; }
+  header small { display: block; opacity: .9; font-size: 11.5px; }
+
+  .nav-tabs {
+    display: flex;
+    gap: 6px;
+    background: rgba(255,255,255,.15);
+    padding: 4px;
+    border-radius: 12px;
+    flex-wrap: wrap;
+  }
+  .tab {
+    border: 0;
+    border-radius: 9px;
+    padding: 8px 12px;
+    font-weight: 800;
+    font-size: 12.5px;
+    cursor: pointer;
+    background: transparent;
+    color: #fff;
+  }
+  .tab.active { background: #fff; color: var(--ink); }
+
+  main { max-width: 1060px; margin: 18px auto; padding: 0 14px 50px; }
+
+  .subj-bar {
+    background: #fff;
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+  }
+  .subj-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+  .pill {
+    border: 2px solid #cbd5e1;
+    background: #f8fafc;
+    border-radius: 10px;
+    padding: 7px 12px;
+    font-weight: 800;
+    font-size: 12.5px;
+    cursor: pointer;
+  }
+  .pill.active { background: #0c7b93; color: #fff; border-color: #0c7b93; }
+
+  .btn {
+    border: 0;
+    border-radius: 10px;
+    padding: 9px 15px;
+    font-weight: 900;
+    font-size: 13px;
+    cursor: pointer;
+    color: #fff;
+    background: var(--brand);
+  }
+  .btn-warm { background: var(--warm); }
+  .btn-ok { background: var(--ok); }
+
+  /* A4 Sheet */
+  .a4-page {
+    background: #fff;
+    border: 2px solid #94a3b8;
+    border-radius: 18px;
+    padding: 22px 24px;
+    box-shadow: 0 10px 25px rgba(0,0,0,.07);
+  }
+  .a4-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2.5px solid #173042;
+    padding-bottom: 8px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .a4-head h2 { margin: 0; font-size: 19px; color: #0c7b93; }
+
+  /* Table */
+  .plan-tbl { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  .plan-tbl th, .plan-tbl td { border: 1.5px solid #94a3b8; padding: 9px 11px; vertical-align: top; line-height: 1.5; }
+  .plan-tbl th { background: #e0f2fe; color: #0369a1; font-weight: 900; text-align: left; }
+
+  /* E-Lesson Stage */
+  .slide-box {
+    background: linear-gradient(180deg, #fff 0%, #f0f9ff 100%);
+    border: 3.5px solid #0c7b93;
+    border-radius: 24px;
+    padding: 26px 22px;
+    min-height: 410px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+  }
+  .slide-ico { font-size: 64px; margin: 8px 0; }
+  .slide-content {
+    background: #fff;
+    border: 2px solid #bae6fd;
+    border-radius: 16px;
+    padding: 18px 20px;
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 1.65;
+    max-width: 780px;
+    margin: 0 auto;
+  }
+  .q-opt {
+    padding: 9px 16px;
+    border-radius: 12px;
+    border: 2px solid #0c7b93;
+    background: #e0f2fe;
+    font-size: 16px;
+    font-weight: 900;
+    cursor: pointer;
+    margin: 4px;
+  }
+  .q-opt.ok { background: var(--ok); color: #fff; border-color: #15803d; }
+
+  /* Visual Cards (Хэрэглэгдэхүүн) */
+  .cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 680px) { .cards-grid { grid-template-columns: 1fr; } }
+  .v-card {
+    border: 2.5px dashed #475569;
+    border-radius: 16px;
+    padding: 16px;
+    text-align: center;
+    background: #fafafa;
+  }
+
+  /* Workbook (Дасгал ажил) */
+  .wb-box {
+    border: 2px solid #cbd5e1;
+    border-radius: 14px;
+    padding: 14px;
+    margin-bottom: 12px;
+  }
+  .wb-box h4 { margin: 0 0 8px; color: #1d4ed8; font-size: 15px; }
+  .ruled { height: 28px; border-bottom: 1.5px solid #60a5fa; margin-bottom: 6px; }
+
+  @media print {
+    header, .subj-bar, .no-print { display: none !important; }
+    body { background: #fff; }
+    main { margin: 0; padding: 0; max-width: 100%; }
+    .a4-page { border: 0; box-shadow: none; padding: 4mm; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>📘 2-Р АНГИЙН ЦОГЦ СУРГАЛТЫН СИСТЕМ (Гээгий багшийн бүтээл)</h1>
+    <small>Монгол хэл • Математик • Хүн ба Орчин • Хүн ба Нийгэм • Дүрслэх урлаг, Технологи</small>
+  </div>
+  <div class="nav-tabs">
+    <button class="tab active" id="t0" onclick="setTab(0)">📋 1. Ээлжит хичээл</button>
+    <button class="tab" id="t1" onclick="setTab(1)">💻 2. Цахим хичээл</button>
+    <button class="tab" id="t2" onclick="setTab(2)">🃏 3. Хэрэглэгдэхүүн (A4)</button>
+    <button class="tab" id="t3" onclick="setTab(3)">📓 4. Дасгал ажил (A4)</button>
+  </div>
+</header>
+
+<main id="mainArea"></main>
+
+<script>
+const GRADE2_DATA = [
+  // 1. МОНГОЛ ХЭЛ (2-р анги)
+  {
+    subject: "📖 Монгол хэл",
+    lessonTitle: "Гээгдэх эгшгийн дүрэм ба Ялгах эгшиг (и, ы)",
+    aim: "Үгэнд залгавар залгахад балархай эгшиг гээгдэх тохиолдлыг таньж, эр, эм үгэнд -ий, -ын залгаврыг зөв бичнэ.",
+    materials: "Үгийн хувиргалын хүснэгт, самбарын карт, дасгал ажлын дэвтэр",
+    steps: [
+      { stage: "1. Сэдэлжүүлэлт", time: "5 мин", teacher: "«Ах + ын = Ахын», «Хавар + ын = Хаврын» хоёр үгийг харьцуулан ямар үсэг алга болсныг асууна.", student: "«Хавар» гэдэг үгийн хоёр дахь «а» эгшиг гээгдсэнийг ажиглаж хэлнэ." },
+      { stage: "2. Шинэ мэдлэг", time: "15 мин", teacher: "Гийгүүлэгчээр төгссөн үгэнд урт эгшгээр эхэлсэн залгавар залгахад балархай эгшиг гээгдэх дүрмийг тайлбарлана.", student: "Самбар дээрх «Үнэг+ийн=Үнэгний», «Нөхөр+ийн=Нөхрийн» үгсийг хувиргаж уншина." },
+      { stage: "3. Бататгал", time: "15 мин", teacher: "Дасгал ажлын дэвтрийн хуудсыг тарааж бие даан гүйцэтгүүлнэ.", student: "Үгсийг зөв хувиргаж цэвэр бичнэ." },
+      { stage: "4. Дүгнэлт", time: "5 мин", teacher: "Алдаагүй бичсэн сурагчдыг урамшуулна.", student: "Дүрмээ өөрийн үгээр тайлбарлана." }
+    ],
+    slides: [
+      { ico: "🔍", title: "Ажиглаарай: Аль эгшиг алга болов?", body: "<b>ХАВАР + ЫН = ХАВРЫН</b><br><b>НӨХӨР + ИЙН = НӨХРИЙН</b><br><small style='color:#0c7b93'>Урт эгшгээр эхэлсэн залгавар залгахад өмнөх балархай эгшиг гээгдэнэ.</small>" },
+      { ico: "✍️", title: "Ялгах эгшиг: -ЫН ба -ИЙН", body: "Эр үгэнд: <b>-ЫН</b> (ахын, номын, сургуулийн биш ➔ <b>номын</b>)<br>Эм үгэнд: <b>-ИЙН</b> (ээжийн, дэвтрийн, цэцгийн)" },
+      { ico: "🎯", title: "Шалгах асуулт", body: "«Дэвтэр + ийн» зөв хэлбэрийг олоорой:", opts: ["дэвтэрийн", "дэвтрийн", "дэвтрын"], ans: "дэвтрийн" }
+    ],
+    visuals: [
+      { tag: "ДҮРМИЙН ҮЗҮҮЛЭН", big: "ХАВАР + ЫН ➔ ХАВРЫН", sub: "Балархай эгшиг гээгдэх тохиолдол" },
+      { tag: "ГЭЭГДЭХГҮЙ ТОХИОЛДОЛ", big: "АХ + ЫН ➔ АХЫН", sub: "Ганц үетэй үгийн эгшиг гээгдэхгүй" },
+      { tag: "ЭР ҮГИЙН ЗАЛГАВАР", big: "НОМ + ЫН = НОМЫН", sub: "Эр үгэнд -ЫН, -ЫГ залгана" },
+      { tag: "ЭМ ҮГИЙН ЗАЛГАВАР", big: "ЦЭЦЭГ + ИЙН = ЦЭЦГИЙН", sub: "Эм үгэнд -ИЙН, -ИЙГ залгана" }
+    ],
+    workbook: [
+      "1. Дараах үгсийг гээгдэх эгшгийн дүрмээр хувиргаж бичээрэй: а) үнэг + ийн = ________  б) морь + ийг = ________  в) охин + ы = ________",
+      "2. Эр, эм үгийг ялган -ын, -ийн залгаврыг зөв залгаарай: а) уул + ____  б) эрдэм + ____  в) нар + ____  г) хүүхэд + ____",
+      "3. «Хаврын урь орж, ус мөрөн хайлж эхэллээ.» өгүүлбэрийг хичээнгүй хуулан бичээрэй."
+    ]
+  },
+
+  // 2. МАТЕМАТИК (2-р анги)
+  {
+    subject: "🧮 Математик",
+    lessonTitle: "100 доторх аравт хэтрүүлэн нэмэх, хасах ба 2–5-ын хүрд",
+    aim: "Хоёр оронтой тоог орон ангиар нь нэмж хасах, ижил нэмэгдэхүүний нийлбэрийг үржүүлэх үйлдлээр илэрхийлж сурна.",
+    materials: "100-тын хүснэгт, савхан багц, хүрдний үзүүлэн карт",
+    steps: [
+      { stage: "1. Сэдэлжүүлэлт", time: "5 мин", teacher: "Нэг тавганд 3 алим, ийм 4 тавганд нийт хэдэн алим байгааг асууна.", student: "3 + 3 + 3 + 3 = 12 буюу 3 × 4 = 12 гэж илэрхийлнэ." },
+      { stage: "2. Шинэ мэдлэг", time: "15 мин", teacher: "36 + 27 бодлогыг аравтыг аравттай, нэгжийг нэгжтэй нэмэх аргаар самбарт тайлбарлана.", student: "45 + 18, 62 − 25 бодлогуудыг баганан бичиглэлээр бодно." },
+      { stage: "3. Бататгал", time: "15 мин", teacher: "Дасгал ажлын дэвтрийн бодлого болон өгүүлбэртэй бодлогыг бодуулна.", student: "Бие даан бодож хариугаа шалгана." },
+      { stage: "4. Дүгнэлт", time: "5 мин", teacher: "2 ба 3-ын хүрдийг цээжээр хэлүүлж урамшуулна.", student: "Хүрдний хариуг хурдан хэлнэ." }
+    ],
+    slides: [
+      { ico: "➕", title: "100 дотор нэмэх арга", body: "<b>36 + 27 = ?</b><br>1) Аравт: 30 + 20 = 50<br>2) Нэгж: 6 + 7 = 13<br>3) Нийт: <b>50 + 13 = 63</b>" },
+      { ico: "✖️", title: "Үржүүлэх үйлдлийн утга", body: "Ижил нэмэгдэхүүнүүдийн нийлбэр:<br><b style='font-size:25px;color:#0c7b93'>4 + 4 + 4 = 4 × 3 = 12</b>" },
+      { ico: "🎯", title: "Шалгах асуулт", body: "5 × 4 хэдтэй тэнцүү вэ?", opts: ["15", "20", "25"], ans: "20" }
+    ],
+    visuals: [
+      { tag: "ОРОН АНГИЙН ХҮСНЭГТ", big: "74 = 7 аравт + 4 нэгж", sub: "Хоёр оронтой тооны бүтэц" },
+      { tag: "2-ЫН ХҮРД", big: "2 × 6 = 12", sub: "Хоёр хоёроор нэмэгдүүлэх" },
+      { tag: "3-ЫН ХҮРД", big: "3 × 5 = 15", sub: "Гурав гурваар нэмэгдүүлэх" },
+      { tag: "5-ЫН ХҮРД", big: "5 × 7 = 35", sub: "Тав таваар нэмэгдүүлэх" }
+    ],
+    workbook: [
+      "1. Бодлогыг бодоорой: а) 47 + 28 = ____  б) 65 + 19 = ____  в) 82 − 36 = ____  г) 90 − 44 = ____",
+      "2. Үржүүлэх үйлдлээр бичээд утгыг олоорой: а) 3 + 3 + 3 + 3 = ___ × ___ = ___  б) 5 + 5 + 5 = ___ × ___ = ___",
+      "3. Өгүүлбэртэй бодлого: Нэг хайрцагт 4 харандаа бий. Ийм 5 хайрцагт нийт хэдэн харандаа байх вэ?"
+    ]
+  },
+
+  // 3. ХҮН БА ОРЧИН (2-р анги)
+  {
+    subject: "🌿 Хүн ба Орчин",
+    lessonTitle: "Зүг чиг олох (Луужин ба Нар) ба Усны эргэлт",
+    aim: "Байгаль дээр нар болон луужингийн тусламжтай зүг чигийг тодорхойлж, ус байгальд хэрхэн эргэлддэгийг тайлбарлана.",
+    materials: "Луужин, зүг чигийн үзүүлэн, усны эргэлтийн зураг",
+    steps: [
+      { stage: "1. Сэдэлжүүлэлт", time: "5 мин", teacher: "Өглөө нар аль зүгээс манддаг вэ? гэж асууж зүг чигийн тухай яриа өрнүүлнэ.", student: "Нар зүүн зүгээс мандаж, баруун зүгт жаргадгийг хэлнэ." },
+      { stage: "2. Шинэ мэдлэг", time: "15 мин", teacher: "Луужингийн улаан зүү үргэлж Хойд зүгийг заадгийг үзүүлж, 4 үндсэн зүгийг (Хойд, Өмнөд, Зүүн, Баруун) заана.", student: "Ангийнхаа цонх, хаалга аль зүгт харсныг тодорхойлно." },
+      { stage: "3. Бататгал", time: "15 мин", teacher: "Ус уурших, үүл болох, бороо цас болж буух «Усны эргэлт»-ийг зуруулна.", student: "Дасгал ажлын хуудсан дээр зүг чиг болон усны эргэлтийг бөглөнө." },
+      { stage: "4. Дүгнэлт", time: "5 мин", teacher: "Усаа хайрлан хамгаалах зөвлөмж өгнө.", student: "4 зүг чигийг нэрлэнэ." }
+    ],
+    slides: [
+      { ico: "🧭", title: "4 Үндсэн Зүг Чиг", body: "⬆️ <b>Хойд</b> (Луужингийн улаан зүү)<br>⬇️ <b>Өмнөд</b> (Урд зүг)<br>➡️ <b>Зүүн</b> (Нар мандах зүг) &nbsp;|&nbsp; ⬅️ <b>Баруун</b> (Нар жаргах зүг)" },
+      { ico: "🌧️", title: "Байгаль дахь усны эргэлт", body: "☀️ Нар усыг халааж <b>уур</b> болгоно ➔ ☁️ Тэнгэрт <b>үүл</b> болно ➔ 🌧️ <b>Бороо, цас</b> болж газарт бууна." },
+      { ico: "🎯", title: "Шалгах асуулт", body: "Луужингийн улаан зүү үргэлж аль зүгийг заадаг вэ?", opts: ["Өмнөд зүг", "Хойд зүг", "Зүүн зүг"], ans: "Хойд зүг" }
+    ],
+    visuals: [
+      { tag: "ЛУУЖИНГИЙН ЗААЛТ", big: "🧭 N = ХОЙД ЗҮГ", sub: "Улаан зүү үргэлж хойд зүгийг заана" },
+      { tag: "НАРНЫ ЗҮГ", big: "🌅 ЗҮҮН ➔ 🌇 БАРУУН", sub: "Зүүнээс мандаж, баруунд жаргана" },
+      { tag: "УСНЫ ГУРВАН ТӨЛӨВ", big: "💧 Шингэн • 🧊 Хатуу • 💨 Хий", sub: "Ус, мөс, уур" },
+      { tag: "УС ХАМГААЛАЛ", big: "🚰 Усаа хэмнэе!", sub: "Шүдээ угаахдаа крантаа хааж хэвшье" }
+    ],
+    workbook: [
+      "1. Луужингийн 4 үндсэн зүгийг нөхөж бичээрэй: Дээд талд: ________, Доод талд: ________, Баруун гар талд: ________, Зүүн гар талд: ________.",
+      "2. Усны гурван төлөвийг нэрлэн бичээрэй: 1) ________  2) ________  3) ________",
+      "3. Гэртээ усаа хэрхэн хэмнэдэг 2 аргаа бичээрэй."
+    ]
+  },
+
+  // 4. ХҮН БА НИЙГЭМ (2-р анги)
+  {
+    subject: "🏘️ Хүн ба Нийгэм",
+    lessonTitle: "Миний Төрсөн Нутаг, Ургийн Овог ба Нийгмийн Хариуцлага",
+    aim: "Өөрийн ургийн овог, аймаг/хот, сум/дүүргийн нэрийг мэдэж, нийтийн эзэмшлийн эд зүйлсийг хайрлан хамгаалах ухамсар төлөвшүүлнэ.",
+    materials: "Монгол Улсын засаг захиргааны зураг, ургийн модны загвар",
+    steps: [
+      { stage: "1. Сэдэлжүүлэлт", time: "5 мин", teacher: "Хүн бүр яагаад ургийн овогтой байдаг вэ? гэж асууна.", student: "Өөрийн ургийн овгийг (Боржигон, Халх гэх мэт) хэлнэ." },
+      { stage: "2. Шинэ мэдлэг", time: "15 мин", teacher: "Монгол Улс 21 аймаг, нийслэл Улаанбаатар хоттой болохыг газрын зураг дээр үзүүлнэ.", student: "Өөрийн амьдардаг аймаг/хот, дүүрэг/сумаа нэрлэнэ." },
+      { stage: "3. Бататгал", time: "15 мин", teacher: "Сургууль, цэцэрлэгт хүрээлэн, автобусанд хэрхэн соёлтой үйлчлүүлэх дүрэм зохиолгоно.", student: "Дасгал ажлын хуудсанд өөрийн ургийн овог, нутгийн мэдээллийг бөглөнө." },
+      { stage: "4. Дүгнэлт", time: "5 мин", teacher: "Эх оронч, соёлтой иргэн байхыг уриална.", student: "Сурсан зүйлээ дүгнэнэ." }
+    ],
+    slides: [
+      { ico: "🌳", title: "Миний Ургийн Овог ба Гэр Бүл", body: "Монгол хүн бүр удам угсаагаа мэдэж, <b>ургийн овгоо</b> дээдэлдэг.<br>Жишээ: Боржигон овогт Бат-Эрдэнийн Анужин" },
+      { ico: "🗺️", title: "Манай Эх Орон — Монгол Улс", body: "Нийслэл хот: <b>Улаанбаатар</b><br>Засаг захиргааны нэгж: <b>21 аймаг, 9 дүүрэг</b>" },
+      { ico: "🎯", title: "Шалгах асуулт", body: "Монгол Улс хэдэн аймагтай вэ?", opts: ["18 аймаг", "21 аймаг", "25 аймаг"], ans: "21 аймаг" }
+    ],
+    visuals: [
+      { tag: "УРГИЙН ОВОГ", big: "🌳 Удам угсаагаа мэдье", sub: "Өвөө, эмээгийнхээ нэрийг мэдэж байх" },
+      { tag: "ЭХ ОРОН", big: "🇲🇳 21 Аймаг • Нийслэл", sub: "Төрсөн нутгаараа бахархъя" },
+      { tag: "НИЙТИЙН СОЁЛ", big: "🚌 Ахмад настанд суудал тавьж өгье", sub: "Хүндэтгэл ба эелдэг харилцаа" },
+      { tag: "ДҮРЭМ ЖУРАМ", big: "🚸 Гарцаар гарч, дүрмээ биелүүлье", sub: "Хариуцлагатай сурагч" }
+    ],
+    workbook: [
+      "1. Миний танилцуулга: Ургийн овог: __________, Эцэг/эхийн нэр: __________, Миний нэр: __________",
+      "2. Миний амьдардаг аймаг/хот: __________, сум/дүүрэг: __________, сургууль: __________",
+      "3. Нийтийн эзэмшлийн эд зүйлсийг (сургуулийн ширээ сандал, тоглоомын талбай) хэрхэн хайрлах вэ? 2 өгүүлбэр бичээрэй."
+    ]
+  },
+
+  // 5. ДҮРСЛЭХ УРЛАГ, ТЕХНОЛОГИ (2-р анги)
+  {
+    subject: "🎨 Дүрслэх урлаг, Технологи",
+    lessonTitle: "Үндсэн ба Үүсмэл өнгө, Цаасан нугалбар (Оригами)",
+    aim: "Улаан, шар, цэнхэр үндсэн өнгөнөөс үүсмэл өнгө (улбар шар, ногоон, ягаан) гарган авч, цаасаар дүрс нугалж бүтээнэ.",
+    materials: "Усан будаг/гуаш, бийр, өнгийн цаас, хайч, цавуу",
+    steps: [
+      { stage: "1. Сэдэлжүүлэлт", time: "5 мин", teacher: "Солонго хэдэн өнгөтэй вэ? Улаан ба шар будгийг холивол ямар өнгө гарах вэ? гэж асууна.", student: "Улбар шар өнгө үүснэ гэж таамаглана." },
+      { stage: "2. Шинэ мэдлэг", time: "15 мин", teacher: "3 үндсэн өнгө (Улаан, Шар, Цэнхэр)-ийг хооронд нь хольж үүсмэл өнгө гаргах туршилт үзүүлнэ.", student: "Будгийн тавган дээр Шар+Цэнхэр=Ногоон, Улаан+Цэнхэр=Ягаан өнгө гарган зурна." },
+      { stage: "3. Бүтээл хийх", time: "15 мин", teacher: "Дөрвөлжин өнгийн цаасаар «Завь» эсвэл «Эрвээхэй» нугалах дарааллыг алхамчлан үзүүлнэ.", student: "Технологийн дарааллын дагуу цаасаа тэгш нугалж бүтээлээ хийнэ." },
+      { stage: "4. Үзэсгэлэн ба Дүгнэлт", time: "5 мин", teacher: "Сурагчдын бүтээлээр ангийн үзэсгэлэн гаргаж урамшуулна.", student: "Өөрийн болон найзынхаа бүтээлийг үнэлнэ." }
+    ],
+    slides: [
+      { ico: "🎨", title: "Үндсэн 3 Өнгө", body: "Бусад өнгийг хольж гаргах боломжгүй 3 үндсэн өнгө:<br><b style='font-size:24px'>🔴 Улаан &nbsp;•&nbsp; 🟡 Шар &nbsp;•&nbsp; 🔵 Цэнхэр</b>" },
+      { ico: "🌈", title: "Үүсмэл Өнгө Гаргах Томьёо", body: "🔴 Улаан + 🟡 Шар = 🟠 <b>Улбар шар</b><br>🟡 Шар + 🔵 Цэнхэр = 🟢 <b>Ногоон</b><br>🔴 Улаан + 🔵 Цэнхэр = 🟣 <b>Ягаан (Нил ягаан)</b>" },
+      { ico: "🎯", title: "Шалгах асуулт", body: "Шар ба цэнхэр өнгийг холивол ямар өнгө үүсэх вэ?", opts: ["Улбар шар", "Ногоон", "Ягаан"], ans: "Ногоон" }
+    ],
+    visuals: [
+      { tag: "ҮНДСЭН ӨНГӨ", big: "🔴 🟡 🔵", sub: "Улаан, Шар, Цэнхэр" },
+      { tag: "ӨНГӨНИЙ ХОЛИМОГ 1", big: "🔴 + 🟡 = 🟠", sub: "Улаан + Шар = Улбар шар" },
+      { tag: "ӨНГӨНИЙ ХОЛИМОГ 2", big: "🟡 + 🔵 = 🟢", sub: "Шар + Цэнхэр = Ногоон" },
+      { tag: "АЮУЛГҮЙ АЖИЛЛАГАА", big: "✂️ Хайч, цавуутай зөв харьцъя", sub: "Ажлын байраа цэвэр байлгая" }
+    ],
+    workbook: [
+      "1. Өнгөний нийлбэрийг нөхөж будаарай: а) Улаан + Шар = ________  б) Шар + Цэнхэр = ________  в) Улаан + Цэнхэр = ________",
+      "2. Халуун өнгөнүүдийг нэрлээрэй (нар, галтай төстэй): 1) ________  2) ________  3) ________",
+      "3. Бүтээлч даалгавар: Дөрвөлжин цаасаар завь нугалж, дэвтрийнхээ доод хэсэгт наагаад далайн давалгаа зурж чимэглээрэй."
+    ]
+  }
+];
+
+let tab = 0; // 0 = Ээлжит хичээл, 1 = Цахим хичээл, 2 = Хэрэглэгдэхүүн, 3 = Дасгал ажил
+let subjIdx = 0;
+let slideIdx = 0;
+let quizMsg = "";
+
+function setTab(t) {
+  tab = t;
+  [0, 1, 2, 3].forEach(i => document.getElementById(`t${i}`).classList.toggle('active', i === t));
+  render();
+}
+
+function selectSubj(s) {
+  subjIdx = s;
+  slideIdx = 0;
+  quizMsg = "";
+  render();
+}
+
+function checkSlideQuiz(chosen, ans) {
+  quizMsg = chosen === ans ? "🌟 Яг зөв! Гайхалтай!" : "❌ Дахин бодоод үзээрэй!";
+  render();
+}
+
+function render() {
+  const main = document.getElementById('mainArea');
+  const cur = GRADE2_DATA[subjIdx];
+
+  const subjBar = `
+    <div class="subj-bar">
+      <div class="subj-pills">
+        ${GRADE2_DATA.map((d, i) => `
+          <button class="pill ${i === subjIdx ? 'active' : ''}" onclick="selectSubj(${i})">${d.subject}</button>
+        `).join('')}
+      </div>
+      ${tab !== 1 ? `<button class="btn btn-warm" onclick="window.print()">🖨️ Хэвлэх (A4)</button>` : ''}
+    </div>
+  `;
+
+  let bodyHtml = "";
+
+  if (tab === 0) {
+    // 1. ЭЭЛЖИТ ХИЧЭЭЛИЙН ТӨЛӨВЛӨЛТ
+    bodyHtml = `
+      <div class="a4-page">
+        <div class="a4-head">
+          <h2>📋 Ээлжит хичээлийн төлөвлөлт: ${cur.lessonTitle}</h2>
+          <div style="font-size:12.5px;font-weight:800">2-р анги • 40 минут • ${cur.subject}</div>
+        </div>
+        <div style="background:#f8fafc;border:1.5px solid #cbd5e1;border-radius:12px;padding:10px 14px;margin-bottom:14px;font-size:13.5px;line-height:1.55">
+          <b>🎯 Зорилго:</b> ${cur.aim}<br>
+          <b>🧰 Хэрэглэгдэхүүн:</b> ${cur.materials}
+        </div>
+        <table class="plan-tbl">
+          <thead>
+            <tr>
+              <th style="width:140px">Үе шат</th>
+              <th style="width:70px">Хугацаа</th>
+              <th>Багшийн үйл ажиллагаа</th>
+              <th>Сурагчийн үйл ажиллагаа</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${cur.steps.map(s => `
+              <tr>
+                <td><b>${s.stage}</b></td>
+                <td><b>${s.time}</b></td>
+                <td>${s.teacher}</td>
+                <td>${s.student}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    `;
+  } else if (tab === 1) {
+    // 2. ЦАХИМ ХИЧЭЭЛ (СЛАЙД)
+    const sl = cur.slides[slideIdx];
+    const qHtml = sl.opts ? `
+      <div style="margin-top:14px">
+        ${sl.opts.map(o => `
+          <button class="q-opt ${quizMsg.includes('зөв') && o === sl.ans ? 'ok' : ''}"
+                  onclick="checkSlideQuiz('${o}', '${sl.ans}')">${o}</button>
+        `).join('')}
+      </div>
+      <div style="min-height:24px;margin-top:8px;font-size:16px;font-weight:900;color:${quizMsg.includes('зөв') ? '#16a34a' : '#dc2626'}">${quizMsg}</div>
+    ` : '';
+
+    bodyHtml = `
+      <div class="slide-box">
+        <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:900;color:#0369a1;border-bottom:2px dashed #bae6fd;padding-bottom:8px">
+          <span>${cur.subject} • 2-р анги</span>
+          <span>Слайд ${slideIdx + 1} / ${cur.slides.length}</span>
+        </div>
+        <div style="padding:16px 0">
+          <div class="slide-ico">${sl.ico}</div>
+          <h2 style="margin:0 0 12px;font-size:24px">${sl.title}</h2>
+          <div class="slide-content">${sl.body}${qHtml}</div>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;border-top:2px dashed #bae6fd;padding-top:12px">
+          <button class="btn" style="background:#64748b" ${slideIdx === 0 ? 'disabled' : ''} onclick="slideIdx--;quizMsg='';render()">◀ Өмнөх</button>
+          <span style="font-size:13px;font-weight:800;color:#475569">${cur.lessonTitle}</span>
+          <button class="btn btn-warm" ${slideIdx + 1 >= cur.slides.length ? 'disabled' : ''} onclick="slideIdx++;quizMsg='';render()">Дараах ▶</button>
+        </div>
+      </div>
+    `;
+  } else if (tab === 2) {
+    // 3. ХЭРЭГЛЭГДЭХҮҮН (A4 КАРТ)
+    bodyHtml = `
+      <div class="a4-page">
+        <div class="a4-head">
+          <h2>🃏 Самбарын Хэрэглэгдэхүүн: ${cur.subject} (2-р анги)</h2>
+          <div style="font-size:12.5px;font-weight:800">Хайчлаад самбарт наах үзүүлэн карт ✂️</div>
+        </div>
+        <div class="cards-grid">
+          ${cur.visuals.map(v => `
+            <div class="v-card">
+              <div style="font-size:11.5px;font-weight:900;color:#64748b;margin-bottom:8px">${v.tag}</div>
+              <div style="font-size:28px;font-weight:900;color:#0c7b93;margin:12px 0">${v.big}</div>
+              <div style="font-size:14.5px;font-weight:800;color:#334155">${v.sub}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  } else {
+    // 4. ДАСГАЛ АЖЛЫН ДЭВТЭР (A4)
+    bodyHtml = `
+      <div class="a4-page">
+        <div class="a4-head">
+          <h2>📓 Дасгал Ажлын Дэвтэр: ${cur.subject} (2-р анги)</h2>
+          <div style="font-size:12.5px;font-weight:800">Нэр: ______________________ &nbsp;|&nbsp; Огноо: 2026.__.__</div>
+        </div>
+        ${cur.workbook.map((task, idx) => `
+          <div class="wb-box">
+            <h4>Дасгал ${idx + 1}</h4>
+            <div style="font-size:15px;font-weight:800;margin-bottom:10px;line-height:1.55">${task}</div>
+            <div class="ruled"></div>
+            <div class="ruled"></div>
+          </div>
+        `).join('')}
+        <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:800;margin-top:10px">
+          <span>Багшийн үнэлгээ: ⭐ Онц &nbsp; 👍 Сайн &nbsp; 💪 Хичээгээрэй</span>
+          <span>Урамшууллын од: ⭐⭐⭐⭐⭐</span>
+        </div>
+      </div>
+    `;
+  }
+
+  main.innerHTML = subjBar + bodyHtml;
+}
+
+render();
+</script>
+</body>
+</html>

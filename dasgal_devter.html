@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Гээгий багш • 1–5-р ангийн цахим номын сан ба тоглоом</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: linear-gradient(135deg, #F0F9FF 0%, #FEFCE8 50%, #FDF2F8 100%);
+      color: #1E293B;
+      min-height: 100vh;
+      padding: 24px 16px 60px;
+    }
+    .container { max-width: 1120px; margin: 0 auto; }
+    
+    /* Hero Header */
+    .hero {
+      background: linear-gradient(135deg, #2563EB 0%, #3B82F6 50%, #06B6D4 100%);
+      color: white;
+      border-radius: 28px;
+      padding: 36px 28px;
+      text-align: center;
+      box-shadow: 0 20px 35px -10px rgba(37, 99, 235, 0.35);
+      margin-bottom: 36px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.22);
+      backdrop-filter: blur(6px);
+      padding: 6px 16px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 800;
+      margin-bottom: 12px;
+      letter-spacing: 0.5px;
+    }
+    .hero h1 { font-size: clamp(26px, 5vw, 40px); font-weight: 900; margin-bottom: 10px; line-height: 1.2; }
+    .hero p { font-size: clamp(15px, 2.5vw, 18px); opacity: 0.95; max-width: 680px; margin: 0 auto; font-weight: 600; }
+
+    /* Section Headings */
+    .section-title {
+      font-size: 22px;
+      font-weight: 900;
+      margin: 28px 0 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #0F172A;
+    }
+
+    /* Card Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: #FFFFFF;
+      border-radius: 24px;
+      padding: 24px;
+      text-decoration: none;
+      color: inherit;
+      box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08);
+      border: 2px solid transparent;
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: #3B82F6;
+      box-shadow: 0 20px 30px -10px rgba(59, 130, 246, 0.22);
+    }
+    .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
+    .card-icon {
+      width: 54px; height: 54px;
+      border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px;
+    }
+    .tag {
+      font-size: 12px; font-weight: 800;
+      padding: 4px 12px; border-radius: 999px;
+      text-transform: uppercase;
+    }
+    .tag-math { background: #DBEAFE; color: #1D4ED8; }
+    .tag-book { background: #FEF3C7; color: #B45309; }
+    .tag-tool { background: #DCFCE7; color: #15803D; }
+
+    .card h3 { font-size: 19px; font-weight: 900; margin-bottom: 8px; color: #0F172A; }
+    .card p { font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 18px; flex-grow: 1; }
+    .card-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      background: #F1F5F9; color: #0F172A;
+      font-weight: 800; font-size: 14px;
+      padding: 10px 16px; border-radius: 14px;
+      transition: background 0.2s, color 0.2s;
+    }
+    .card:hover .card-btn { background: #2563EB; color: #FFFFFF; }
+
+    footer {
+      text-align: center;
+      margin-top: 48px;
+      font-size: 14px;
+      color: #64748B;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="hero">
+      <div class="hero-badge">🎓 1–5-р ангийн сурагчид ба багш нарт</div>
+      <h1>Гээгий багшийн цахим номын сан ба тоглоом</h1>
+      <p>Хүүхэд бүрийн сэтгэхүйг хөгжүүлэх интерактив математикийн тоглоом, дуутай комикс номууд болон багшийн хэрэглэгдэхүүн.</p>
+    </header>
+
+    <!-- Математикийн тоглоомууд -->
+    <h2 class="section-title">🧮 Математикийн интерактив тоглоомууд</h2>
+    <div class="grid">
+      <a href="MAT_01_1_ba_2_togloom.html" class="card">
+        <div>
+          <div class="card-top">
+            <div class="card-icon" style="background:#EFF6FF;">1️⃣</div>
+            <span class="tag tag-math">МАТ-01</span>
+          </div>
+          <h3>1 ба 2 цифрээр тоо бүтээх</h3>
+          <p>Цифрүүдийг зөв байрлуулж, утгыг нь таньж мэдэх анхан шатны интерактив тоглоом.</p>
+        </div>
+        <div class="card-btn">Тоглоом эхлүүлэх →</div>
+      </a>
+
+      <a href="MAT_02_3_ba_4_togloom.html" class="card">
+        <div>
+          <div class="card-top">
+            <div class="card-icon" style="background:#EEF2FF;">🔢</div>
+            <span class="tag tag-math">МАТ-02</span>
+          </div>
+          <h3>3 ба 4 цифрээр тоо бүтээх</h3>
+          <p>Гурван оронтой тооны орон анги, цифрүүдийн байршлын утгыг олох дасгал тоглоом.</p>
+        </div>
+        <div class="card-btn">Тоглоом эхлүүлэх →</div>
+      </a>
+    </div>
+
+    <!-- Дуутай комикс номын сан -->
+    <h2 class="section-title">📚 Дуутай комикс номын сан</h2>
+    <div class="grid">
+      <a href="toonii_id_shid_1_10.html" class="card">
+        <div>
+          <div class="card-top">
+            <div class="card-icon" style="background:#FEF3C7;">🪄</div>
+            <span class="tag tag-book">Комикс ном</span>
+          </div>
+          <h3>Тооны ид шид (1–10)</h3>
+          <p>1-ээс 10 хүртэлх тоонуудын нууцыг сонирхолтой үлгэр, дуу хоолойтойгоор уншиж судлаарай.</p>
+        </div>
+        <div class="card-btn">Ном унших →</div>
+      </a>
+
+      <a href="usgiin_id_shid_35_duugui.html" class="card">
+        <div>
+          <div class="card-top">
+            <div class="card-icon" style="background:#FCE7F3;">🔤</div>
+            <span class="tag tag-book">Комикс ном</span>
+          </div>
+          <h3>Үсгийн ид шид (35 үсэг)</h3>
+          <p>Монгол цагаан толгойн 35 үсгийг хөгжилтэй дүрслэл, комикс түүхээр сурах ном.</p>
+        </div>
+        <div class="card-btn">Ном унших →</div>
+      </a>
+    </div>
+
+    <!-- Багш ба эцэг эхчүүдэд -->
+    <h2 class="section-title">🖨️ Багшийн хэрэглэгдэхүүн (Хэвлэх)</h2>
+    <div class="grid">
+      <a href="dasgal_devter.html" class="card">
+        <div>
+          <div class="card-top">
+            <div class="card-icon" style="background:#DCFCE7;">✍️</div>
+            <span class="tag tag-tool">A4 Хэвлэх</span>
+          </div>
+          <h3>Монгол бичвэрийн дасгалын дэвтэр</h3>
+          <p>Бага ангийн 4 шугамтай, 65° налуу чиглүүлэгчтэй цэвэр бичгийн A4 хуудас бэлтгэгч.</p>
+        </div>
+        <div class="card-btn">Хуудас бэлтгэх →</div>
+      </a>
+    </div>
+
+    <footer>
+      © 2026 Гээгий багш • Бүх эрх хуулиар хамгаалагдсан
+    </footer>
+  </div>
+</body>
+</html>

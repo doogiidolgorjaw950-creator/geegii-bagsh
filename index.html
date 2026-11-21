@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="mn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Гээгий Багшийн Бүтээл — 1–5-р Ангийн Цогц Цахим Систем</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #eef7fb 0%, #fef3c7 100%);
+    color: #173042;
+    min-height: 100vh;
+  }
+  header {
+    background: linear-gradient(135deg, #0f172a, #0c7b93);
+    color: #fff;
+    padding: 24px 20px;
+    text-align: center;
+    box-shadow: 0 6px 20px rgba(0,0,0,.18);
+  }
+  header h1 { margin: 0 0 6px; font-size: 24px; }
+  header p { margin: 0; opacity: .92; font-size: 14px; }
+
+  main { max-width: 1100px; margin: 22px auto; padding: 0 16px 50px; }
+
+  .grade-tabs {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 22px;
+  }
+  .g-btn {
+    border: 2.5px solid #0c7b93;
+    background: #fff;
+    color: #173042;
+    border-radius: 14px;
+    padding: 11px 20px;
+    font-size: 15px;
+    font-weight: 900;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,.06);
+  }
+  .g-btn.active {
+    background: #0c7b93;
+    color: #fff;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    gap: 16px;
+  }
+  .card {
+    background: #fff;
+    border: 2.5px solid #cbd5e1;
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 8px 20px rgba(23,48,66,.08);
+    transition: transform .15s, border-color .15s;
+    text-decoration: none;
+    color: inherit;
+  }
+  .card:hover { transform: translateY(-4px); border-color: #0c7b93; }
+  .badge {
+    display: inline-block;
+    background: #e0f2fe;
+    color: #0369a1;
+    font-size: 11.5px;
+    font-weight: 900;
+    padding: 4px 10px;
+    border-radius: 12px;
+    margin-bottom: 8px;
+  }
+  .card h2 { margin: 4px 0 8px; font-size: 18px; }
+  .card p { margin: 0 0 16px; font-size: 13.5px; color: #475569; line-height: 1.5; font-weight: 600; }
+  .open-btn {
+    display: block;
+    text-align: center;
+    background: #f48c06;
+    color: #fff;
+    font-weight: 900;
+    padding: 10px;
+    border-radius: 12px;
+    font-size: 14px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🎓 ГЭЭГИЙ БАГШИЙН БҮТЭЭЛ — 1–5-Р АНГИЙН ЦОГЦ СУРГАЛТЫН СИСТЕМ</h1>
+  <p>Бага боловсролын бүх ангийн Ээлжит хичээл • Цахим хичээл • Хэрэглэгдэхүүн • Дасгал ажил • Тоглоом</p>
+</header>
+
+<main>
+  <div class="grade-tabs">
+    <button class="g-btn active" id="g1" onclick="showGrade(1)">1-р анги (8 систем)</button>
+    <button class="g-btn" id="g2" onclick="showGrade(2)">📘 2-р анги</button>
+    <button class="g-btn" id="g3" onclick="showGrade(3)">📗 3-р анги</button>
+    <button class="g-btn" id="g4" onclick="showGrade(4)">📙 4-р анги</button>
+    <button class="g-btn" id="g5" onclick="showGrade(5)">📕 5-р анги</button>
+  </div>
+
+  <div class="grid" id="cardsArea"></div>
+</main>
+
+<script>
+const MENUS = {
+  1: [
+    { badge: "📋 ЭЭЛЖИТ & ЦАХИМ ХИЧЭЭЛ", title: "1-р Ангийн Бүх Бүлгийн Конспект & Слайд", desc: "Монгол хэл, Математик, Байгаль шинжлэл, Нийгэм, Эрүүл мэндийн ээлжит хичээл + цахим хичээл.", href: "geegii_bagsh_eeljitiin_khicheel_tsakhim.html" },
+    { badge: "📚 НОМЫН САН & БАТЛАМЖ", title: "65 Комикс Ном & Унших Систем", desc: "Үеэр өнгө ялгаж унших 65 зурагт үлгэр, өгүүллэг болон хүүхдийн нэртэй батламж хэвлэх хэсэг.", href: "geegii_bagsh_negdsen_nomiin_san_FINAL.html" },
+    { badge: "🧩 МОНГОЛ ХЭЛ ТОГЛООМ", title: "Үеэр Үг Бүтээх Ид Шид", desc: "3 түвшний 30 үг, 5 зүрхэн амьтай, урмын үгээр шагнадаг интерактив үг эвлүүлэх тоглоом.", href: "geegii_bagsh_ug_buteekh_togloom.html" },
+    { badge: "✍️ ХУУЛАН БИЧИГ & ДЭВТЭР", title: "Сурах Бичгийн Дагуух 35 Үсэг", desc: "А–Я хүртэлх бүх үсгийн дармал/бичмэл үлгэр, А4 хэвлэдэг хуулан бичиг + 24 тоглоомон дасгал.", href: "geegii_bagsh_khuulan_bichig_dasgal_ajil.html" },
+    { badge: "🧮 МАТЕМАТИКИЙН ХӨТӨЛБӨР", title: "1-р Ангийн 5 Бүлэг Сэдэв", desc: "Тооны бүтэц, дэс дугаар, тоон шулуун, нэмэх ба хасах 56 бодлого + хэвлэдэг «Тооны байшин».", href: "geegii_bagsh_1_angi_matematikiin_khutulbur.html" },
+    { badge: "🌿 БАЙГАЛЬ • НИЙГЭМ • ЭРҮҮЛ МЭНД", title: "3 Бүлгийн 36 Дасгал Тоглоом", desc: "Байгаль шинжлэл (12), Нийгэм ба харилцаа (12), Эрүүл мэнд ба аюулгүй байдал (12) дасгал.", href: "geegii_bagsh_baigal_niigem_eruul_mend.html" },
+    { badge: "👩‍🏫 БАГШ НАРТ ЗОРИУЛСАН", title: "Хэрэглэгдэхүүн & Дасгал Үүсгэгч", desc: "Сэдэв бүрийн үзүүлэн карт, олон аргаар дасгал нэмэх ажлын хуудас, сурагч урамшуулах самбар.", href: "geegii_bagsh_bagshiin_khereglegdekhuun_bagts.html" },
+    { badge: "👨‍👩‍👧 ЭЦЭГ ЭХЧҮҮДЭД ЗОРИУЛСАН", title: "Гэрийн Хөтөч & Хурд Хэмжигч", desc: "7 хоногийн төлөвлөгөө, унших хурд хэмжигч, заах арга зүй болон хэвлэдэг урамшууллын купон.", href: "geegii_bagsh_etseg_ekhiin_khotolch.html" }
+  ],
+  2: [
+    { badge: "📘 2-Р АНГИЙН ЦОГЦ БАГЦ", title: "Ээлжит хичээл • Цахим хичээл • Хэрэглэгдэхүүн • Дасгал ажил", desc: "Монгол хэл, Математик, Хүн ба Орчин, Хүн ба Нийгэм, Дүрслэх урлаг-Технологийн бүрэн систем.", href: "geegii_bagsh_2_angi_tsogts_system.html" },
+    { badge: "👩‍🏫 БАГШИЙН ТУСЛАХ", title: "Дасгал Үүсгэгч & Урамшуулал", desc: "Олон аргаар дасгал нэмэх ажлын хуудас болон ангийн сурагчдыг урамшуулах самбар.", href: "geegii_bagsh_bagshiin_khereglegdekhuun_bagts.html" }
+  ],
+  3: [
+    { badge: "📗 3-Р АНГИЙН ЦОГЦ БАГЦ", title: "Ээлжит хичээл • Цахим хичээл • Хэрэглэгдэхүүн • Дасгал ажил", desc: "Монгол хэл, Математик, Хүн ба Орчин, Хүн ба Нийгэм, Дүрслэх урлаг-Технологийн бүрэн систем.", href: "geegii_bagsh_3_angi_tsogts_system.html" },
+    { badge: "👩‍🏫 БАГШИЙН ТУСЛАХ", title: "Дасгал Үүсгэгч & Урамшуулал", desc: "Олон аргаар дасгал нэмэх ажлын хуудас болон ангийн сурагчдыг урамшуулах самбар.", href: "geegii_bagsh_bagshiin_khereglegdekhuun_bagts.html" }
+  ],
+  4: [
+    { badge: "📙 4-Р АНГИЙН ЦОГЦ БАГЦ", title: "Ээлжит хичээл • Цахим хичээл • Хэрэглэгдэхүүн • Дасгал ажил", desc: "Монгол хэл, Математик, Хүн ба Байгаль, Хүн ба Нийгэм, Дүрслэх урлаг-Технологийн бүрэн систем.", href: "geegii_bagsh_4_angi_tsogts_system.html" },
+    { badge: "👩‍🏫 БАГШИЙН ТУСЛАХ", title: "Дасгал Үүсгэгч & Урамшуулал", desc: "Олон аргаар дасгал нэмэх ажлын хуудас болон ангийн сурагчдыг урамшуулах самбар.", href: "geegii_bagsh_bagshiin_khereglegdekhuun_bagts.html" }
+  ],
+  5: [
+    { badge: "📕 5-Р АНГИЙН ЦОГЦ БАГЦ", title: "Ээлжит хичээл • Цахим хичээл • Хэрэглэгдэхүүн • Дасгал ажил", desc: "Монгол хэл, Математик, Хүн ба Байгаль, Хүн ба Нийгэм, Дүрслэх урлаг-Технологийн бүрэн систем.", href: "geegii_bagsh_5_angi_tsogts_system.html" },
+    { badge: "👩‍🏫 БАГШИЙН ТУСЛАХ", title: "Дасгал Үүсгэгч & Урамшуулал", desc: "Олон аргаар дасгал нэмэх ажлын хуудас болон ангийн сурагчдыг урамшуулах самбар.", href: "geegii_bagsh_bagshiin_khereglegdekhuun_bagts.html" }
+  ]
+};
+
+function showGrade(g) {
+  [1,2,3,4,5].forEach(i => document.getElementById(`g${i}`).classList.toggle('active', i === g));
+  document.getElementById('cardsArea').innerHTML = MENUS[g].map(c => `
+    <a class="card" href="${c.href}">
+      <div>
+        <span class="badge">${c.badge}</span>
+        <h2>${c.title}</h2>
+        <p>${c.desc}</p>
+      </div>
+      <span class="open-btn">Нээх ▶</span>
+    </a>
+  `).join('');
+}
+showGrade(1);
+</script><!-- ТӨЛБӨР ТООЦОО & ХЭРЭГЛЭГДЭХҮҮН АВАХ ХЭСЭГ -->
+<div style="max-width: 720px; margin: 40px auto 30px; padding: 24px; background: #ffffff; border-radius: 16px; box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08); border: 2px solid #e2e8f0; text-align: center; font-family: system-ui, -apple-system, sans-serif;">
+  <div style="display: inline-block; background: #fef3c7; color: #92400e; font-size: 13px; font-weight: 700; padding: 5px 14px; border-radius: 999px; margin-bottom: 10px;">
+    💳 ХЭРЭГЛЭГДЭХҮҮН АВАХ & ТӨЛБӨР ТӨЛӨХ
+  </div>
+  <h3 style="margin: 0 0 14px; color: #0f172a; font-size: 20px;">Сургалтын системийн үнэ & Дансны мэдээлэл</h3>
+
+  <!-- ҮНИЙН СОНГОЛТУУД -->
+  <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-bottom: 16px;">
+    <div style="background: #f0fdf4; border: 1.5px solid #22c55e; color: #166534; padding: 12px 18px; border-radius: 12px; min-width: 210px;">
+      <div style="font-size: 13px; font-weight: 600;">📘 Нэг ангийн багц</div>
+      <div style="font-size: 20px; font-weight: 800; margin-top: 2px;">15,000 ₮</div>
+    </div>
+    <div style="background: #fffbeb; border: 2px solid #f59e0b; color: #92400e; padding: 12px 18px; border-radius: 12px; min-width: 210px;">
+      <div style="font-size: 13px; font-weight: 700;">🌟 1–5-р ангийн БҮТЭН БАГЦ</div>
+      <div style="font-size: 20px; font-weight: 800; margin-top: 2px;">50,000 ₮ <span style="font-size: 12px; text-decoration: line-through; color: #b45309;">75,000₮</span></div>
+    </div>
+  </div>
+
+  <p style="margin: 0 0 18px; color: #475569; font-size: 14px;">
+    Шилжүүлэг хийхдээ <b>гүйлгээний утга</b> дээр өөрийн нэр, утасны дугаар болон авах ангиа бичнэ үү.
+  </p>
+
+  <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 20px; background: #f8fafc; padding: 18px; border-radius: 12px; border: 1px dashed #cbd5e1;">
+    <!-- QR Зураг (qr.jpg байвал автоматаар харагдана) -->
+    <img src="qr.jpg" alt="Хаан Банк QR" onerror="this.style.display='none'" style="width: 140px; height: 140px; object-fit: contain; border-radius: 10px; border: 1px solid #e2e8f0; background: #fff; padding: 6px;">
+
+    <div style="text-align: left; min-width: 240px;">
+      <div style="font-size: 13px; color: #64748b; margin-bottom: 2px;">Банк:</div>
+      <div style="font-size: 16px; font-weight: 700; color: #047857; margin-bottom: 10px;">ХААН БАНК (Khan Bank)</div>
+
+      <div style="font-size: 13px; color: #64748b; margin-bottom: 2px;">Дансны дугаар:</div>
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
+        <span style="font-size: 20px; font-weight: 800; color: #0f172a; letter-spacing: 0.5px;">5020852864</span>
+        <button onclick="navigator.clipboard.writeText('5020852864'); this.innerText='Хуулагдлаа ✓'; this.style.background='#16a34a'; setTimeout(()=>{this.innerText='Хуулах'; this.style.background='#0284c7';}, 2000);" style="background: #0284c7; color: #fff; border: none; padding: 5px 12px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer;">
+          Хуулах
+        </button>
+      </div>
+
+      <div style="font-size: 13px; color: #64748b; margin-bottom: 2px;">Хүлээн авагчийн нэр:</div>
+      <div style="font-size: 16px; font-weight: 700; color: #1e293b;">БАТГЭРЭЛ ДОЛГОРЖАВ</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
