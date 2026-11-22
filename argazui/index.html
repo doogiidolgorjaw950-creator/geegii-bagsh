@@ -1,0 +1,56 @@
+<!doctype html><html lang="mn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Бага ангийн багш нарын сургалтын арга зүй, хэрэглэгдэхүүн, хамтын туршлагын сан"><title>Бага боловсролын арга зүйн хамтын сан</title><style>
+:root{font-family:system-ui,'Segoe UI',Arial,sans-serif;color:#193053;background:#fff9f1}*{box-sizing:border-box}body{margin:0}header{background:linear-gradient(115deg,#ff69b6,#ffc449 55%,#3dbce8);padding:30px 16px;color:#19274b}header .wrap{max-width:1050px;margin:auto}h1{font-size:clamp(26px,4vw,43px);margin:5px 0}h2{font-size:24px}p{line-height:1.6}main{max-width:1050px;margin:auto;padding:20px 16px 60px}.eyebrow{font-weight:800;letter-spacing:.05em}.lead{max-width:750px}.pill{display:inline-block;background:white;border:2px solid #172d57;border-radius:40px;padding:7px 14px;font-weight:750}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:16px}.panel{background:white;border:2px solid #dbe4f1;border-radius:20px;padding:19px;box-shadow:0 5px 0 #e8e6e1}.panel.pink{border-color:#ff69b6}.panel.blue{border-color:#41b7ef}.panel.orange{border-color:#ffb13c}.panel.green{border-color:#70c987}.btn{display:inline-block;background:#203b9c;color:white;text-decoration:none;border:0;border-radius:12px;padding:12px 18px;font-size:16px;font-weight:750;cursor:pointer}.btn.secondary{background:#fff;color:#203b9c;border:2px solid #203b9c}.btn:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid #f17c00;outline-offset:2px}.hero-img{width:100%;max-height:290px;object-fit:contain;background:#fff;border-radius:15px}label{font-weight:700;display:block;margin-top:13px}input,textarea,select{width:100%;font:inherit;border:2px solid #aabbd0;border-radius:10px;padding:11px;background:#fff}textarea{min-height:105px}small,.muted{color:#52637a}.status{padding:12px;border-radius:10px;background:#fff5d7}nav{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px}nav a{color:#17264b;background:#fff;padding:8px 13px;border-radius:12px;font-weight:750}section{margin-top:34px}footer{padding:24px;text-align:center;background:#edf2f8}#preview{white-space:pre-wrap;background:#f2f6fc;padding:14px;border-radius:12px;overflow-wrap:anywhere} .hidden{display:none} .step{border-left:5px solid #ffb13c;padding-left:12px;margin:12px 0}@media print{nav,.form-area,.btn{display:none!important}body{background:white}.panel{box-shadow:none}}
+
+/* Promotional cover + responsive working navigation */
+.hero-showcase{margin-top:18px}
+.hero-showcase .art{display:block;width:100%;height:auto;border-radius:20px;border:3px solid #fff;box-shadow:0 10px 30px #19305335}
+.hero-showcase .below{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:16px 0 0}
+.hero-showcase .below strong{margin-right:auto}
+.quick-nav{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-top:18px}
+.quick-nav a{display:block;padding:17px 13px;text-align:center;text-decoration:none;color:#173475;background:#fff;border-radius:16px;border:2px solid #4a96dd;font-weight:800;box-shadow:0 4px 0 #d8eafd}
+.quick-nav a:nth-child(2){border-color:#f7a729}.quick-nav a:nth-child(3){border-color:#70c987}.quick-nav a:nth-child(4){border-color:#ff75b8}
+.quick-nav a:hover,.quick-nav a:focus-visible{background:#f2f8ff;transform:translateY(-2px)}
+.info-note{padding:12px 14px;border-left:5px solid #f4ac2d;background:#fff7dc;border-radius:8px;margin-top:18px}
+@media(max-width:500px){header{padding:20px 12px} .hero-showcase .art{border-radius:12px} main{padding:14px 12px 40px}}
+</style></head><body><header><div class="wrap"><span class="pill">БАГА БОЛОВСРОЛ · ХАМТЫН САН</span><h1>Бага боловсролын<br>сургалтын арга зүйн хамтын сан</h1><p class="lead">Хамтдаа туршъя · Хамтдаа бүтээе · Хамтдаа хөгжүүлье</p><nav aria-label="Үндсэн цэс"><a href="#methods">Арга зүйн сан</a><a href="#submit">Туршлага илгээх</a><a href="#review">Хяналтын журам</a><a href="#about">Танилцуулга</a></nav></div></header><main>
+<section class="hero-showcase" id="home" aria-label="Сургалтын арга зүйн сангийн нүүр">
+  <img class="art" src="nuur-banner.webp" width="1536" height="1024" alt="Бага боловсролын сургалтын арга зүйн хамтын сан: багш, сурагчид, өнгөлөг сургалтын материал бүхий танилцуулгын зураг">
+  <div class="below"><strong>Багш бүрийн туршлага — хамтын хөгжил</strong><a class="btn" href="#methods">Арга зүй үзэх</a><a class="btn secondary" href="#submit">Санал бэлтгэх</a></div>
+  <div class="quick-nav" aria-label="Үндсэн хэсгүүдийн холбоос">
+    <a href="#methods">📚 Арга зүйн сан</a>
+    <a href="#methods">🧩 Хэрэглэгдэхүүний сан</a>
+    <a href="#review">🤝 Багш нарын туршлага</a>
+    <a href="#submit">✉️ Санал илгээх</a>
+  </div>
+  <p class="info-note"><strong>Туршилтын хувилбар:</strong> Санал бөглөх маягт нь мэдээллийг автоматаар илгээдэггүй. Бэлтгэсэн бичвэрээ хуулж эсвэл TXT файл болгон татаж, сайтын хариуцагчид тусад нь илгээнэ. Зөвшөөрөлгүй ямар ч бүтээлийг нийтлэхгүй.</p>
+</section>
+<section id="about"><div class="grid"><div class="panel pink"><h2>🎓 1–5-р анги</h2><p>Монгол хэл, математик болон бусад хичээлд хэрэглэх арга зүйг анги, сэдвээр өргөжүүлнэ.</p></div><div class="panel blue"><h2>🧩 Хэрэглэгдэхүүн</h2><p>Интерактив тоглоом, багшийн үзүүлэн, сурагчийн карт, А4 хэвлэх материал.</p></div><div class="panel green"><h2>🤝 Багш нарын туршлага</h2><p>Багшийн санал эхлээд хяналтад орж, зөвшөөрөгдсөн тохиолдолд нийтлэгдэнэ.</p></div></div></section><section id="methods"><h2>Арга зүйн сан</h2><p>Анги, хичээл, хэрэглэх зорилгоор ангилан баяжуулна. Зөвшөөрөгдсөн туршлагуудыг редакторын хяналтын дараа нэмнэ.</p><div id="methods-list" class="grid"><article class="panel orange"><img class="hero-img" src="shidet-kart-cover.jpg" alt="Шидэт картын өнгөлөг нүүр зураг"><h3>Шидэт карт – Нээж бүтээхүй</h3><p>1–5-р ангийн багц, тоглоом болон арга зүйн жишээ.</p><p class="status">Жишиг материал · Бодит туршилт хүлээгдэж байна</p><a class="btn" href="shidet-kart-1-5.pdf" download>PDF татах</a></article></div></section><section id="submit" class="form-area"><h2>Багшийн туршлага, санал илгээх</h2><p class="status"><strong>Нууцлал:</strong> Сурагчийн нэр, зураг, үнэлгээ, холбоо барих мэдээлэл бүү оруулаарай. Бүтээлд ашигласан зураг, эх сурвалжийн эрхийг шалгана.</p><p>Маягтыг бөглөөд <strong>«Илгээх бичвэр бэлтгэх»</strong> товчийг дарна. Текстийг хуулж, сайтын эзэнд өөрийн сонгосон холбоо барих сувгаар илгээнэ. Энэ сайт одоогоор мэдээллийг автоматаар хүлээн авахгүй.</p><div class="panel blue"><form id="idea-form"><label for="teacher">Багшийн нийтлэх нэр *</label><input id="teacher" maxlength="80" required placeholder="Жишээ: Б. Оюунаа"><label for="grade">Анги *</label><select id="grade" required><option value="">Сонгох</option><option>1-р анги</option><option>2-р анги</option><option>3-р анги</option><option>4-р анги</option><option>5-р анги</option><option>Олон анги</option></select><label for="subject">Хичээл / сэдэв *</label><input id="subject" maxlength="120" required><label for="method">Арга зүйн нэр *</label><input id="method" maxlength="120" required><label for="experience">Хэрэглэсэн арга, явц, үр дүн *</label><textarea id="experience" maxlength="4000" required></textarea><label for="improve">Сайжруулах санал</label><textarea id="improve" maxlength="2000"></textarea><label for="source">Эх сурвалж, ашигласан материал</label><textarea id="source" maxlength="1500" placeholder="Өөрийн бүтээл эсвэл ашигласан эх сурвалж"></textarea><label><input type="checkbox" id="permission" required style="width:auto"> Өөрийн бүтээлийг хянуулж, зөвшөөрөгдвөл нийтлэхийг зөвшөөрч байна. Сурагчийн хувийн мэдээлэл оруулаагүй. *</label><p><button type="submit" class="btn">Илгээх бичвэр бэлтгэх</button></p></form><div id="result" class="hidden" aria-live="polite"><h3>Хяналтад илгээх бичвэр</h3><div id="preview"></div><p><button class="btn secondary" type="button" id="copy">Бичвэрийг хуулах</button> <button class="btn secondary" type="button" id="save">TXT файл хадгалах</button></p><p class="muted">Хуулсан бичвэрээ сайтын эзэнд Messenger, имэйл зэрэг өөрийн мэдэх сувгаар илгээнэ. Хуулах нь өөрөө илгээсэн гэсэн үг биш.</p></div></div></section><section id="review"><h2>Нийтлэхээс өмнөх хяналт</h2><div class="panel"><div class="step"><strong>1. Хүлээн авах</strong> — Багш санал, туршлагаа сайтын эзэнд илгээнэ.</div><div class="step"><strong>2. Нягтлах</strong> — Зөв бичих дүрэм, агуулга, эх сурвалж, хүүхдийн мэдээллийн аюулгүй байдлыг шалгана.</div><div class="step"><strong>3. Зөвшөөрөх</strong> — Сайтын эзэн зөвшөөрсний дараа л нийтлэх жагсаалтад нэмнэ.</div><div class="step"><strong>4. Хувилбар хадгалах</strong> — Багшийн нэр, огноо, сайжруулалтын түүхийг тэмдэглэнэ.</div><p class="status">Сурагчийн овог нэр, зураг, үнэлгээ, холбоо барих мэдээллийг зөвшөөрөлгүй нийтлэхгүй. Нийтлэгдээгүй санал олон нийтэд харагдахгүй.</p></div></section></main><footer>© Бага боловсролын арга зүйн хамтын сан · Туршилтын хувилбар</footer><script>
+const form=document.getElementById('idea-form');let prepared='';
+form.addEventListener('submit',e=>{
+ e.preventDefault();if(!form.reportValidity())return;
+ const get=id=>document.getElementById(id).value.trim();
+ prepared=[
+  'БАГА БОЛОВСРОЛЫН АРГА ЗҮЙН САН — ХЯНАЛТАД ИЛГЭЭХ САНАЛ',
+  'Багшийн нийтлэх нэр: '+get('teacher'),
+  'Анги: '+get('grade'),
+  'Хичээл / сэдэв: '+get('subject'),
+  'Арга зүйн нэр: '+get('method'),
+  'Арга, явц, үр дүн: '+get('experience'),
+  'Сайжруулах санал: '+get('improve'),
+  'Эх сурвалж: '+get('source'),
+  'Төлөв: ХЯНАЛТ ХҮЛЭЭЖ БАЙНА'
+ ].join('\n\n');
+ document.getElementById('preview').textContent=prepared;
+ document.getElementById('result').classList.remove('hidden');
+ document.getElementById('result').scrollIntoView({behavior:'smooth'});
+});
+document.getElementById('copy').addEventListener('click',async()=>{
+ try{await navigator.clipboard.writeText(prepared);alert('Бичвэрийг хууллаа. Одоо хариуцсан редакторт илгээнэ үү.');}
+ catch(e){alert('Автоматаар хуулж чадсангүй. Бичвэрээ гараар сонгон хуулна уу.');}
+});
+document.getElementById('save').addEventListener('click',()=>{
+ const url=URL.createObjectURL(new Blob([prepared],{type:'text/plain;charset=utf-8'}));
+ const a=document.createElement('a');a.href=url;a.download='argazuin_sanal.txt';a.click();
+ setTimeout(()=>URL.revokeObjectURL(url),1000);
+});
+</script></body></html>
