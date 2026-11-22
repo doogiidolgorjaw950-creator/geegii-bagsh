@@ -1,4 +1,4 @@
-<!doctype html><html lang="mn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Бага ангийн багш нарын сургалтын арга зүй, хэрэглэгдэхүүн, хамтын туршлагын сан"><title>Бага боловсролын арга зүйн хамтын сан</title><style>
+=<!doctype html><html lang="mn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Бага ангийн багш нарын сургалтын арга зүй, хэрэглэгдэхүүн, хамтын туршлагын сан"><title>Бага боловсролын арга зүйн хамтын сан</title><style>
 :root{font-family:system-ui,'Segoe UI',Arial,sans-serif;color:#193053;background:#fff9f1}*{box-sizing:border-box}body{margin:0}header{background:linear-gradient(115deg,#ff69b6,#ffc449 55%,#3dbce8);padding:30px 16px;color:#19274b}header .wrap{max-width:1050px;margin:auto}h1{font-size:clamp(26px,4vw,43px);margin:5px 0}h2{font-size:24px}p{line-height:1.6}main{max-width:1050px;margin:auto;padding:20px 16px 60px}.eyebrow{font-weight:800;letter-spacing:.05em}.lead{max-width:750px}.pill{display:inline-block;background:white;border:2px solid #172d57;border-radius:40px;padding:7px 14px;font-weight:750}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:16px}.panel{background:white;border:2px solid #dbe4f1;border-radius:20px;padding:19px;box-shadow:0 5px 0 #e8e6e1}.panel.pink{border-color:#ff69b6}.panel.blue{border-color:#41b7ef}.panel.orange{border-color:#ffb13c}.panel.green{border-color:#70c987}.btn{display:inline-block;background:#203b9c;color:white;text-decoration:none;border:0;border-radius:12px;padding:12px 18px;font-size:16px;font-weight:750;cursor:pointer}.btn.secondary{background:#fff;color:#203b9c;border:2px solid #203b9c}.btn:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid #f17c00;outline-offset:2px}.hero-img{width:100%;max-height:290px;object-fit:contain;background:#fff;border-radius:15px}label{font-weight:700;display:block;margin-top:13px}input,textarea,select{width:100%;font:inherit;border:2px solid #aabbd0;border-radius:10px;padding:11px;background:#fff}textarea{min-height:105px}small,.muted{color:#52637a}.status{padding:12px;border-radius:10px;background:#fff5d7}nav{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px}nav a{color:#17264b;background:#fff;padding:8px 13px;border-radius:12px;font-weight:750}section{margin-top:34px}footer{padding:24px;text-align:center;background:#edf2f8}#preview{white-space:pre-wrap;background:#f2f6fc;padding:14px;border-radius:12px;overflow-wrap:anywhere} .hidden{display:none} .step{border-left:5px solid #ffb13c;padding-left:12px;margin:12px 0}@media print{nav,.form-area,.btn{display:none!important}body{background:white}.panel{box-shadow:none}}
 
 /* Promotional cover + responsive working navigation */
@@ -53,4 +53,18 @@ document.getElementById('save').addEventListener('click',()=>{
  const a=document.createElement('a');a.href=url;a.download='argazuin_sanal.txt';a.click();
  setTimeout(()=>URL.revokeObjectURL(url),1000);
 });
+
+const productSection = document.createElement('section');
+productSection.style.cssText = 'max-width:850px;margin:24px auto;padding:24px;background:#fff;border:2px solid #dbeafe;border-radius:18px;text-align:center';
+productSection.innerHTML = `
+  <h2>Үг бүтээх зурагт карт</h2>
+  <p>1-р ангийн сурагчдад зориулсан үг бүтээх сургалтын хэрэглэгдэхүүн.</p>
+  <p><strong>Үнэ: 4,900₮</strong></p>
+  <a href="https://m.me/1502822806239676" target="_blank" rel="noopener" style="display:inline-block;background:#2563eb;color:white;padding:14px 24px;border-radius:12px;text-decoration:none">
+    Messenger-ээр захиалах
+  </a>
+`;
+document.body.appendChild(productSection);
+
 </script></body></html>
+
